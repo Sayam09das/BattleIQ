@@ -84,15 +84,18 @@ const HeroSection = () => {
                         </span>
                         <button
                             onClick={() => {
-                                const isLoggedIn = Boolean(localStorage.getItem("user")); // example check
+                                const isLoggedIn = Boolean(localStorage.getItem("user"));
                                 window.location.href = isLoggedIn ? "/quiz-list" : "/login";
                             }}
-                            className="group w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl 
-                 bg-[#FF1493] text-white shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
-                 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-[#FF1493]/50 active:scale-95 cursor-pointer"
+                            className="group relative w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg lg:text-xl
+                 bg-gradient-to-r from-[#FF1493] to-[#FF57B5] text-white shadow-lg
+                 min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
+                 overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/50 active:scale-95 cursor-pointer"
                         >
-                            <Play className="sm:block transition-transform duration-300 group-hover:translate-x-2" size={18} />
-                            <span className="transition-colors duration-300 group-hover:text-white">Start Playing</span>
+                            {/* Animated shine effect */}
+                            <span className="absolute -left-32 top-0 w-32 h-full bg-white opacity-20 rotate-12 transform translate-x-0 group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                            <Play className="sm:block transition-transform duration-300 group-hover:translate-x-2 z-10" size={18} />
+                            <span className="relative z-10 transition-colors duration-300 group-hover:text-white">Start Playing</span>
                         </button>
                     </div>
 
@@ -103,19 +106,24 @@ const HeroSection = () => {
                         </span>
                         <button
                             onClick={() => {
-                                const isLoggedIn = Boolean(localStorage.getItem("user")); // example check
+                                const isLoggedIn = Boolean(localStorage.getItem("user"));
                                 window.location.href = isLoggedIn ? "/leaderboard" : "/login";
                             }}
-                            className="group w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl
-                 bg-[#F3EFDA] text-[#3B132A] shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
-                 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-[#F3EFDA]/30 active:scale-95 cursor-pointer"
+                            className="group relative w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-full font-bold text-base sm:text-lg lg:text-xl
+                 bg-gradient-to-r from-[#F3EFDA] to-[#FFE4D1] text-[#3B132A] shadow-lg
+                 min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
+                 overflow-hidden transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-200/40 active:scale-95 cursor-pointer"
                         >
-                            <Trophy className="sm:block transition-transform duration-300 group-hover:scale-110" size={18} />
-                            <span className="transition-colors duration-300 group-hover:text-[#3B132A]">Leaderboard</span>
+                            {/* Animated shine effect */}
+                            <span className="absolute -left-32 top-0 w-32 h-full bg-white opacity-20 rotate-12 transform translate-x-0 group-hover:translate-x-[200%] transition-transform duration-700"></span>
+                            <Trophy className="sm:block transition-transform duration-300 group-hover:scale-110 z-10" size={18} />
+                            <span className="relative z-10 transition-colors duration-300 group-hover:text-[#3B132A]">Leaderboard</span>
                         </button>
                     </div>
 
                 </div>
+
+
 
                 {/* Stats Counter */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 border-t border-[#F3EFDA]/20 pt-10 sm:pt-12 lg:pt-16 px-4 sm:px-6 lg:px-8">
