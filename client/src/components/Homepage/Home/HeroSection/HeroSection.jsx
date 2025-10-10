@@ -1,6 +1,7 @@
 import React from "react";
 import { Play, Trophy, Zap, Brain } from "lucide-react";
 import { WordRotate } from "@/components/ui/word-rotate";
+import { TypingAnimation } from "@/components/ui/typing-animation"
 
 const HeroSection = () => {
     return (
@@ -39,10 +40,23 @@ const HeroSection = () => {
 
 
 
-                {/* Subtitle */}
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-8 sm:mb-10 lg:mb-12 text-[#F3EFDA]/90 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-medium px-4">
-                    Test Your Knowledge. Beat the World!
-                </p>
+                <TypingAnimation
+                    words={[
+                        "Think fast.",
+                        "Play smart.",
+                        "Win big!"
+                    ]}
+                    className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-8 sm:mb-10 lg:mb-12 text-[#F3EFDA]/90 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-medium px-4 text-center"
+                    typeSpeed={90}
+                    deleteSpeed={50}
+                    pauseDelay={1200}
+                    loop={true}
+                    showCursor={true}
+                    blinkCursor={true}
+                    cursorStyle="line"
+                />
+
+
 
                 {/* Feature Pills */}
                 <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 mb-8 sm:mb-10 lg:mb-12 px-2">
