@@ -1,179 +1,314 @@
-import React, { useState } from "react";
-import { Menu, X, LogOut, Trophy, BarChart3, BookOpen, Home } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import {
+    Menu,
+    X,
+    ChevronDown,
+    ChevronRight,
+    BookOpen,
+    Users,
+    Trophy,
+    Target,
+    BarChart3,
+    GraduationCap,
+    School,
+    Building2,
+    Briefcase,
+    Zap,
+    Star,
+    Award,
+} from "lucide-react";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userName] = useState("Sayam Das");
-    const [showLogoutMessage, setShowLogoutMessage] = useState(false);
+    const [activeDropdown, setActiveDropdown] = useState(null);
+    const [mobileSubMenu, setMobileSubMenu] = useState(null);
+    const dropdownRef = useRef(null);
 
-    const toggleMenu = () => setIsMenuOpen((v) => !v);
-    const toggleLogin = () => {
-        if (isLoggedIn) {
-            setIsLoggedIn(false);
-            setShowLogoutMessage(true);
-            setTimeout(() => setShowLogoutMessage(false), 2500);
-        } else {
-            setIsLoggedIn(true);
-            setShowLogoutMessage(false);
-        }
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setActiveDropdown(null);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const handleDropdown = (dropdown) =>
+        setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+
+    // ===================== Dropdown Menus =====================
+    const dropdownMenus = {
+        solutions: {
+            title: "Solutions",
+            sections: [
+                {
+                    header: "For Educators",
+                    icon: GraduationCap,
+                    items: [
+                        { name: "Teachers Dashboard", icon: BookOpen, desc: "Manage classes and assignments" },
+                        { name: "Create Quizzes", icon: Target, desc: "Build custom assessments" },
+                        { name: "Track Progress", icon: BarChart3, desc: "Monitor student performance" },
+                        { name: "Lesson Plans", icon: BookOpen, desc: "Curriculum resources" },
+                    ],
+                },
+                {
+                    header: "For Administrators",
+                    icon: Building2,
+                    items: [
+                        { name: "District Dashboard", icon: School, desc: "School-wide analytics" },
+                        { name: "Manage Schools", icon: Building2, desc: "Multi-school oversight" },
+                        { name: "Reports & Insights", icon: BarChart3, desc: "Data-driven decisions" },
+                        { name: "Professional Development", icon: Users, desc: "Teacher training" },
+                    ],
+                },
+                {
+                    header: "For Students",
+                    icon: Users,
+                    items: [
+                        { name: "Practice Mode", icon: Target, desc: "Self-paced learning" },
+                        { name: "Live Battles", icon: Zap, desc: "Real-time competitions" },
+                        { name: "Leaderboard", icon: Trophy, desc: "Global rankings" },
+                        { name: "Achievements", icon: Award, desc: "Earn badges & rewards" },
+                    ],
+                },
+            ],
+        },
+        resources: {
+            title: "Resources",
+            sections: [
+                {
+                    header: "Learning Materials",
+                    icon: BookOpen,
+                    items: [
+                        { name: "Quiz Library", icon: BookOpen, desc: "10,000+ ready-made quizzes" },
+                        { name: "Subject Collections", icon: Star, desc: "Organized by topic" },
+                        { name: "Common Core Aligned", icon: Target, desc: "Standards-based content" },
+                        { name: "International Curriculum", icon: GraduationCap, desc: "Global standards" },
+                    ],
+                },
+                {
+                    header: "Support & Training",
+                    icon: Users,
+                    items: [
+                        { name: "Getting Started", icon: Zap, desc: "Quick start guide" },
+                        { name: "Video Tutorials", icon: BookOpen, desc: "Step-by-step guides" },
+                        { name: "Help Center", icon: Users, desc: "FAQs & documentation" },
+                        { name: "Contact Support", icon: Users, desc: "24/7 assistance" },
+                    ],
+                },
+            ],
+        },
+        pricing: {
+            title: "Pricing",
+            sections: [
+                {
+                    header: "Plans",
+                    icon: Briefcase,
+                    items: [
+                        { name: "Individual Teacher", icon: Users, desc: "Free forever" },
+                        { name: "School Plan", icon: School, desc: "For entire schools" },
+                        { name: "District Plan", icon: Building2, desc: "Multi-school licensing" },
+                        { name: "Enterprise", icon: Briefcase, desc: "Custom solutions" },
+                    ],
+                },
+            ],
+        },
     };
-    const getUserInitials = (name) => name.split(" ").map((w) => w[0]).join("").toUpperCase();
 
     const navLinks = [
-        { name: "Home", href: "#home", icon: Home },
-        { name: "Quizzes", href: "#quizzes", icon: BookOpen },
-        { name: "Leaderboard", href: "#leaderboard", icon: Trophy },
-        { name: "My Results", href: "#results", icon: BarChart3 },
+        { name: "Features", href: "#features" },
+        { name: "Success Stories", href: "#stories" },
     ];
 
+    // ===================== JSX =====================
     return (
-        <nav className="sticky top-0 z-50 bg-[#3B132A] text-[#F3EFDA] backdrop-blur-sm border-b border-[#F3EFDA]/20 shadow-xl transition-colors duration-300">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
-                    {/* Logo Section */}
-                    <div className="flex items-center">
-                        <h1 className="text-2xl font-bold cursor-pointer transition-all duration-300 hover:text-[#F3EFDA] drop-shadow-[0_0_8px_rgba(243,239,218,0.3)]">
-                            BattleIQ 🔥
-                        </h1>
-                    </div>
+        <nav className="sticky top-0 z-50 bg-[#3B132A] text-[#F3EFDA] backdrop-blur-sm border-b border-[#F3EFDA]/20 shadow-xl">
+            <div className="max-w-[95%] xl:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16 sm:h-18">
+                    {/* ===== Logo ===== */}
+                    <h1 className="text-xl sm:text-2xl font-bold tracking-wide hover:text-[#F3EFDA]/90 transition">
+                        BattleIQ 🔥
+                    </h1>
 
-                    {/* Desktop Navigation Links */}
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-8">
-                            {navLinks.map((link) => {
-                                const IconComponent = link.icon;
-                                return (
-                                    <a
-                                        key={link.name}
-                                        href={link.href}
-                                        className="group flex items-center space-x-2 text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-[#F3EFDA]/10 hover:shadow-[0_0_15px_rgba(243,239,218,0.2)]"
+                    {/* ===== Desktop Menu ===== */}
+                    <div
+                        className="hidden lg:flex items-center space-x-2"
+                        ref={dropdownRef}
+                    >
+                        {Object.entries(dropdownMenus).map(([key, menu]) => (
+                            <div key={key} className="relative">
+                                <button
+                                    onMouseEnter={() => setActiveDropdown(key)}
+                                    onMouseLeave={() => setActiveDropdown(null)}
+                                    onClick={() => handleDropdown(key)}
+                                    className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-[#F3EFDA]/80 hover:text-[#F3EFDA] hover:bg-[#F3EFDA]/10 transition"
+                                >
+                                    <span>{menu.title}</span>
+                                    <ChevronDown
+                                        className={`w-4 h-4 transition-transform ${activeDropdown === key ? "rotate-180" : ""
+                                            }`}
+                                    />
+                                </button>
+
+                                {/* ===== Dropdown Panel ===== */}
+                                {activeDropdown === key && (
+                                    <div
+                                        onMouseEnter={() => setActiveDropdown(key)}
+                                        onMouseLeave={() => setActiveDropdown(null)}
+                                        className={`absolute left-0 mt-2 p-4 rounded-lg bg-[#F3EFDA] text-[#3B132A] shadow-2xl border border-[#3B132A]/10 overflow-y-auto max-h-[75vh] ${menu.sections.length === 3
+                                                ? "w-[700px]"
+                                                : menu.sections.length === 2
+                                                    ? "w-[500px]"
+                                                    : "w-[300px]"
+                                            }`}
                                     >
-                                        <IconComponent className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
-                                        <span>{link.name}</span>
-                                    </a>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* User Section */}
-                    <div className="hidden md:block">
-                        <div className="ml-4 flex items-center">
-                            {isLoggedIn ? (
-                                <div className="flex items-center space-x-3">
-                                    <div className="relative group">
-                                        <div className="h-9 w-9 rounded-full bg-[#F3EFDA] flex items-center justify-center text-[#3B132A] font-semibold text-sm hover:scale-110 transition-transform duration-200 cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(243,239,218,0.5)]">
-                                            {getUserInitials(userName)}
-                                        </div>
-                                        <div className="absolute -top-1 -right-1 h-3 w-3 bg-green-400 rounded-full border-2 border-[#3B132A] animate-pulse"></div>
-                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-[#F3EFDA] text-[#3B132A] text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-lg">
-                                            {userName}
+                                        <div
+                                            className={`grid gap-6 ${menu.sections.length === 3
+                                                    ? "grid-cols-3"
+                                                    : menu.sections.length === 2
+                                                        ? "grid-cols-2"
+                                                        : "grid-cols-1"
+                                                }`}
+                                        >
+                                            {menu.sections.map((section, i) => {
+                                                const HeaderIcon = section.icon;
+                                                return (
+                                                    <div key={i}>
+                                                        <div className="flex items-center gap-2 mb-2 border-b border-[#3B132A]/20 pb-1">
+                                                            <HeaderIcon className="w-4 h-4 text-[#3B132A]/60" />
+                                                            <h3 className="text-sm font-bold">
+                                                                {section.header}
+                                                            </h3>
+                                                        </div>
+                                                        <ul className="space-y-1">
+                                                            {section.items.map((item, idx) => {
+                                                                const ItemIcon = item.icon;
+                                                                return (
+                                                                    <li key={idx}>
+                                                                        <a
+                                                                            href={item.href}
+                                                                            className="flex items-start gap-2 px-2 py-1.5 rounded-md hover:bg-[#3B132A]/10 group"
+                                                                        >
+                                                                            <ItemIcon className="w-4 h-4 mt-0.5 text-[#3B132A]/50 group-hover:text-[#3B132A]" />
+                                                                            <div>
+                                                                                <p className="text-xs font-semibold group-hover:text-[#3B132A]">
+                                                                                    {item.name}
+                                                                                </p>
+                                                                                <p className="text-[10px] text-[#3B132A]/70 leading-tight">
+                                                                                    {item.desc}
+                                                                                </p>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
-                                    <span className="font-medium text-[#F3EFDA]">{userName.split(" ")[0]}</span>
-                                    <button
-                                        onClick={toggleLogin}
-                                        className="flex items-center space-x-2 text-[#F3EFDA]/80 hover:text-red-400 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-red-500/10"
-                                    >
-                                        <LogOut className="w-4 h-4" />
-                                        <span>Logout</span>
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="flex items-center space-x-2">
-                                    {showLogoutMessage && (
-                                        <div className="mr-3 px-3 py-1 bg-yellow-500/20 text-yellow-300 text-sm rounded-lg border border-yellow-500/30 animate-pulse">
-                                            Please login again
-                                        </div>
-                                    )}
-                                    <button
-                                        onClick={toggleLogin}
-                                        className="bg-[#F3EFDA] text-[#3B132A] px-6 py-2 rounded-lg font-medium hover:bg-[#F3EFDA]/90 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-[0_0_25px_rgba(243,239,218,0.4)]"
-                                    >
-                                        Login
-                                    </button>
-                                    <button className="text-[#F3EFDA] hover:text-[#F3EFDA]/80 px-4 py-2 rounded-lg font-medium transition-colors duration-200 border border-[#F3EFDA] hover:bg-[#F3EFDA]/10">
-                                        Sign Up
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
+                        ))}
+
+                        {/* Regular Links */}
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                className="text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#F3EFDA]/10 transition"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
                     </div>
 
-                    {/* Mobile menu button */}
-                    <div className="md:hidden">
-                        <button
-                            onClick={toggleMenu}
-                            className="bg-[#F3EFDA]/10 inline-flex items-center justify-center p-2 rounded-lg text-[#F3EFDA] hover:bg-[#F3EFDA]/20 focus:outline-none transition-all duration-200"
-                        >
-                            {isMenuOpen ? (
-                                <X className="block h-6 w-6" aria-hidden="true" />
-                            ) : (
-                                <Menu className="block h-6 w-6" aria-hidden="true" />
-                            )}
+                    {/* ===== Desktop Buttons ===== */}
+                    <div className="hidden lg:flex items-center gap-3">
+                        <button className="border border-[#F3EFDA] text-[#F3EFDA] px-4 py-2 rounded-lg text-sm hover:bg-[#F3EFDA]/10 transition">
+                            Sign In
+                        </button>
+                        <button className="bg-[#F3EFDA] text-[#3B132A] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#F3EFDA]/90 hover:scale-[1.03] transition shadow-md">
+                            Get Started
                         </button>
                     </div>
+
+                    {/* ===== Mobile Menu Button ===== */}
+                    <button
+                        onClick={toggleMenu}
+                        className="lg:hidden bg-[#F3EFDA]/10 p-2 rounded-md hover:bg-[#F3EFDA]/20"
+                    >
+                        {isMenuOpen ? <X /> : <Menu />}
+                    </button>
                 </div>
             </div>
 
-            {/* Mobile menu */}
+            {/* ===== Mobile Menu ===== */}
             {isMenuOpen && (
-                <div className="md:hidden absolute w-full bg-[#3B132A] backdrop-blur-lg border-t border-[#F3EFDA]/20 shadow-2xl">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        {navLinks.map((link) => {
-                            const IconComponent = link.icon;
-                            return (
-                                <a
-                                    key={link.name}
-                                    href={link.href}
-                                    className="flex items-center space-x-3 text-[#F3EFDA]/80 hover:text-[#F3EFDA] block px-3 py-2 rounded-lg text-base font-medium hover:bg-[#F3EFDA]/10 transition"
-                                    onClick={() => setIsMenuOpen(false)}
+                <div className="lg:hidden bg-[#3B132A] border-t border-[#F3EFDA]/20 max-h-[85vh] overflow-y-auto">
+                    <div className="px-4 py-3 space-y-2">
+                        {Object.entries(dropdownMenus).map(([key, menu]) => (
+                            <div key={key}>
+                                <button
+                                    onClick={() =>
+                                        setMobileSubMenu(mobileSubMenu === key ? null : key)
+                                    }
+                                    className="w-full flex justify-between items-center text-[#F3EFDA]/90 px-3 py-2 rounded-md hover:bg-[#F3EFDA]/10 text-sm font-medium"
                                 >
-                                    <IconComponent className="w-5 h-5" />
-                                    <span>{link.name}</span>
-                                </a>
-                            );
-                        })}
+                                    <span>{menu.title}</span>
+                                    <ChevronRight
+                                        className={`w-4 h-4 transition-transform ${mobileSubMenu === key ? "rotate-90" : ""
+                                            }`}
+                                    />
+                                </button>
+
+                                {mobileSubMenu === key && (
+                                    <div className="pl-5 space-y-2">
+                                        {menu.sections.map((section, i) => (
+                                            <div key={i}>
+                                                <p className="flex items-center gap-2 text-[#F3EFDA] font-semibold text-xs mt-2">
+                                                    <section.icon className="w-3 h-3" /> {section.header}
+                                                </p>
+                                                <div className="pl-4 space-y-1">
+                                                    {section.items.map((item, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={item.href}
+                                                            className="block text-[#F3EFDA]/70 hover:text-[#F3EFDA] text-xs py-1"
+                                                        >
+                                                            {item.name}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                className="block text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
                     </div>
-                    {/* Mobile User Section */}
-                    <div className="pt-4 pb-3 border-t border-[#F3EFDA]/20">
-                        <div className="px-5">
-                            {isLoggedIn ? (
-                                <div className="flex items-center space-x-3">
-                                    <div className="h-12 w-12 rounded-full bg-[#F3EFDA] flex items-center justify-center text-[#3B132A] font-semibold text-lg shadow-lg">
-                                        {getUserInitials(userName)}
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="text-base font-medium leading-none text-[#F3EFDA]">{userName}</div>
-                                        <div className="text-sm font-medium leading-none text-[#F3EFDA]/60 mt-1">john@example.com</div>
-                                    </div>
-                                    <button
-                                        onClick={toggleLogin}
-                                        className="ml-auto flex-shrink-0 bg-[#F3EFDA]/10 p-2 rounded-full text-[#F3EFDA] hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F3EFDA] transition"
-                                    >
-                                        <LogOut className="h-5 w-5" />
-                                    </button>
-                                </div>
-                            ) : (
-                                <div className="space-y-2">
-                                    {showLogoutMessage && (
-                                        <div className="mb-3 px-3 py-2 bg-yellow-500/20 text-yellow-300 text-sm rounded-lg border border-yellow-500/30 text-center animate-pulse">
-                                            Please login again
-                                        </div>
-                                    )}
-                                    <button
-                                        onClick={toggleLogin}
-                                        className="w-full bg-[#F3EFDA] text-[#3B132A] px-4 py-2 rounded-lg font-medium hover:bg-[#F3EFDA]/90 transition shadow-lg"
-                                    >
-                                        Login
-                                    </button>
-                                    <button className="w-full text-[#F3EFDA] hover:text-[#F3EFDA]/80 px-4 py-2 rounded-lg font-medium transition-colors duration-200 border border-[#F3EFDA] hover:bg-[#F3EFDA]/10">
-                                        Sign Up
-                                    </button>
-                                </div>
-                            )}
-                        </div>
+
+                    {/* Mobile Buttons */}
+                    <div className="px-4 py-3 border-t border-[#F3EFDA]/20 space-y-2">
+                        <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10">
+                            Sign In
+                        </button>
+                        <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90">
+                            Get Started
+                        </button>
                     </div>
                 </div>
             )}
