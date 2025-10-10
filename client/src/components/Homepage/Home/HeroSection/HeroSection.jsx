@@ -46,7 +46,7 @@ const HeroSection = () => {
                         "Play smart.",
                         "Win big!"
                     ]}
-                    className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-8 sm:mb-10 lg:mb-12 text-[#F3EFDA]/90 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-medium px-4 text-center"
+                    className="mt-6 mb-10 sm:mt-8 sm:mb-12 md:mt-10 md:mb-14 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-[#F3EFDA]/90 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-medium px-4 text-center"
                     typeSpeed={90}
                     deleteSpeed={50}
                     pauseDelay={1200}
@@ -59,7 +59,7 @@ const HeroSection = () => {
 
 
                 {/* Feature Pills */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 mb-8 sm:mb-10 lg:mb-12 px-2">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4 mt-8 sm:mt-10 lg:mt-12 mb-8 sm:mb-10 lg:mb-12 px-2">
                     <div className="px-3 sm:px-4 lg:px-5 py-2 sm:py-2.5 lg:py-3 rounded-full text-xs sm:text-sm font-semibold bg-[#F3EFDA]/10 border border-[#F3EFDA]/30 text-[#F3EFDA] whitespace-nowrap">
                         <Zap size={14} className="inline mr-1.5 sm:mr-2" />
                         Real-time Battles
@@ -75,12 +75,14 @@ const HeroSection = () => {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 justify-center items-center mb-12 sm:mb-14 lg:mb-16 px-4">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 justify-center items-center mt-8 sm:mt-10 lg:mt-12 mb-12 sm:mb-14 lg:mb-16 px-4">
                     <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
-                        <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">PLAYERS</span>
+                        <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">
+                            PLAYERS
+                        </span>
                         <button
                             className="w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl transition-all duration-300 bg-[#FF1493] text-white hover:bg-[#FF1493]/90 shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]"
-                            onClick={() => (window.location.href = "/quiz-list")}
+                            onClick={() => (window.location.href = '/quiz-list')}
                         >
                             <Play size={18} className="sm:block" />
                             <span>Start Playing</span>
@@ -88,16 +90,19 @@ const HeroSection = () => {
                     </div>
 
                     <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
-                        <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">COMPETITION</span>
+                        <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">
+                            COMPETITION
+                        </span>
                         <button
                             className="w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl transition-all duration-300 bg-[#F3EFDA] text-[#3B132A] hover:bg-[#F3EFDA]/90 shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]"
-                            onClick={() => (window.location.href = "/leaderboard")}
+                            onClick={() => (window.location.href = '/leaderboard')}
                         >
                             <Trophy size={18} className="sm:block" />
                             <span>Leaderboard</span>
                         </button>
                     </div>
                 </div>
+
 
                 {/* Stats Counter */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 border-t border-[#F3EFDA]/20 pt-10 sm:pt-12 lg:pt-16 px-4 sm:px-6 lg:px-8">
