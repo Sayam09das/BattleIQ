@@ -47,30 +47,30 @@ const Navbar = () => {
                     header: "For Educators",
                     icon: GraduationCap,
                     items: [
-                        { name: "Teachers Dashboard", icon: BookOpen, desc: "Manage classes and assignments" },
-                        { name: "Create Quizzes", icon: Target, desc: "Build custom assessments" },
-                        { name: "Track Progress", icon: BarChart3, desc: "Monitor student performance" },
-                        { name: "Lesson Plans", icon: BookOpen, desc: "Curriculum resources" },
+                        { name: "Teachers Dashboard", icon: BookOpen, desc: "Manage classes and assignments", href: "/teacher-dashboard" },
+                        { name: "Create Quizzes", icon: Target, desc: "Build custom assessments", href: "/create-quiz" },
+                        { name: "Track Progress", icon: BarChart3, desc: "Monitor student performance", href: "/track-progress" },
+                        { name: "Lesson Plans", icon: BookOpen, desc: "Curriculum resources", href: "/lesson-plans" },
                     ],
                 },
                 {
                     header: "For Administrators",
                     icon: Building2,
                     items: [
-                        { name: "District Dashboard", icon: School, desc: "School-wide analytics" },
-                        { name: "Manage Schools", icon: Building2, desc: "Multi-school oversight" },
-                        { name: "Reports & Insights", icon: BarChart3, desc: "Data-driven decisions" },
-                        { name: "Professional Development", icon: Users, desc: "Teacher training" },
+                        { name: "District Dashboard", icon: School, desc: "School-wide analytics", href: "/district-dashboard" },
+                        { name: "Manage Schools", icon: Building2, desc: "Multi-school oversight", href: "/manage-schools" },
+                        { name: "Reports & Insights", icon: BarChart3, desc: "Data-driven decisions", href: "/reports" },
+                        { name: "Professional Development", icon: Users, desc: "Teacher training", href: "/development" },
                     ],
                 },
                 {
                     header: "For Students",
                     icon: Users,
                     items: [
-                        { name: "Practice Mode", icon: Target, desc: "Self-paced learning" },
-                        { name: "Live Battles", icon: Zap, desc: "Real-time competitions" },
-                        { name: "Leaderboard", icon: Trophy, desc: "Global rankings" },
-                        { name: "Achievements", icon: Award, desc: "Earn badges & rewards" },
+                        { name: "Practice Mode", icon: Target, desc: "Self-paced learning", href: "/practice-mode" },
+                        { name: "Live Battles", icon: Zap, desc: "Real-time competitions", href: "/live-battles" },
+                        { name: "Leaderboard", icon: Trophy, desc: "Global rankings", href: "/leaderboard" },
+                        { name: "Achievements", icon: Award, desc: "Earn badges & rewards", href: "/achievements" },
                     ],
                 },
             ],
@@ -82,20 +82,20 @@ const Navbar = () => {
                     header: "Learning Materials",
                     icon: BookOpen,
                     items: [
-                        { name: "Quiz Library", icon: BookOpen, desc: "10,000+ ready-made quizzes" },
-                        { name: "Subject Collections", icon: Star, desc: "Organized by topic" },
-                        { name: "Common Core Aligned", icon: Target, desc: "Standards-based content" },
-                        { name: "International Curriculum", icon: GraduationCap, desc: "Global standards" },
+                        { name: "Quiz Library", icon: BookOpen, desc: "10,000+ ready-made quizzes", href: "/quiz-library" },
+                        { name: "Subject Collections", icon: Star, desc: "Organized by topic", href: "/subject-collections" },
+                        { name: "Common Core Aligned", icon: Target, desc: "Standards-based content", href: "/common-core" },
+                        { name: "International Curriculum", icon: GraduationCap, desc: "Global standards", href: "/international-curriculum" },
                     ],
                 },
                 {
                     header: "Support & Training",
                     icon: Users,
                     items: [
-                        { name: "Getting Started", icon: Zap, desc: "Quick start guide" },
-                        { name: "Video Tutorials", icon: BookOpen, desc: "Step-by-step guides" },
-                        { name: "Help Center", icon: Users, desc: "FAQs & documentation" },
-                        { name: "Contact Support", icon: Users, desc: "24/7 assistance" },
+                        { name: "Getting Started", icon: Zap, desc: "Quick start guide", href: "/getting-started" },
+                        { name: "Video Tutorials", icon: BookOpen, desc: "Step-by-step guides", href: "/tutorials" },
+                        { name: "Help Center", icon: Users, desc: "FAQs & documentation", href: "/help-center" },
+                        { name: "Contact Support", icon: Users, desc: "24/7 assistance", href: "/contact-support" },
                     ],
                 },
             ],
@@ -107,10 +107,10 @@ const Navbar = () => {
                     header: "Plans",
                     icon: Briefcase,
                     items: [
-                        { name: "Individual Teacher", icon: Users, desc: "Free forever" },
-                        { name: "School Plan", icon: School, desc: "For entire schools" },
-                        { name: "District Plan", icon: Building2, desc: "Multi-school licensing" },
-                        { name: "Enterprise", icon: Briefcase, desc: "Custom solutions" },
+                        { name: "Individual Teacher", icon: Users, desc: "Free forever", href: "/pricing/teacher" },
+                        { name: "School Plan", icon: School, desc: "For entire schools", href: "/pricing/school" },
+                        { name: "District Plan", icon: Building2, desc: "Multi-school licensing", href: "/pricing/district" },
+                        { name: "Enterprise", icon: Briefcase, desc: "Custom solutions", href: "/pricing/enterprise" },
                     ],
                 },
             ],
@@ -133,10 +133,7 @@ const Navbar = () => {
                     </h1>
 
                     {/* ===== Desktop Menu ===== */}
-                    <div
-                        className="hidden lg:flex items-center space-x-2"
-                        ref={dropdownRef}
-                    >
+                    <div className="hidden lg:flex items-center space-x-2" ref={dropdownRef}>
                         {Object.entries(dropdownMenus).map(([key, menu]) => (
                             <div key={key} className="relative">
                                 <button
@@ -147,8 +144,7 @@ const Navbar = () => {
                                 >
                                     <span>{menu.title}</span>
                                     <ChevronDown
-                                        className={`w-4 h-4 transition-transform ${activeDropdown === key ? "rotate-180" : ""
-                                            }`}
+                                        className={`w-4 h-4 transition-transform ${activeDropdown === key ? "rotate-180" : ""}`}
                                     />
                                 </button>
 
@@ -158,18 +154,18 @@ const Navbar = () => {
                                         onMouseEnter={() => setActiveDropdown(key)}
                                         onMouseLeave={() => setActiveDropdown(null)}
                                         className={`absolute left-0 mt-2 p-4 rounded-lg bg-[#F3EFDA] text-[#3B132A] shadow-2xl border border-[#3B132A]/10 overflow-y-auto max-h-[75vh] ${menu.sections.length === 3
-                                                ? "w-[700px]"
-                                                : menu.sections.length === 2
-                                                    ? "w-[500px]"
-                                                    : "w-[300px]"
+                                            ? "w-[700px]"
+                                            : menu.sections.length === 2
+                                                ? "w-[500px]"
+                                                : "w-[300px]"
                                             }`}
                                     >
                                         <div
                                             className={`grid gap-6 ${menu.sections.length === 3
-                                                    ? "grid-cols-3"
-                                                    : menu.sections.length === 2
-                                                        ? "grid-cols-2"
-                                                        : "grid-cols-1"
+                                                ? "grid-cols-3"
+                                                : menu.sections.length === 2
+                                                    ? "grid-cols-2"
+                                                    : "grid-cols-1"
                                                 }`}
                                         >
                                             {menu.sections.map((section, i) => {
@@ -260,8 +256,7 @@ const Navbar = () => {
                                 >
                                     <span>{menu.title}</span>
                                     <ChevronRight
-                                        className={`w-4 h-4 transition-transform ${mobileSubMenu === key ? "rotate-90" : ""
-                                            }`}
+                                        className={`w-4 h-4 transition-transform ${mobileSubMenu === key ? "rotate-90" : ""}`}
                                     />
                                 </button>
 

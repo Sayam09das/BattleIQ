@@ -1,8 +1,14 @@
+/* 1️⃣ Import Google Fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700;800&display=swap');
+
+/* 2️⃣ Tailwind & animation imports */
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* 3️⃣ Custom variants */
 @custom-variant dark (&:is(.dark *));
 
+/* 4️⃣ Theme variables */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -41,6 +47,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* 5️⃣ Root variables */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -76,6 +83,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* 6️⃣ Dark mode overrides */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -110,16 +118,22 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* 7️⃣ Base layer */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Oxygen', sans-serif;
+    /* Apply Oxygen globally or use Tailwind class */
   }
 }
 
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+/* 8️⃣ Custom selectors */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

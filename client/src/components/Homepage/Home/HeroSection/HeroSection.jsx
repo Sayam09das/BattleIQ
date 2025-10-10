@@ -1,5 +1,6 @@
 import React from "react";
 import { Play, Trophy, Zap, Brain } from "lucide-react";
+import { WordRotate } from "@/components/ui/word-rotate";
 
 const HeroSection = () => {
     return (
@@ -16,10 +17,27 @@ const HeroSection = () => {
 
             {/* Main Content */}
             <div className="relative z-10 w-full max-w-7xl mx-auto py-12 sm:py-16 lg:py-20">
-                {/* Main Heading */}
-                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-[#F3EFDA] mb-4 sm:mb-6 tracking-tight leading-tight">
-                    BattleIQ
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-[#F3EFDA] mb-4 sm:mb-6 tracking-tight leading-tight text-center">
+                    BattleIQ is now{" "}
+                    <span className="text-[#F3EFDA]">
+                        <WordRotate
+                            words={["MindGround", "BrainBattle", "QuizVerse"]}
+                            duration={2500}
+                            className="inline-block text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold font-oxygen"
+                            motionProps={{
+                                initial: { opacity: 0, y: -20 },
+                                animate: { opacity: 1, y: 0 },
+                                exit: { opacity: 0, y: 20 },
+                                transition: { duration: 0.3, ease: "easeOut" },
+                            }}
+                        />
+                    </span>
                 </h1>
+
+
+
+
+
 
                 {/* Subtitle */}
                 <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-8 sm:mb-10 lg:mb-12 text-[#F3EFDA]/90 max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed font-medium px-4">
