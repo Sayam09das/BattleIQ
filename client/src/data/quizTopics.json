@@ -1,0 +1,363 @@
+[
+    {
+        "id": 1,
+        "title": "Science",
+        "image": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop",
+        "description": "Test your knowledge on physics, chemistry, and biology.",
+        "questions": 25,
+        "difficulty": "Medium",
+        "duration": "15 mins",
+        "features": [
+            "Multiple choice questions covering all major science topics",
+            "Interactive explanations for each answer",
+            "Progress tracking and performance analytics",
+            "Timed challenges to test your speed"
+        ]
+    },
+    {
+        "id": 2,
+        "title": "History",
+        "image": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&h=600&fit=crop",
+        "description": "Explore events from ancient to modern history.",
+        "questions": 30,
+        "difficulty": "Hard",
+        "duration": "20 mins",
+        "features": [
+            "Questions spanning ancient to modern history",
+            "Focus on world events and historical figures",
+            "Detailed timelines and context for answers",
+            "Challenge your historical knowledge depth"
+        ]
+    },
+    {
+        "id": 3,
+        "title": "Sports",
+        "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop",
+        "description": "Challenge yourself with sports trivia.",
+        "questions": 20,
+        "difficulty": "Easy",
+        "duration": "10 mins",
+        "features": [
+            "Cover all major sports and athletes",
+            "Recent events and historical moments",
+            "Fun facts and record-breaking achievements",
+            "Perfect for sports enthusiasts"
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Movies",
+        "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop",
+        "description": "How well do you know films and actors?",
+        "questions": 25,
+        "difficulty": "Medium",
+        "duration": "15 mins",
+        "features": [
+            "Questions about classic and modern films",
+            "Actor trivia and behind-the-scenes facts",
+            "Award-winning movies and directors",
+            "From blockbusters to indie gems"
+        ]
+    },
+    {
+        "id": 5,
+        "title": "Geography",
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop",
+        "description": "Test your knowledge of countries, capitals, and landscapes.",
+        "questions": 20,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "World capitals and flags",
+            "Physical geography and landmarks",
+            "Maps and locations",
+            "Fun facts about continents"
+        ]
+    },
+    {
+        "id": 6,
+        "title": "Literature",
+        "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop",
+        "description": "Dive into classic and modern literature.",
+        "questions": 25,
+        "difficulty": "Hard",
+        "duration": "18 mins",
+        "features": [
+            "Authors and their works",
+            "Genres and literary devices",
+            "Famous quotes",
+            "Book-to-film adaptations"
+        ]
+    },
+    {
+        "id": 7,
+        "title": "Music",
+        "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=600&fit=crop",
+        "description": "From classical to pop, test your music knowledge.",
+        "questions": 20,
+        "difficulty": "Easy",
+        "duration": "10 mins",
+        "features": [
+            "Genres and artists",
+            "Song lyrics and titles",
+            "Music history",
+            "Instrument identification"
+        ]
+    },
+    {
+        "id": 8,
+        "title": "Technology",
+        "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
+        "description": "Explore the world of tech and innovation.",
+        "questions": 22,
+        "difficulty": "Medium",
+        "duration": "13 mins",
+        "features": [
+            "Tech history and inventions",
+            "Famous innovators",
+            "Modern gadgets",
+            "Programming basics"
+        ]
+    },
+    {
+        "id": 9,
+        "title": "Mathematics",
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
+        "description": "Numbers, equations, and logic puzzles.",
+        "questions": 20,
+        "difficulty": "Hard",
+        "duration": "15 mins",
+        "features": [
+            "Algebra and geometry",
+            "Famous mathematicians",
+            "Math in daily life",
+            "Problem-solving challenges"
+        ]
+    },
+    {
+        "id": 10,
+        "title": "Art",
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&h=600&fit=crop",
+        "description": "Discover the world of painting, sculpture, and design.",
+        "questions": 18,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Famous artists and artworks",
+            "Art movements",
+            "Techniques and materials",
+            "Visual analysis"
+        ]
+    },
+    {
+        "id": 11,
+        "title": "Food & Cooking",
+        "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+        "description": "Test your culinary knowledge.",
+        "questions": 20,
+        "difficulty": "Easy",
+        "duration": "10 mins",
+        "features": [
+            "World cuisines",
+            "Famous chefs",
+            "Cooking techniques",
+            "Ingredients and recipes"
+        ]
+    },
+    {
+        "id": 12,
+        "title": "Travel",
+        "image": "https://images.unsplash.com/photo-1465101178521-c1a2b3a8e8c7?w=800&h=600&fit=crop",
+        "description": "Explore destinations and travel trivia.",
+        "questions": 20,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Famous landmarks",
+            "Travel tips",
+            "Cultural customs",
+            "Adventure destinations"
+        ]
+    },
+    {
+        "id": 13,
+        "title": "Space",
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
+        "description": "The universe, planets, and space exploration.",
+        "questions": 22,
+        "difficulty": "Hard",
+        "duration": "15 mins",
+        "features": [
+            "Astronomy basics",
+            "Space missions",
+            "Famous astronauts",
+            "Cosmic phenomena"
+        ]
+    },
+    {
+        "id": 14,
+        "title": "Nature",
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop",
+        "description": "Wildlife, plants, and ecosystems.",
+        "questions": 18,
+        "difficulty": "Easy",
+        "duration": "10 mins",
+        "features": [
+            "Animal facts",
+            "Plant identification",
+            "Habitats and biomes",
+            "Conservation efforts"
+        ]
+    },
+    {
+        "id": 15,
+        "title": "Business",
+        "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
+        "description": "Economics, entrepreneurship, and companies.",
+        "questions": 20,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Famous entrepreneurs",
+            "Business terms",
+            "Market trends",
+            "Company histories"
+        ]
+    },
+    {
+        "id": 16,
+        "title": "Politics",
+        "image": "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&h=600&fit=crop",
+        "description": "Governments, leaders, and political systems.",
+        "questions": 22,
+        "difficulty": "Hard",
+        "duration": "15 mins",
+        "features": [
+            "World leaders",
+            "Political ideologies",
+            "Major events",
+            "International relations"
+        ]
+    },
+    {
+        "id": 17,
+        "title": "Language",
+        "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&h=600&fit=crop",
+        "description": "Linguistics, grammar, and world languages.",
+        "questions": 18,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Language families",
+            "Grammar rules",
+            "Famous linguists",
+            "Translation challenges"
+        ]
+    },
+    {
+        "id": 18,
+        "title": "Fashion",
+        "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&h=600&fit=crop",
+        "description": "Trends, designers, and style history.",
+        "questions": 15,
+        "difficulty": "Easy",
+        "duration": "8 mins",
+        "features": [
+            "Famous designers",
+            "Fashion eras",
+            "Style icons",
+            "Textile knowledge"
+        ]
+    },
+    {
+        "id": 19,
+        "title": "Comics & Animation",
+        "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop",
+        "description": "Superheroes, manga, and animated films.",
+        "questions": 20,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Comic book history",
+            "Famous characters",
+            "Animation studios",
+            "Manga and anime"
+        ]
+    },
+    {
+        "id": 20,
+        "title": "Gaming",
+        "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=600&fit=crop",
+        "description": "Video games, consoles, and gaming culture.",
+        "questions": 22,
+        "difficulty": "Medium",
+        "duration": "13 mins",
+        "features": [
+            "Game genres",
+            "Famous franchises",
+            "Esports",
+            "Gaming history"
+        ]
+    },
+    {
+        "id": 21,
+        "title": "Mythology",
+        "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&h=600&fit=crop",
+        "description": "Gods, legends, and ancient myths.",
+        "questions": 18,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Greek and Roman myths",
+            "World mythologies",
+            "Legendary creatures",
+            "Mythological stories"
+        ]
+    },
+    {
+        "id": 22,
+        "title": "Health & Medicine",
+        "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+        "description": "Medical facts, diseases, and wellness.",
+        "questions": 20,
+        "difficulty": "Hard",
+        "duration": "15 mins",
+        "features": [
+            "Human anatomy",
+            "Medical breakthroughs",
+            "Famous doctors",
+            "Health tips"
+        ]
+    },
+    {
+        "id": 23,
+        "title": "Psychology",
+        "image": "https://images.unsplash.com/photo-1465101178521-c1a2b3a8e8c7?w=800&h=600&fit=crop",
+        "description": "Mind, behavior, and famous experiments.",
+        "questions": 18,
+        "difficulty": "Medium",
+        "duration": "12 mins",
+        "features": [
+            "Psychological theories",
+            "Famous psychologists",
+            "Mental health",
+            "Behavioral studies"
+        ]
+    },
+    {
+        "id": 24,
+        "title": "Logic & Riddles",
+        "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
+        "description": "Puzzles, riddles, and brain teasers.",
+        "questions": 15,
+        "difficulty": "Hard",
+        "duration": "10 mins",
+        "features": [
+            "Classic riddles",
+            "Logic puzzles",
+            "Pattern recognition",
+            "Problem-solving"
+        ]
+    }
+]
+
