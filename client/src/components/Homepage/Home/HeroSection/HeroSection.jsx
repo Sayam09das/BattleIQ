@@ -75,34 +75,47 @@ const HeroSection = () => {
                 </div>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 justify-center items-center mt-8 sm:mt-10 lg:mt-12 mb-12 sm:mb-14 lg:mb-16 px-4">
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 lg:gap-6 justify-center items-center mt-12 mb-16 px-4">
+
+                    {/* Players Button */}
                     <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
                         <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">
                             PLAYERS
                         </span>
                         <button
-                            className="w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl transition-all duration-300 bg-[#FF1493] text-white hover:bg-[#FF1493]/90 shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]"
-                            onClick={() => (window.location.href = '/quiz-list')}
+                            onClick={() => {
+                                const isLoggedIn = Boolean(localStorage.getItem("user")); // example check
+                                window.location.href = isLoggedIn ? "/quiz-list" : "/login";
+                            }}
+                            className="group w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl 
+                 bg-[#FF1493] text-white shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
+                 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-[#FF1493]/50 active:scale-95 cursor-pointer"
                         >
-                            <Play size={18} className="sm:block" />
-                            <span>Start Playing</span>
+                            <Play className="sm:block transition-transform duration-300 group-hover:translate-x-2" size={18} />
+                            <span className="transition-colors duration-300 group-hover:text-white">Start Playing</span>
                         </button>
                     </div>
 
+                    {/* Competition Button */}
                     <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
                         <span className="text-xs sm:text-xs lg:text-sm uppercase tracking-widest text-[#F3EFDA]/70 font-bold">
                             COMPETITION
                         </span>
                         <button
-                            className="w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl transition-all duration-300 bg-[#F3EFDA] text-[#3B132A] hover:bg-[#F3EFDA]/90 shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]"
-                            onClick={() => (window.location.href = '/leaderboard')}
+                            onClick={() => {
+                                const isLoggedIn = Boolean(localStorage.getItem("user")); // example check
+                                window.location.href = isLoggedIn ? "/leaderboard" : "/login";
+                            }}
+                            className="group w-full sm:w-auto flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 lg:px-12 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg lg:text-xl
+                 bg-[#F3EFDA] text-[#3B132A] shadow-lg min-w-[200px] sm:min-w-[220px] lg:min-w-[240px]
+                 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-[#F3EFDA]/30 active:scale-95 cursor-pointer"
                         >
-                            <Trophy size={18} className="sm:block" />
-                            <span>Leaderboard</span>
+                            <Trophy className="sm:block transition-transform duration-300 group-hover:scale-110" size={18} />
+                            <span className="transition-colors duration-300 group-hover:text-[#3B132A]">Leaderboard</span>
                         </button>
                     </div>
-                </div>
 
+                </div>
 
                 {/* Stats Counter */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 border-t border-[#F3EFDA]/20 pt-10 sm:pt-12 lg:pt-16 px-4 sm:px-6 lg:px-8">
