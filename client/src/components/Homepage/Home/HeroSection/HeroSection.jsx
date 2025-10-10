@@ -2,6 +2,7 @@ import React from "react";
 import { Play, Trophy, Zap, Brain } from "lucide-react";
 import { WordRotate } from "@/components/ui/word-rotate";
 import { TypingAnimation } from "@/components/ui/typing-animation"
+import { NumberTicker } from "@/components/ui/number-ticker"
 
 const HeroSection = () => {
     return (
@@ -125,21 +126,40 @@ const HeroSection = () => {
 
 
 
-                {/* Stats Counter */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 border-t border-[#F3EFDA]/20 pt-10 sm:pt-12 lg:pt-16 px-4 sm:px-6 lg:px-8">
+                    {/* Active Players */}
                     <div className="text-[#F3EFDA]">
-                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">10K+</div>
-                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">Active Players</div>
+                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">
+                            <NumberTicker value={10000} startValue={0} format="short" />+
+                        </div>
+                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">
+                            Active Players
+                        </div>
                     </div>
+
+                    {/* Quiz Categories */}
                     <div className="text-[#F3EFDA]">
-                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">500+</div>
-                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">Quiz Categories</div>
+                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">
+                            <NumberTicker value={500} startValue={0} format="short" />+
+                        </div>
+                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">
+                            Quiz Categories
+                        </div>
                     </div>
+
+                    {/* Questions Answered */}
                     <div className="text-[#F3EFDA]">
-                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">1M+</div>
-                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">Questions Answered</div>
+                        <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black mb-2">
+                            <NumberTicker value={1000000} startValue={0} format="short" />+
+                        </div>
+                        <div className="text-xs sm:text-sm lg:text-base uppercase tracking-wider text-[#F3EFDA]/70 font-semibold">
+                            Questions Answered
+                        </div>
                     </div>
                 </div>
+
+
+
             </div>
         </div>
     );
