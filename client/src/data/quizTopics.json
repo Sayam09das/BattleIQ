@@ -167,7 +167,7 @@
     {
         "id": 12,
         "title": "Travel",
-        "image": "https://images.unsplash.com/photo-1465101178521-c1a2b3a8e8c7?w=800&h=600&fit=crop",
+        "image": "https://images.unsplash.com/photo-1692895591954-451050db22fd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2071?w=800&h=600&fit=crop",
         "description": "Explore destinations and travel trivia.",
         "questions": 20,
         "difficulty": "Medium",
@@ -332,7 +332,7 @@
     {
         "id": 23,
         "title": "Psychology",
-        "image": "https://images.unsplash.com/photo-1465101178521-c1a2b3a8e8c7?w=800&h=600&fit=crop",
+        "image": "https://images.unsplash.com/photo-1638443436690-db587cc66f12?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1170?w=800&h=600&fit=crop",
         "description": "Mind, behavior, and famous experiments.",
         "questions": 18,
         "difficulty": "Medium",

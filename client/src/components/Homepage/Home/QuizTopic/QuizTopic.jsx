@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
 import { X, Play, Trophy, Clock, Brain, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
@@ -10,6 +10,14 @@ import quizTopics from "@/data/quizTopics.json";
 
 const QuizTopic = () => {
     const [selectedQuiz, setSelectedQuiz] = useState(null);
+    const swiperRef = useRef(null);
+
+    // Check if user is logged in - you can replace this with your actual auth logic
+    const isUserLoggedIn = () => {
+        // Example: Check if token exists in localStorage or your auth state
+        // return !!localStorage.getItem('authToken');
+        return false; // Change this based on your auth implementation
+    };
 
     const handleQuizClick = (topic) => {
         setSelectedQuiz(topic);
@@ -17,6 +25,20 @@ const QuizTopic = () => {
 
     const closeModal = () => {
         setSelectedQuiz(null);
+    };
+
+    const handleStartQuiz = () => {
+        if (isUserLoggedIn()) {
+            // User is logged in, start the quiz
+            console.log("Starting quiz:", selectedQuiz.title);
+            // Add your quiz start logic here
+            // For example: navigate to quiz page
+            // window.location.href = `/quiz/${selectedQuiz.id}`;
+        } else {
+            // User is not logged in, redirect to login page
+            console.log("User not logged in, redirecting to login");
+            window.location.href = "/login"; // Change this to your login route
+        }
     };
 
     const getDifficultyColor = (difficulty) => {
@@ -53,60 +75,64 @@ const QuizTopic = () => {
                     Choose your challenge and test your knowledge
                 </p>
 
-                {/* Swiper Navigation Buttons */}
-                <button
-                    onClick={() => swiperRef.current?.slidePrev()}
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md"
-                >
-                    <ChevronLeft size={28} className="text-[#F3EFDA]" />
-                </button>
-                <button
-                    onClick={() => swiperRef.current?.slideNext()}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md"
-                >
-                    <ChevronRight size={28} className="text-[#F3EFDA]" />
-                </button>
-                <Swiper
-                    modules={[Autoplay, EffectCoverflow]}
-                    effect="coverflow"
-                    grabCursor={true}
-                    centeredSlides={true}
-                    slidesPerView="auto"
-                    coverflowEffect={{
-                        rotate: 25,
-                        stretch: 0,
-                        depth: 150,
-                        modifier: 1,
-                        slideShadows: true,
-                    }}
-                    autoplay={{ delay: 3000, disableOnInteraction: false }}
-                    loop={true}
-                    className="w-full"
-                >
-                    {quizTopics.map((topic) => (
-                        <SwiperSlide key={topic.id} className="!w-72 sm:!w-80">
-                            <div
-                                onClick={() => handleQuizClick(topic)}
-                                className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 overflow-hidden hover:shadow-2xl hover:shadow-[#F3EFDA]/40 transition-all duration-300 cursor-pointer transform hover:scale-105 border-2 border-[#F3EFDA]/30"
-                            >
-                                <div className="relative">
-                                    <img
-                                        src={topic.image}
-                                        alt={topic.title}
-                                        className="w-full h-48 sm:h-56 object-cover"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#3B132A]/80 to-transparent"></div>
-                                    <span className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#3B132A] text-[#F3EFDA] text-base sm:text-lg font-bold px-5 py-2 rounded-lg shadow-lg">
-                                        {topic.title}
-                                    </span>
+                <div className="relative px-12">
+                    {/* Swiper Navigation Buttons */}
+                    <button
+                        onClick={() => swiperRef.current?.swiper?.slidePrev()}
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md transition-all duration-300"
+                    >
+                        <ChevronLeft size={28} className="text-[#F3EFDA]" />
+                    </button>
+                    <button
+                        onClick={() => swiperRef.current?.swiper?.slideNext()}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md transition-all duration-300"
+                    >
+                        <ChevronRight size={28} className="text-[#F3EFDA]" />
+                    </button>
+
+                    <Swiper
+                        ref={swiperRef}
+                        modules={[Autoplay, EffectCoverflow]}
+                        effect="coverflow"
+                        grabCursor={true}
+                        centeredSlides={true}
+                        slidesPerView="auto"
+                        coverflowEffect={{
+                            rotate: 25,
+                            stretch: 0,
+                            depth: 150,
+                            modifier: 1,
+                            slideShadows: true,
+                        }}
+                        autoplay={{ delay: 3000, disableOnInteraction: false }}
+                        loop={true}
+                        className="w-full"
+                    >
+                        {quizTopics.map((topic) => (
+                            <SwiperSlide key={topic.id} className="!w-72 sm:!w-80">
+                                <div
+                                    onClick={() => handleQuizClick(topic)}
+                                    className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 overflow-hidden hover:shadow-2xl hover:shadow-[#F3EFDA]/40 transition-all duration-300 cursor-pointer transform hover:scale-105 border-2 border-[#F3EFDA]/30"
+                                >
+                                    <div className="relative">
+                                        <img
+                                            src={topic.image}
+                                            alt={topic.title}
+                                            className="w-full h-48 sm:h-56 object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#3B132A]/80 to-transparent"></div>
+                                        <span className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#3B132A] text-[#F3EFDA] text-base sm:text-lg font-bold px-5 py-2 rounded-lg shadow-lg">
+                                            {topic.title}
+                                        </span>
+                                    </div>
+                                    <p className="p-4 text-sm sm:text-base text-[#3B132A]/80 font-medium">
+                                        {topic.description}
+                                    </p>
                                 </div>
-                                <p className="p-4 text-sm sm:text-base text-[#3B132A]/80 font-medium">
-                                    {topic.description}
-                                </p>
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
             </div>
 
             {/* Modal - Split Design */}
@@ -169,10 +195,19 @@ const QuizTopic = () => {
                             </div>
 
                             {/* Action Button */}
-                            <button className="w-full bg-[#FF1493] text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-[#FF1493]/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#FF1493]/50 cursor-pointer flex items-center justify-center gap-2">
+                            <button
+                                onClick={handleStartQuiz}
+                                className="w-full bg-[#FF1493] text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-[#FF1493]/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#FF1493]/50 cursor-pointer flex items-center justify-center gap-2"
+                            >
                                 <Play size={20} />
                                 Start Quiz Now
                             </button>
+
+                            {!isUserLoggedIn() && (
+                                <p className="text-center text-sm text-[#3B132A]/60 mt-3">
+                                    You need to login to start the quiz
+                                </p>
+                            )}
                         </div>
 
                         {/* Right Side - Visual Preview */}
