@@ -4,7 +4,8 @@ import QuizTopic from './QuizTopic/QuizTopic'
 import Certificates from './Certificates/Certificates'
 import Viedo from './ViedoPage/Viedo'
 import Timeline from './TimelinePage/Timeline'
-
+import PrivacyRating from './PrivacyRating/PrivacyRating'
+import Testimonials from './Testimonials/Testimonials'
 const Home = () => {
   return (
     <div>
@@ -13,6 +14,8 @@ const Home = () => {
       <Certificates />
       <Viedo />
       <Timeline />
+      <PrivacyRating />
+      <Testimonials />
     </div>
   )
 }
