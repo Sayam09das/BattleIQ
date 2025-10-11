@@ -3,6 +3,8 @@ import HeroSection from './HeroSection/HeroSection'
 import QuizTopic from './QuizTopic/QuizTopic'
 import Certificates from './Certificates/Certificates'
 import Viedo from './ViedoPage/Viedo'
+import Timeline from './TimelinePage/Timeline'
+
 const Home = () => {
   return (
     <div>
@@ -10,6 +12,7 @@ const Home = () => {
       <QuizTopic />
       <Certificates />
       <Viedo />
+      <Timeline />
     </div>
   )
 }
