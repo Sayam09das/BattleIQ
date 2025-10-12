@@ -6,6 +6,8 @@ import Viedo from './ViedoPage/Viedo'
 import Timeline from './TimelinePage/Timeline'
 import PrivacyRating from './PrivacyRating/PrivacyRating'
 import Testimonials from './Testimonials/Testimonials'
+import Faq from './FAQpage/Faq'
+import ContactUs from './ContactUs/ContactUs'
 const Home = () => {
   return (
     <div>
@@ -16,6 +18,8 @@ const Home = () => {
       <Timeline />
       <PrivacyRating />
       <Testimonials />
+      <Faq />
+      <ContactUs />
     </div>
   )
 }
