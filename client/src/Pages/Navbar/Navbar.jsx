@@ -128,7 +128,7 @@ const Navbar = () => {
             <div className="max-w-[95%] xl:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 sm:h-18">
                     {/* ===== Logo ===== */}
-                    <h1 className="text-xl sm:text-2xl font-bold tracking-wide hover:text-[#F3EFDA]/90 transition">
+                    <h1 className="text-xl sm:text-2xl font-bold tracking-wide hover:text-[#F3EFDA]/90 transition-colors duration-200">
                         BattleIQ 🔥
                     </h1>
 
@@ -140,11 +140,11 @@ const Navbar = () => {
                                     onMouseEnter={() => setActiveDropdown(key)}
                                     onMouseLeave={() => setActiveDropdown(null)}
                                     onClick={() => handleDropdown(key)}
-                                    className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-[#F3EFDA]/80 hover:text-[#F3EFDA] hover:bg-[#F3EFDA]/10 transition"
+                                    className="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium text-[#F3EFDA]/80 hover:text-[#F3EFDA] hover:bg-[#F3EFDA]/10 transition-all duration-200"
                                 >
                                     <span>{menu.title}</span>
                                     <ChevronDown
-                                        className={`w-4 h-4 transition-transform ${activeDropdown === key ? "rotate-180" : ""}`}
+                                        className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === key ? "rotate-180" : ""}`}
                                     />
                                 </button>
 
@@ -153,12 +153,15 @@ const Navbar = () => {
                                     <div
                                         onMouseEnter={() => setActiveDropdown(key)}
                                         onMouseLeave={() => setActiveDropdown(null)}
-                                        className={`absolute left-0 mt-2 p-4 rounded-lg bg-[#F3EFDA] text-[#3B132A] shadow-2xl border border-[#3B132A]/10 overflow-y-auto max-h-[75vh] ${menu.sections.length === 3
+                                        className={`absolute left-0 mt-2 p-4 rounded-lg bg-[#F3EFDA] text-[#3B132A] shadow-2xl border border-[#3B132A]/10 overflow-y-auto max-h-[75vh] animate-fadeIn ${menu.sections.length === 3
                                             ? "w-[700px]"
                                             : menu.sections.length === 2
                                                 ? "w-[500px]"
                                                 : "w-[300px]"
                                             }`}
+                                        style={{
+                                            animation: 'fadeIn 0.2s ease-out'
+                                        }}
                                     >
                                         <div
                                             className={`grid gap-6 ${menu.sections.length === 3
@@ -185,11 +188,11 @@ const Navbar = () => {
                                                                     <li key={idx}>
                                                                         <a
                                                                             href={item.href}
-                                                                            className="flex items-start gap-2 px-2 py-1.5 rounded-md hover:bg-[#3B132A]/10 group"
+                                                                            className="flex items-start gap-2 px-2 py-1.5 rounded-md hover:bg-[#3B132A]/10 transition-colors duration-150 group"
                                                                         >
-                                                                            <ItemIcon className="w-4 h-4 mt-0.5 text-[#3B132A]/50 group-hover:text-[#3B132A]" />
+                                                                            <ItemIcon className="w-4 h-4 mt-0.5 text-[#3B132A]/50 group-hover:text-[#3B132A] transition-colors duration-150" />
                                                                             <div>
-                                                                                <p className="text-xs font-semibold group-hover:text-[#3B132A]">
+                                                                                <p className="text-xs font-semibold group-hover:text-[#3B132A] transition-colors duration-150">
                                                                                     {item.name}
                                                                                 </p>
                                                                                 <p className="text-[10px] text-[#3B132A]/70 leading-tight">
@@ -215,7 +218,7 @@ const Navbar = () => {
                             <a
                                 key={link.name}
                                 href={link.href}
-                                className="text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#F3EFDA]/10 transition"
+                                className="text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#F3EFDA]/10 transition-all duration-200"
                             >
                                 {link.name}
                             </a>
@@ -224,10 +227,10 @@ const Navbar = () => {
 
                     {/* ===== Desktop Buttons ===== */}
                     <div className="hidden lg:flex items-center gap-3">
-                        <button className="border border-[#F3EFDA] text-[#F3EFDA] px-4 py-2 rounded-lg text-sm hover:bg-[#F3EFDA]/10 transition">
+                        <button className="border border-[#F3EFDA] text-[#F3EFDA] px-4 py-2 rounded-lg text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200">
                             Sign In
                         </button>
-                        <button className="bg-[#F3EFDA] text-[#3B132A] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#F3EFDA]/90 hover:scale-[1.03] transition shadow-md">
+                        <button className="bg-[#F3EFDA] text-[#3B132A] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#F3EFDA]/90 hover:shadow-lg transition-all duration-200">
                             Get Started
                         </button>
                     </div>
@@ -235,78 +238,95 @@ const Navbar = () => {
                     {/* ===== Mobile Menu Button ===== */}
                     <button
                         onClick={toggleMenu}
-                        className="lg:hidden bg-[#F3EFDA]/10 p-2 rounded-md hover:bg-[#F3EFDA]/20"
+                        className="lg:hidden bg-[#F3EFDA]/10 p-2 rounded-md hover:bg-[#F3EFDA]/20 transition-all duration-200"
                     >
-                        {isMenuOpen ? <X /> : <Menu />}
+                        {isMenuOpen ? <X className="transition-transform duration-200" /> : <Menu className="transition-transform duration-200" />}
                     </button>
                 </div>
             </div>
 
             {/* ===== Mobile Menu ===== */}
-            {isMenuOpen && (
-                <div className="lg:hidden bg-[#3B132A] border-t border-[#F3EFDA]/20 max-h-[85vh] overflow-y-auto">
-                    <div className="px-4 py-3 space-y-2">
-                        {Object.entries(dropdownMenus).map(([key, menu]) => (
-                            <div key={key}>
-                                <button
-                                    onClick={() =>
-                                        setMobileSubMenu(mobileSubMenu === key ? null : key)
-                                    }
-                                    className="w-full flex justify-between items-center text-[#F3EFDA]/90 px-3 py-2 rounded-md hover:bg-[#F3EFDA]/10 text-sm font-medium"
-                                >
-                                    <span>{menu.title}</span>
-                                    <ChevronRight
-                                        className={`w-4 h-4 transition-transform ${mobileSubMenu === key ? "rotate-90" : ""}`}
-                                    />
-                                </button>
-
-                                {mobileSubMenu === key && (
-                                    <div className="pl-5 space-y-2">
-                                        {menu.sections.map((section, i) => (
-                                            <div key={i}>
-                                                <p className="flex items-center gap-2 text-[#F3EFDA] font-semibold text-xs mt-2">
-                                                    <section.icon className="w-3 h-3" /> {section.header}
-                                                </p>
-                                                <div className="pl-4 space-y-1">
-                                                    {section.items.map((item, idx) => (
-                                                        <a
-                                                            key={idx}
-                                                            href={item.href}
-                                                            className="block text-[#F3EFDA]/70 hover:text-[#F3EFDA] text-xs py-1"
-                                                        >
-                                                            {item.name}
-                                                        </a>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="block text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition"
+            <div
+                className={`lg:hidden bg-[#3B132A] border-t border-[#F3EFDA]/20 overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'
+                    }`}
+            >
+                <div className="px-4 py-3 space-y-2">
+                    {Object.entries(dropdownMenus).map(([key, menu]) => (
+                        <div key={key}>
+                            <button
+                                onClick={() =>
+                                    setMobileSubMenu(mobileSubMenu === key ? null : key)
+                                }
+                                className="w-full flex justify-between items-center text-[#F3EFDA]/90 px-3 py-2 rounded-md hover:bg-[#F3EFDA]/10 text-sm font-medium transition-all duration-200"
                             >
-                                {link.name}
-                            </a>
-                        ))}
-                    </div>
+                                <span>{menu.title}</span>
+                                <ChevronRight
+                                    className={`w-4 h-4 transition-transform duration-200 ${mobileSubMenu === key ? "rotate-90" : ""}`}
+                                />
+                            </button>
 
-                    {/* Mobile Buttons */}
-                    <div className="px-4 py-3 border-t border-[#F3EFDA]/20 space-y-2">
-                        <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10">
-                            Sign In
-                        </button>
-                        <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90">
-                            Get Started
-                        </button>
-                    </div>
+                            <div
+                                className={`overflow-hidden transition-all duration-300 ease-in-out ${mobileSubMenu === key ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                                    }`}
+                            >
+                                <div className="pl-5 space-y-2 pt-2">
+                                    {menu.sections.map((section, i) => (
+                                        <div key={i}>
+                                            <p className="flex items-center gap-2 text-[#F3EFDA] font-semibold text-xs mt-2">
+                                                <section.icon className="w-3 h-3" /> {section.header}
+                                            </p>
+                                            <div className="pl-4 space-y-1">
+                                                {section.items.map((item, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={item.href}
+                                                        className="block text-[#F3EFDA]/70 hover:text-[#F3EFDA] text-xs py-1 transition-colors duration-150"
+                                                    >
+                                                        {item.name}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.name}
+                            href={link.href}
+                            className="block text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200"
+                        >
+                            {link.name}
+                        </a>
+                    ))}
                 </div>
-            )}
+
+                {/* Mobile Buttons */}
+                <div className="px-4 py-3 border-t border-[#F3EFDA]/20 space-y-2">
+                    <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200">
+                        Sign In
+                    </button>
+                    <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90 transition-all duration-200">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+
+            <style>{`
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                        transform: translateY(-10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `}</style>
         </nav>
     );
 };
