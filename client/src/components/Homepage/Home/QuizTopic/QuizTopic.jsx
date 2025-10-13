@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow } from "swiper/modules";
-import { X, Play, Trophy, Clock, Brain, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, Play, Trophy, Clock, Brain, CheckCircle, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 
@@ -10,14 +11,10 @@ import quizTopics from "@/data/quizTopics.json";
 
 const QuizTopic = () => {
     const [selectedQuiz, setSelectedQuiz] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const swiperRef = useRef(null);
-
-    // Check if user is logged in - you can replace this with your actual auth logic
-    const isUserLoggedIn = () => {
-        // Example: Check if token exists in localStorage or your auth state
-        // return !!localStorage.getItem('authToken');
-        return false; // Change this based on your auth implementation
-    };
+    const sectionRef = useRef(null);
+    const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
     const handleQuizClick = (topic) => {
         setSelectedQuiz(topic);
@@ -28,16 +25,13 @@ const QuizTopic = () => {
     };
 
     const handleStartQuiz = () => {
-        if (isUserLoggedIn()) {
-            // User is logged in, start the quiz
+        if (isLoggedIn) {
             console.log("Starting quiz:", selectedQuiz.title);
             // Add your quiz start logic here
-            // For example: navigate to quiz page
             // window.location.href = `/quiz/${selectedQuiz.id}`;
         } else {
-            // User is not logged in, redirect to login page
             console.log("User not logged in, redirecting to login");
-            window.location.href = "/login"; // Change this to your login route
+            window.location.href = "/login";
         }
     };
 
@@ -50,45 +44,167 @@ const QuizTopic = () => {
         }
     };
 
+    // Animation variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.1
+            }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
     return (
-        <section className="py-16 sm:py-20 bg-[#3B132A] relative overflow-hidden">
-            {/* Creative Geometric Background */}
+        <motion.section
+            ref={sectionRef}
+            className="py-16 sm:py-20 bg-[#3B132A] relative overflow-hidden"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={containerVariants}
+        >
+            {/* Animated Geometric Background */}
             <div className="absolute inset-0">
-                {/* Large Circle - Top Left */}
-                <div className="absolute -top-20 -left-20 sm:-top-32 sm:-left-32 lg:-top-40 lg:-left-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8" />
+                <motion.div
+                    className="absolute -top-20 -left-20 sm:-top-32 sm:-left-32 lg:-top-40 lg:-left-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
+                    animate={{
+                        scale: [1, 1.05, 1],
+                        rotate: [0, 10, 0],
+                        opacity: [0.08, 0.12, 0.08]
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
 
-                {/* Large Circle - Bottom Right */}
-                <div className="absolute -bottom-20 -right-20 sm:-bottom-32 sm:-right-32 lg:-bottom-40 lg:-right-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8" />
+                <motion.div
+                    className="absolute -bottom-20 -right-20 sm:-bottom-32 sm:-right-32 lg:-bottom-40 lg:-right-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
+                    animate={{
+                        scale: [1, 1.05, 1],
+                        rotate: [0, -10, 0],
+                        opacity: [0.08, 0.12, 0.08]
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.5
+                    }}
+                />
 
-                {/* Medium Circle - Top Right */}
-                <div className="absolute top-40 right-20 sm:top-32 sm:right-40 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-[#F3EFDA]/5" />
+                <motion.div
+                    className="absolute top-40 right-20 sm:top-32 sm:right-40 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-[#F3EFDA]/5"
+                    animate={{
+                        y: [-20, 20, -20],
+                        opacity: [0.05, 0.1, 0.05]
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                />
 
-                {/* Medium Circle - Bottom Left */}
-                <div className="absolute bottom-40 left-20 sm:bottom-32 sm:left-40 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-[#F3EFDA]/5" />
+                <motion.div
+                    className="absolute bottom-40 left-20 sm:bottom-32 sm:left-40 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] rounded-full border-2 border-[#F3EFDA]/5"
+                    animate={{
+                        y: [20, -20, 20],
+                        opacity: [0.05, 0.1, 0.05]
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 0.3
+                    }}
+                />
+
+                {/* Floating sparkles */}
+                {[...Array(8)].map((_, i) => (
+                    <motion.div
+                        key={i}
+                        className="absolute w-1 h-1 rounded-full bg-[#F3EFDA]/30"
+                        style={{
+                            left: `${15 + i * 12}%`,
+                            top: `${20 + (i % 3) * 25}%`
+                        }}
+                        animate={{
+                            y: [-15, 15, -15],
+                            opacity: [0.2, 0.6, 0.2],
+                            scale: [1, 1.5, 1]
+                        }}
+                        transition={{
+                            duration: 3 + i * 0.3,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: i * 0.2
+                        }}
+                    />
+                ))}
             </div>
 
             <div className="w-full text-center relative z-10">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F3EFDA] mb-4">
-                    Quiz Topics
-                </h2>
-                <p className="text-[#F3EFDA]/70 mb-12 text-sm sm:text-base">
-                    Choose your challenge and test your knowledge
-                </p>
+                <motion.div variants={itemVariants}>
+                    <motion.div
+                        className="inline-flex items-center gap-2 bg-[#F3EFDA]/10 px-4 py-2 rounded-full mb-4 border border-[#F3EFDA]/20"
+                        whileHover={{ scale: 1.05 }}
+                    >
+                        <Sparkles className="w-4 h-4 text-[#F3EFDA]" />
+                        <span className="text-xs uppercase tracking-wider text-[#F3EFDA]/80 font-semibold">
+                            Explore Topics
+                        </span>
+                    </motion.div>
 
-                <div className="relative px-12">
-                    {/* Swiper Navigation Buttons */}
-                    <button
+                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#F3EFDA] mb-4">
+                        Quiz Topics
+                    </h2>
+                    <p className="text-[#F3EFDA]/70 mb-12 text-sm sm:text-base">
+                        Choose your challenge and test your knowledge
+                    </p>
+                </motion.div>
+
+                <motion.div
+                    className="relative px-12"
+                    variants={itemVariants}
+                >
+                    {/* Navigation Buttons */}
+                    <motion.button
                         onClick={() => swiperRef.current?.swiper?.slidePrev()}
-                        className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md transition-all duration-300"
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 p-2 rounded-full shadow-md"
+                        whileHover={{
+                            scale: 1.1,
+                            backgroundColor: "rgba(243, 239, 218, 0.4)",
+                            boxShadow: "0 10px 25px -5px rgba(243, 239, 218, 0.3)"
+                        }}
+                        whileTap={{ scale: 0.9 }}
                     >
                         <ChevronLeft size={28} className="text-[#F3EFDA]" />
-                    </button>
-                    <button
+                    </motion.button>
+
+                    <motion.button
                         onClick={() => swiperRef.current?.swiper?.slideNext()}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 hover:bg-[#F3EFDA]/40 p-2 rounded-full shadow-md transition-all duration-300"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-[#F3EFDA]/20 p-2 rounded-full shadow-md"
+                        whileHover={{
+                            scale: 1.1,
+                            backgroundColor: "rgba(243, 239, 218, 0.4)",
+                            boxShadow: "0 10px 25px -5px rgba(243, 239, 218, 0.3)"
+                        }}
+                        whileTap={{ scale: 0.9 }}
                     >
                         <ChevronRight size={28} className="text-[#F3EFDA]" />
-                    </button>
+                    </motion.button>
 
                     <Swiper
                         ref={swiperRef}
@@ -108,164 +224,267 @@ const QuizTopic = () => {
                         loop={true}
                         className="w-full"
                     >
-                        {quizTopics.map((topic) => (
+                        {quizTopics.map((topic, index) => (
                             <SwiperSlide key={topic.id} className="!w-72 sm:!w-80">
-                                <div
+                                <motion.div
                                     onClick={() => handleQuizClick(topic)}
-                                    className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 overflow-hidden hover:shadow-2xl hover:shadow-[#F3EFDA]/40 transition-all duration-300 cursor-pointer transform hover:scale-105 border-2 border-[#F3EFDA]/30"
+                                    className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 overflow-hidden cursor-pointer border-2 border-[#F3EFDA]/30"
+                                    whileHover={{
+                                        scale: 1.05,
+                                        y: -10,
+                                        boxShadow: "0 25px 50px -12px rgba(243, 239, 218, 0.4)"
+                                    }}
+                                    whileTap={{ scale: 0.98 }}
+                                    transition={{ duration: 0.3 }}
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                                    style={{ transitionDelay: `${index * 0.1}s` }}
                                 >
-                                    <div className="relative">
-                                        <img
+                                    <div className="relative overflow-hidden">
+                                        <motion.img
                                             src={topic.image}
                                             alt={topic.title}
                                             className="w-full h-48 sm:h-56 object-cover"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.4 }}
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-[#3B132A]/80 to-transparent"></div>
-                                        <span className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#3B132A] text-[#F3EFDA] text-base sm:text-lg font-bold px-5 py-2 rounded-lg shadow-lg">
+                                        <motion.span
+                                            className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-[#3B132A] text-[#F3EFDA] text-base sm:text-lg font-bold px-5 py-2 rounded-lg shadow-lg"
+                                            whileHover={{ scale: 1.05 }}
+                                        >
                                             {topic.title}
-                                        </span>
+                                        </motion.span>
                                     </div>
                                     <p className="p-4 text-sm sm:text-base text-[#3B132A]/80 font-medium">
                                         {topic.description}
                                     </p>
-                                </div>
+                                </motion.div>
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                </div>
+                </motion.div>
             </div>
 
-            {/* Modal - Split Design */}
-            {selectedQuiz && (
-                <div className="fixed inset-0 bg-[#3B132A]/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-                    <div className="bg-white rounded-2xl max-w-5xl w-full shadow-2xl shadow-[#F3EFDA]/30 transform animate-scale-in overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
-
-                        {/* Left Side - Content */}
-                        <div className="flex-1 p-6 sm:p-8 lg:p-10 overflow-y-auto">
-                            <div className="flex justify-between items-start mb-6">
-                                <div>
-                                    <h3 className="text-3xl sm:text-4xl font-bold text-[#3B132A] mb-3">
-                                        {selectedQuiz.title} Quiz
-                                    </h3>
-                                    <span className={`${getDifficultyColor(selectedQuiz.difficulty)} text-white text-sm font-semibold px-3 py-1 rounded-full inline-block`}>
-                                        {selectedQuiz.difficulty}
-                                    </span>
+            {/* Animated Modal */}
+            <AnimatePresence>
+                {selectedQuiz && (
+                    <motion.div
+                        className="fixed inset-0 bg-[#3B132A]/95 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        onClick={closeModal}
+                    >
+                        <motion.div
+                            className="bg-white rounded-2xl max-w-5xl w-full shadow-2xl shadow-[#F3EFDA]/30 overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+                            initial={{ scale: 0.8, opacity: 0, y: 50 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Left Side - Content */}
+                            <motion.div
+                                className="flex-1 p-6 sm:p-8 lg:p-10 overflow-y-auto"
+                                initial={{ x: -50, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.2, duration: 0.4 }}
+                            >
+                                <div className="flex justify-between items-start mb-6">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.3 }}
+                                    >
+                                        <h3 className="text-3xl sm:text-4xl font-bold text-[#3B132A] mb-3">
+                                            {selectedQuiz.title} Quiz
+                                        </h3>
+                                        <motion.span
+                                            className={`${getDifficultyColor(selectedQuiz.difficulty)} text-white text-sm font-semibold px-3 py-1 rounded-full inline-block`}
+                                            whileHover={{ scale: 1.05 }}
+                                        >
+                                            {selectedQuiz.difficulty}
+                                        </motion.span>
+                                    </motion.div>
+                                    <motion.button
+                                        onClick={closeModal}
+                                        className="bg-gray-200 text-[#3B132A] p-2 rounded-full md:hidden"
+                                        whileHover={{ scale: 1.1, backgroundColor: "#e5e7eb" }}
+                                        whileTap={{ scale: 0.9 }}
+                                    >
+                                        <X size={24} />
+                                    </motion.button>
                                 </div>
-                                <button
+
+                                <motion.p
+                                    className="text-[#3B132A]/70 text-base sm:text-lg mb-6 leading-relaxed"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                >
+                                    {selectedQuiz.description}
+                                </motion.p>
+
+                                {/* Features List */}
+                                {selectedQuiz.features && selectedQuiz.features.length > 0 && (
+                                    <motion.div
+                                        className="space-y-3 mb-8"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.5 }}
+                                    >
+                                        {selectedQuiz.features.map((feature, index) => (
+                                            <motion.div
+                                                key={index}
+                                                className="flex items-start gap-3"
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.5 + index * 0.1 }}
+                                                whileHover={{ x: 5 }}
+                                            >
+                                                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                                <span className="text-[#3B132A]/80 text-sm sm:text-base">{feature}</span>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                )}
+
+                                {/* Quiz Stats */}
+                                <motion.div
+                                    className="grid grid-cols-3 gap-3 mb-6 bg-[#F3EFDA]/30 p-4 rounded-lg"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.6 }}
+                                >
+                                    {[
+                                        { icon: Brain, label: "Questions", value: selectedQuiz.questions || 20 },
+                                        { icon: Clock, label: "Duration", value: selectedQuiz.duration || '10 mins' },
+                                        { icon: Trophy, label: "Points", value: (selectedQuiz.questions || 20) * 10 }
+                                    ].map((stat, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className="text-center"
+                                            whileHover={{ scale: 1.05, y: -5 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <stat.icon className="w-6 h-6 mx-auto mb-1 text-[#3B132A]" />
+                                            <p className="text-xs text-[#3B132A]/60 uppercase">{stat.label}</p>
+                                            <p className="text-lg font-bold text-[#3B132A]">{stat.value}</p>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+
+                                {/* Action Button */}
+                                <motion.button
+                                    onClick={handleStartQuiz}
+                                    className="w-full bg-[#FF1493] text-white py-4 px-6 rounded-lg font-bold text-lg flex items-center justify-center gap-2 relative overflow-hidden"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.7 }}
+                                    whileHover={{
+                                        scale: 1.02,
+                                        boxShadow: "0 20px 40px -10px rgba(255, 20, 147, 0.5)"
+                                    }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <motion.span
+                                        className="absolute inset-0 bg-white opacity-20"
+                                        initial={{ x: "-100%" }}
+                                        whileHover={{ x: "100%" }}
+                                        transition={{ duration: 0.6 }}
+                                    />
+                                    <Play size={20} />
+                                    Start Quiz Now
+                                </motion.button>
+
+                                {!isLoggedIn && (
+                                    <motion.p
+                                        className="text-center text-sm text-[#3B132A]/60 mt-3"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.8 }}
+                                    >
+                                        You need to login to start the quiz
+                                    </motion.p>
+                                )}
+                            </motion.div>
+
+                            {/* Right Side - Visual Preview */}
+                            <motion.div
+                                className="md:w-2/5 bg-gradient-to-br from-[#A8D5E2] to-[#95C7D9] p-6 relative hidden md:flex flex-col justify-center items-center"
+                                initial={{ x: 50, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.3, duration: 0.4 }}
+                            >
+                                <motion.button
                                     onClick={closeModal}
-                                    className="bg-gray-200 text-[#3B132A] p-2 rounded-full hover:bg-gray-300 transition-all duration-300 hover:scale-110 cursor-pointer md:hidden"
+                                    className="absolute top-4 right-4 bg-white text-[#3B132A] p-2 rounded-full shadow-md"
+                                    whileHover={{
+                                        scale: 1.1,
+                                        backgroundColor: "#f3f4f6",
+                                        rotate: 90
+                                    }}
+                                    whileTap={{ scale: 0.9 }}
                                 >
                                     <X size={24} />
-                                </button>
-                            </div>
+                                </motion.button>
 
-                            <p className="text-[#3B132A]/70 text-base sm:text-lg mb-6 leading-relaxed">
-                                {selectedQuiz.description}
-                            </p>
+                                {/* Image Preview */}
+                                <motion.div
+                                    className="bg-white rounded-xl shadow-xl overflow-hidden mb-6 w-full max-w-xs"
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.5 }}
+                                    whileHover={{ scale: 1.05, rotate: 2 }}
+                                >
+                                    <img
+                                        src={selectedQuiz.image}
+                                        alt={selectedQuiz.title}
+                                        className="w-full h-48 object-cover"
+                                    />
+                                    <div className="p-4 bg-white">
+                                        <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Preview</div>
+                                        <div className="font-bold text-[#3B132A] text-lg">{selectedQuiz.title}</div>
+                                        <div className="text-sm text-gray-600 mt-1">Ready to challenge yourself?</div>
+                                    </div>
+                                </motion.div>
 
-                            {/* Features List */}
-                            {selectedQuiz.features && selectedQuiz.features.length > 0 && (
-                                <div className="space-y-3 mb-8">
-                                    {selectedQuiz.features.map((feature, index) => (
-                                        <div key={index} className="flex items-start gap-3">
-                                            <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                                            <span className="text-[#3B132A]/80 text-sm sm:text-base">{feature}</span>
-                                        </div>
+                                {/* Stats Cards */}
+                                <motion.div
+                                    className="grid grid-cols-2 gap-3 w-full max-w-xs"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.6 }}
+                                >
+                                    {[
+                                        { value: selectedQuiz.questions || 20, label: "Total Questions", color: "#FF1493" },
+                                        { value: (selectedQuiz.questions || 20) * 10, label: "Max Points", color: "#3B132A" }
+                                    ].map((stat, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className="bg-white/90 backdrop-blur rounded-lg p-3 text-center shadow-md"
+                                            whileHover={{
+                                                scale: 1.05,
+                                                y: -5,
+                                                boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.2)"
+                                            }}
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: 0.7 + i * 0.1 }}
+                                        >
+                                            <div className="text-2xl font-bold" style={{ color: stat.color }}>{stat.value}</div>
+                                            <div className="text-xs text-gray-600">{stat.label}</div>
+                                        </motion.div>
                                     ))}
-                                </div>
-                            )}
-
-                            {/* Quiz Stats */}
-                            <div className="grid grid-cols-3 gap-3 mb-6 bg-[#F3EFDA]/30 p-4 rounded-lg">
-                                <div className="text-center">
-                                    <Brain className="w-6 h-6 mx-auto mb-1 text-[#3B132A]" />
-                                    <p className="text-xs text-[#3B132A]/60 uppercase">Questions</p>
-                                    <p className="text-lg font-bold text-[#3B132A]">{selectedQuiz.questions || 20}</p>
-                                </div>
-                                <div className="text-center">
-                                    <Clock className="w-6 h-6 mx-auto mb-1 text-[#3B132A]" />
-                                    <p className="text-xs text-[#3B132A]/60 uppercase">Duration</p>
-                                    <p className="text-lg font-bold text-[#3B132A]">{selectedQuiz.duration || '10 mins'}</p>
-                                </div>
-                                <div className="text-center">
-                                    <Trophy className="w-6 h-6 mx-auto mb-1 text-[#3B132A]" />
-                                    <p className="text-xs text-[#3B132A]/60 uppercase">Points</p>
-                                    <p className="text-lg font-bold text-[#3B132A]">{(selectedQuiz.questions || 20) * 10}</p>
-                                </div>
-                            </div>
-
-                            {/* Action Button */}
-                            <button
-                                onClick={handleStartQuiz}
-                                className="w-full bg-[#FF1493] text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-[#FF1493]/90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-[#FF1493]/50 cursor-pointer flex items-center justify-center gap-2"
-                            >
-                                <Play size={20} />
-                                Start Quiz Now
-                            </button>
-
-                            {!isUserLoggedIn() && (
-                                <p className="text-center text-sm text-[#3B132A]/60 mt-3">
-                                    You need to login to start the quiz
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Right Side - Visual Preview */}
-                        <div className="md:w-2/5 bg-gradient-to-br from-[#A8D5E2] to-[#95C7D9] p-6 relative hidden md:flex flex-col justify-center items-center">
-                            <button
-                                onClick={closeModal}
-                                className="absolute top-4 right-4 bg-white text-[#3B132A] p-2 rounded-full hover:bg-gray-100 transition-all duration-300 hover:scale-110 cursor-pointer shadow-md"
-                            >
-                                <X size={24} />
-                            </button>
-
-                            {/* Image Preview */}
-                            <div className="bg-white rounded-xl shadow-xl overflow-hidden mb-6 w-full max-w-xs transform hover:scale-105 transition-transform duration-300">
-                                <img
-                                    src={selectedQuiz.image}
-                                    alt={selectedQuiz.title}
-                                    className="w-full h-48 object-cover"
-                                />
-                                <div className="p-4 bg-white">
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide mb-2">Preview</div>
-                                    <div className="font-bold text-[#3B132A] text-lg">{selectedQuiz.title}</div>
-                                    <div className="text-sm text-gray-600 mt-1">Ready to challenge yourself?</div>
-                                </div>
-                            </div>
-
-                            {/* Stats Cards */}
-                            <div className="grid grid-cols-2 gap-3 w-full max-w-xs">
-                                <div className="bg-white/90 backdrop-blur rounded-lg p-3 text-center shadow-md">
-                                    <div className="text-2xl font-bold text-[#FF1493]">{selectedQuiz.questions || 20}</div>
-                                    <div className="text-xs text-gray-600">Total Questions</div>
-                                </div>
-                                <div className="bg-white/90 backdrop-blur rounded-lg p-3 text-center shadow-md">
-                                    <div className="text-2xl font-bold text-[#3B132A]">{(selectedQuiz.questions || 20) * 10}</div>
-                                    <div className="text-xs text-gray-600">Max Points</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <style jsx>{`
-                @keyframes fade-in {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                @keyframes scale-in {
-                    from { transform: scale(0.9); opacity: 0; }
-                    to { transform: scale(1); opacity: 1; }
-                }
-                .animate-fade-in {
-                    animation: fade-in 0.3s ease-out;
-                }
-                .animate-scale-in {
-                    animation: scale-in 0.3s ease-out;
-                }
-            `}</style>
-        </section>
+                                </motion.div>
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.section>
     );
 };
 
