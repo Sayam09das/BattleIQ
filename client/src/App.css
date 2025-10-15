@@ -158,3 +158,9 @@
   animation: none;
   mix-blend-mode: normal;
 }
+/* Add this to your global CSS file (e.g., index.css, App.css, or main.css) */
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  overflow: visible !important;
+}

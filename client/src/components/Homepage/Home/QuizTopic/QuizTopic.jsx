@@ -225,10 +225,10 @@ const QuizTopic = () => {
                         className="w-full"
                     >
                         {quizTopics.map((topic, index) => (
-                            <SwiperSlide key={topic.id} className="!w-72 sm:!w-80">
+                            <SwiperSlide key={topic.id} className="!w-72 sm:!w-80 overflow-visible">
                                 <motion.div
                                     onClick={() => handleQuizClick(topic)}
-                                    className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 overflow-hidden cursor-pointer border-2 border-[#F3EFDA]/30"
+                                    className="bg-[#F3EFDA] rounded-xl shadow-lg shadow-[#F3EFDA]/20 cursor-pointer border-2 border-[#F3EFDA]/30 overflow-visible"
                                     whileHover={{
                                         scale: 1.05,
                                         y: -10,
@@ -236,15 +236,12 @@ const QuizTopic = () => {
                                     }}
                                     whileTap={{ scale: 0.98 }}
                                     transition={{ duration: 0.3 }}
-                                    initial={{ opacity: 0, y: 50 }}
-                                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-                                    style={{ transitionDelay: `${index * 0.1}s` }}
                                 >
-                                    <div className="relative overflow-hidden">
+                                    <div className="relative overflow-visible">
                                         <motion.img
                                             src={topic.image}
                                             alt={topic.title}
-                                            className="w-full h-48 sm:h-56 object-cover"
+                                            className="w-full h-48 sm:h-56 object-cover rounded-t-xl"
                                             whileHover={{ scale: 1.1 }}
                                             transition={{ duration: 0.4 }}
                                         />
@@ -261,6 +258,7 @@ const QuizTopic = () => {
                                     </p>
                                 </motion.div>
                             </SwiperSlide>
+
                         ))}
                     </Swiper>
                 </motion.div>
