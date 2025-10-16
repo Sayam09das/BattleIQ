@@ -118,8 +118,8 @@ const Navbar = () => {
     };
 
     const navLinks = [
-        { name: "Features", href: "#features" },
-        { name: "Success Stories", href: "#stories" },
+        { name: "Features", href: "/features" },
+        { name: "Success Stories", href: "/stories" },
     ];
 
     // ===================== JSX =====================
