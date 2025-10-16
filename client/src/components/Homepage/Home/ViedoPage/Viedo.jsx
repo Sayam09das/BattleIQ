@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
-
+import BattleIq from "@/components/Video/BattleIq.mp4";
 const VideoSection = () => {
     const [isVideoOpen, setIsVideoOpen] = useState(false);
 
@@ -107,7 +107,7 @@ const VideoSection = () => {
                             </motion.button>
                             <div className="relative isolate z-[1] size-full overflow-hidden rounded-2xl border-2 border-white min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
                                 <iframe
-                                    src="https://www.youtube.com/embed/DNIovuMNXZk?autoplay=1"
+                                    src={BattleIq}
                                     title="Platform introduction video"
                                     className="size-full rounded-2xl"
                                     allowFullScreen
