@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, UserPlus, Phone, Globe, ChevronDown } from 'lucide-react';
+import { Link } from "react-router-dom";
 
 const Toast = ({ message, type, onClose }) => (
     <motion.div
@@ -482,9 +483,12 @@ const Register = () => {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-[#F3EFDA]/60">
                             Already have an account?{' '}
-                            <button className="text-[#F3EFDA] hover:underline font-medium">
-                                Sign In
-                            </button>
+                            <Link to="/login">
+                                <button className="text-[#F3EFDA] hover:underline font-medium">
+                                    Sign In
+                                </button>
+                            </Link>
+
                         </p>
                     </div>
                 </div>
