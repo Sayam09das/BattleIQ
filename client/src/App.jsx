@@ -11,7 +11,7 @@ import SuccessStoriesPage from "./components/Homepage/SuccessStoriesPage/Success
 import Login from "./components/Auth/Loginpage/Login";
 import Register from "./components/Auth/Registerpage/Register";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword";
-import OtpVerification from "./components/Auth/OtpVerification/OtpVerification";
+import OtpVerification from "./components/Auth/OTPVerification/OTPVerification";
 import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
 
 // Layout wrapper component
