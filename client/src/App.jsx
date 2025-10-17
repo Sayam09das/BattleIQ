@@ -4,10 +4,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Pages/Navbar/Navbar";
 import Home from "./components/Homepage/Home/Home";
 import Footer from "./Pages/Footer/Footer";
-import TeacherDashboard from "./components/Homepage/TeacherDashboard/TeacherDashboard";
 import CreateQuiz from "./components/Homepage/CreateQuiz/CreateQuiz";
 import FeaturesPage from "./components/Homepage/FeaturesPage/FeaturesPage";
-import SuccessStoriesPage from "./components/Homepage/SuccessStoriesPage/SuccessStoriesPage";
 import Login from "./components/Auth/Loginpage/Login";
 import Register from "./components/Auth/Registerpage/Register";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword";
@@ -37,10 +35,8 @@ const Layout = () => {
       <Routes>
         {/* Main routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/createquiz" element={<CreateQuiz />} />
         <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/stories" element={<SuccessStoriesPage />} />
 
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />

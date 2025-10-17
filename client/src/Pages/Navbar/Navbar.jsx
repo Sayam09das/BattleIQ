@@ -1,22 +1,36 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-    Menu,
-    X,
-    ChevronDown,
-    ChevronRight,
-    BookOpen,
-    Users,
-    Trophy,
-    Target,
-    BarChart3,
-    GraduationCap,
-    School,
-    Building2,
-    Briefcase,
     Zap,
-    Star,
+    Target,
+    Trophy,
     Award,
+    Brain,
+    Cpu,
+    BarChart3,
+    LineChart,
+    Lightbulb,
+    BookOpen,
+    Video,
+    BadgeCheck,
+    Calendar,
+    Star,
+    Globe,
+    Users,
+    MessageSquare,
+    UserPlus,
+    Sword,
+    Heart,
+    Flag,
+    PenTool,
+    Briefcase,
+    Handshake,
+    Mail,
+    Clock,
+    ChevronDown,
+    Menu,
+    ChevronRight,
+    X,
 } from "lucide-react";
 
 const Navbar = () => {
@@ -41,82 +55,77 @@ const Navbar = () => {
 
     // ===================== Dropdown Menus =====================
     const dropdownMenus = {
-        solutions: {
-            title: "Solutions",
+        quests: {
+            title: "Quests & Challenges",
             sections: [
                 {
-                    header: "For Educators",
-                    icon: GraduationCap,
+                    header: "Daily Challenges",
+                    icon: Calendar,
                     items: [
-                        { name: "Teachers Dashboard", icon: BookOpen, desc: "Manage classes and assignments", href: "/teacher-dashboard" },
-                        { name: "Create Quizzes", icon: Target, desc: "Build custom assessments", href: "/create-quiz" },
-                        { name: "Track Progress", icon: BarChart3, desc: "Monitor student performance", href: "/track-progress" },
-                        { name: "Lesson Plans", icon: BookOpen, desc: "Curriculum resources", href: "/lesson-plans" },
+                        { name: "Daily Quiz", icon: Target, desc: "Test yourself every day", href: "/daily-quiz" },
+                        { name: "Time Trials", icon: Clock, desc: "Beat the clock in quizzes", href: "/time-trials" },
+                        { name: "Weekly Tournament", icon: Trophy, desc: "Compete for leaderboard glory", href: "/weekly-tournament" },
                     ],
                 },
                 {
-                    header: "For Administrators",
-                    icon: Building2,
+                    header: "Special Events",
+                    icon: Star,
                     items: [
-                        { name: "District Dashboard", icon: School, desc: "School-wide analytics", href: "/district-dashboard" },
-                        { name: "Manage Schools", icon: Building2, desc: "Multi-school oversight", href: "/manage-schools" },
-                        { name: "Reports & Insights", icon: BarChart3, desc: "Data-driven decisions", href: "/reports" },
-                        { name: "Professional Development", icon: Users, desc: "Teacher training", href: "/development" },
-                    ],
-                },
-                {
-                    header: "For Students",
-                    icon: Users,
-                    items: [
-                        { name: "Practice Mode", icon: Target, desc: "Self-paced learning", href: "/practice-mode" },
-                        { name: "Live Battles", icon: Zap, desc: "Real-time competitions", href: "/live-battles" },
-                        { name: "Leaderboard", icon: Trophy, desc: "Global rankings", href: "/leaderboard" },
-                        { name: "Achievements", icon: Award, desc: "Earn badges & rewards", href: "/achievements" },
+                        { name: "Seasonal Battles", icon: Zap, desc: "Limited-time quiz events", href: "/seasonal-battles" },
+                        { name: "Global Tournaments", icon: Globe, desc: "Challenge players worldwide", href: "/global-tournaments" },
                     ],
                 },
             ],
         },
-        resources: {
-            title: "Resources",
+
+        learningHub: {
+            title: "Learning Hub",
             sections: [
                 {
-                    header: "Learning Materials",
+                    header: "AI Tools",
+                    icon: Brain,
+                    items: [
+                        { name: "AI Quiz Generator", icon: Cpu, desc: "Create quizzes instantly", href: "/ai-generator" },
+                        { name: "Performance Insights", icon: BarChart3, desc: "Analyze your results", href: "/performance" },
+                        { name: "Skill Builder", icon: Lightbulb, desc: "Get AI suggestions to improve", href: "/skill-builder" },
+                    ],
+                },
+                {
+                    header: "Resources",
                     icon: BookOpen,
                     items: [
-                        { name: "Quiz Library", icon: BookOpen, desc: "10,000+ ready-made quizzes", href: "/quiz-library" },
-                        { name: "Subject Collections", icon: Star, desc: "Organized by topic", href: "/subject-collections" },
-                        { name: "Common Core Aligned", icon: Target, desc: "Standards-based content", href: "/common-core" },
-                        { name: "International Curriculum", icon: GraduationCap, desc: "Global standards", href: "/international-curriculum" },
-                    ],
-                },
-                {
-                    header: "Support & Training",
-                    icon: Users,
-                    items: [
-                        { name: "Getting Started", icon: Zap, desc: "Quick start guide", href: "/getting-started" },
-                        { name: "Video Tutorials", icon: BookOpen, desc: "Step-by-step guides", href: "/tutorials" },
-                        { name: "Help Center", icon: Users, desc: "FAQs & documentation", href: "/help-center" },
-                        { name: "Contact Support", icon: Users, desc: "24/7 assistance", href: "/contact-support" },
+                        { name: "Quiz Library", icon: BookOpen, desc: "Thousands of ready quizzes", href: "/quiz-library" },
+                        { name: "Tutorials", icon: Video, desc: "Step-by-step guides", href: "/tutorials" },
+                        { name: "Certifications", icon: BadgeCheck, desc: "Earn official certificates", href: "/certifications" },
                     ],
                 },
             ],
         },
-        pricing: {
-            title: "Pricing",
+
+        community: {
+            title: "Community",
             sections: [
                 {
-                    header: "Plans",
-                    icon: Briefcase,
+                    header: "Connect & Share",
+                    icon: Users,
                     items: [
-                        { name: "Individual Teacher", icon: Users, desc: "Free forever", href: "/pricing/teacher" },
-                        { name: "School Plan", icon: School, desc: "For entire schools", href: "/pricing/school" },
-                        { name: "District Plan", icon: Building2, desc: "Multi-school licensing", href: "/pricing/district" },
-                        { name: "Enterprise", icon: Briefcase, desc: "Custom solutions", href: "/pricing/enterprise" },
+                        { name: "Forums", icon: MessageSquare, desc: "Join discussions with other learners", href: "/forums" },
+                        { name: "Friends & Teams", icon: UserPlus, desc: "Team up for group battles", href: "/teams" },
+                        { name: "Events & Meetups", icon: Calendar, desc: "Participate in online & offline events", href: "/events" },
+                    ],
+                },
+                {
+                    header: "Showcase",
+                    icon: Trophy,
+                    items: [
+                        { name: "Leaderboards", icon: Trophy, desc: "See top players globally", href: "/leaderboard" },
+                        { name: "Achievements", icon: Award, desc: "View badges and accomplishments", href: "/achievements" },
                     ],
                 },
             ],
         },
     };
+
 
     const navLinks = [
         { name: "Features", href: "/features" },
@@ -260,6 +269,7 @@ const Navbar = () => {
                 <div className="px-4 py-3 space-y-2">
                     {Object.entries(dropdownMenus).map(([key, menu]) => (
                         <div key={key}>
+                            {/* Dropdown toggle button */}
                             <button
                                 onClick={() =>
                                     setMobileSubMenu(mobileSubMenu === key ? null : key)
@@ -268,10 +278,12 @@ const Navbar = () => {
                             >
                                 <span>{menu.title}</span>
                                 <ChevronRight
-                                    className={`w-4 h-4 transition-transform duration-200 ${mobileSubMenu === key ? "rotate-90" : ""}`}
+                                    className={`w-4 h-4 transition-transform duration-200 ${mobileSubMenu === key ? "rotate-90" : ""
+                                        }`}
                                 />
                             </button>
 
+                            {/* Dropdown content */}
                             <div
                                 className={`overflow-hidden transition-all duration-300 ease-in-out ${mobileSubMenu === key ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                                     }`}
@@ -284,13 +296,13 @@ const Navbar = () => {
                                             </p>
                                             <div className="pl-4 space-y-1">
                                                 {section.items.map((item, idx) => (
-                                                    <a
+                                                    <Link
                                                         key={idx}
-                                                        href={item.href}
+                                                        to={item.href}
                                                         className="block text-[#F3EFDA]/70 hover:text-[#F3EFDA] text-xs py-1 transition-colors duration-150"
                                                     >
                                                         {item.name}
-                                                    </a>
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </div>
@@ -300,17 +312,19 @@ const Navbar = () => {
                         </div>
                     ))}
 
+                    {/* Regular nav links */}
                     {navLinks.map((link) => (
-                        <a
+                        <Link
                             key={link.name}
-                            href={link.href}
+                            to={link.href}
                             className="block text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200"
                         >
                             {link.name}
-                        </a>
+                        </Link>
                     ))}
                 </div>
 
+                {/* Sign In / Get Started */}
                 <div className="px-4 py-3 border-t border-[#F3EFDA]/20">
                     <Link to="/login">
                         <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200 mb-3">
@@ -324,7 +338,6 @@ const Navbar = () => {
                         </button>
                     </Link>
                 </div>
-
             </div>
 
             <style>{`
