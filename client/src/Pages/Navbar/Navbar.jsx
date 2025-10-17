@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
     Menu,
     X,
@@ -227,13 +228,19 @@ const Navbar = () => {
 
                     {/* ===== Desktop Buttons ===== */}
                     <div className="hidden lg:flex items-center gap-3">
-                        <button className="border border-[#F3EFDA] text-[#F3EFDA] px-4 py-2 rounded-lg text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200">
-                            Sign In
-                        </button>
-                        <button className="bg-[#F3EFDA] text-[#3B132A] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#F3EFDA]/90 hover:shadow-lg transition-all duration-200">
-                            Get Started
-                        </button>
+                        <Link to="/login">
+                            <button className="border border-[#F3EFDA] text-[#F3EFDA] px-4 py-2 rounded-lg text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200">
+                                Sign In
+                            </button>
+                        </Link>
+
+                        <Link to="/register">
+                            <button className="bg-[#F3EFDA] text-[#3B132A] px-5 py-2 rounded-lg text-sm font-semibold hover:bg-[#F3EFDA]/90 hover:shadow-lg transition-all duration-200">
+                                Get Started
+                            </button>
+                        </Link>
                     </div>
+
 
                     {/* ===== Mobile Menu Button ===== */}
                     <button
@@ -304,15 +311,20 @@ const Navbar = () => {
                     ))}
                 </div>
 
-                {/* Mobile Buttons */}
-                <div className="px-4 py-3 border-t border-[#F3EFDA]/20 space-y-2">
-                    <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200">
-                        Sign In
-                    </button>
-                    <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90 transition-all duration-200">
-                        Get Started
-                    </button>
+                <div className="px-4 py-3 border-t border-[#F3EFDA]/20">
+                    <Link to="/login">
+                        <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200 mb-3">
+                            Sign In
+                        </button>
+                    </Link>
+
+                    <Link to="/register">
+                        <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90 transition-all duration-200">
+                            Get Started
+                        </button>
+                    </Link>
                 </div>
+
             </div>
 
             <style>{`
