@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
+import { Eye, EyeOff, Lock, CheckCircle } from 'lucide-react';
 import { Link } from "react-router-dom";
 
 const Toast = ({ message, type, onClose }) => (
@@ -12,14 +12,17 @@ const Toast = ({ message, type, onClose }) => (
             }`}
     >
         <span className="text-[#F3EFDA] font-medium">{message}</span>
-        <button onClick={onClose} className="text-[#F3EFDA] hover:text-white">×</button>
+        <button onClick={onClose} className="text-[#F3EFDA] hover:text-white text-xl">×</button>
     </motion.div>
 );
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const ResetPassword = () => {
+    const [formData, setFormData] = useState({
+        password: '',
+        confirmPassword: ''
+    });
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
 
@@ -46,7 +49,7 @@ const Login = () => {
 
     const handlePasswordChange = (e) => {
         const pwd = e.target.value;
-        setPassword(pwd);
+        setFormData({ ...formData, password: pwd });
 
         if (pwd) {
             const validations = validatePassword(pwd);
@@ -65,20 +68,13 @@ const Login = () => {
         }
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!email) {
-            showToast('Please enter your email', 'error');
+    const handleSubmit = () => {
+        if (!formData.password) {
+            showToast('Please enter your new password', 'error');
             return;
         }
 
-        if (!password) {
-            showToast('Please enter your password', 'error');
-            return;
-        }
-
-        const validations = validatePassword(password);
+        const validations = validatePassword(formData.password);
         const isValid = Object.values(validations).every(v => v === true);
 
         if (!isValid) {
@@ -86,7 +82,12 @@ const Login = () => {
             return;
         }
 
-        showToast('Login successful!', 'success');
+        if (formData.password !== formData.confirmPassword) {
+            showToast('Passwords do not match', 'error');
+            return;
+        }
+
+        showToast('Password reset successfully!', 'success');
     };
 
     return (
@@ -95,7 +96,6 @@ const Login = () => {
 
             {/* Animated Geometric Background */}
             <div className="absolute inset-0">
-                {/* Large Circle - Top Left */}
                 <motion.div
                     className="absolute -top-20 -left-20 sm:-top-32 sm:-left-32 lg:-top-40 lg:-left-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
                     style={{ y: yCircleLeft }}
@@ -110,7 +110,6 @@ const Login = () => {
                     }}
                 />
 
-                {/* Large Circle - Bottom Right */}
                 <motion.div
                     className="absolute -bottom-20 -right-20 sm:-bottom-32 sm:-right-32 lg:-bottom-40 lg:-right-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
                     style={{ y: yCircleRight }}
@@ -126,7 +125,6 @@ const Login = () => {
                     }}
                 />
 
-                {/* Floating particles */}
                 {[...Array(5)].map((_, i) => (
                     <motion.div
                         key={i}
@@ -149,7 +147,7 @@ const Login = () => {
                 ))}
             </div>
 
-            {/* Login Form Container */}
+            {/* Reset Password Form Container */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -167,42 +165,24 @@ const Login = () => {
                         >
                             <Lock className="w-8 h-8 text-[#F3EFDA]" />
                         </motion.div>
-                        <h1 className="text-3xl font-bold text-[#F3EFDA] mb-2">Welcome Back</h1>
-                        <p className="text-[#F3EFDA]/60">Sign in to continue</p>
+                        <h1 className="text-3xl font-bold text-[#F3EFDA] mb-2">Set New Password</h1>
+                        <p className="text-[#F3EFDA]/60">Your new password must be different from previous passwords</p>
                     </div>
 
-                    {/* Form */}
                     <div className="space-y-6">
-                        {/* Email Field */}
+                        {/* New Password Field */}
                         <div>
                             <label className="block text-[#F3EFDA] text-sm font-medium mb-2">
-                                Email Address
-                            </label>
-                            <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F3EFDA]/40" />
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full bg-[#3B132A]/50 border-2 border-[#F3EFDA]/20 rounded-lg pl-12 pr-4 py-3 text-[#F3EFDA] placeholder-[#F3EFDA]/30 focus:outline-none focus:border-[#F3EFDA]/60 focus:shadow-lg focus:shadow-[#F3EFDA]/10 transition-all"
-                                    placeholder="Enter your email"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Password Field */}
-                        <div>
-                            <label className="block text-[#F3EFDA] text-sm font-medium mb-2">
-                                Password
+                                New Password
                             </label>
                             <div className="relative">
                                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F3EFDA]/40" />
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    value={password}
+                                    value={formData.password}
                                     onChange={handlePasswordChange}
                                     className="w-full bg-[#3B132A]/50 border-2 border-[#F3EFDA]/20 rounded-lg pl-12 pr-12 py-3 text-[#F3EFDA] placeholder-[#F3EFDA]/30 focus:outline-none focus:border-[#F3EFDA]/60 focus:shadow-lg focus:shadow-[#F3EFDA]/10 transition-all"
-                                    placeholder="Enter your password"
+                                    placeholder="Enter new password"
                                 />
                                 <button
                                     type="button"
@@ -214,58 +194,84 @@ const Login = () => {
                             </div>
 
                             {/* Password Requirements */}
-                            {password && Object.keys(errors).length > 0 && (
-                                <div className="mt-3 space-y-1">
-                                    {Object.values(errors).map((error, idx) => (
-                                        <p key={idx} className="text-xs text-red-400 flex items-center gap-2">
-                                            <span className="w-1 h-1 rounded-full bg-red-400"></span>
-                                            {error}
+                            {formData.password && (
+                                <div className="mt-3 space-y-2">
+                                    {Object.keys(errors).length > 0 ? (
+                                        Object.values(errors).map((error, idx) => (
+                                            <p key={idx} className="text-xs text-red-400 flex items-center gap-2">
+                                                <span className="w-1 h-1 rounded-full bg-red-400"></span>
+                                                {error}
+                                            </p>
+                                        ))
+                                    ) : (
+                                        <p className="text-xs text-green-400 flex items-center gap-2">
+                                            <CheckCircle className="w-4 h-4" />
+                                            Password meets all requirements
                                         </p>
-                                    ))}
+                                    )}
                                 </div>
                             )}
                         </div>
 
-                        <div className="flex items-center justify-between">
-                            <label className="flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="w-4 h-4 rounded border-[#F3EFDA]/40 bg-[#3B132A]/50 text-[#F3EFDA] focus:ring-[#F3EFDA]/50"
-                                />
-                                <span className="ml-2 text-sm text-[#F3EFDA]/70">Remember me</span>
+                        {/* Confirm Password Field */}
+                        <div>
+                            <label className="block text-[#F3EFDA] text-sm font-medium mb-2">
+                                Confirm New Password
                             </label>
-
-                            <Link
-                                to="/forgot-password"
-                                className="text-sm text-[#F3EFDA]/70 hover:text-[#F3EFDA] transition-colors cursor-pointer"
-                            >
-                                Forgot Password?
-                            </Link>
+                            <div className="relative">
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F3EFDA]/40" />
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    value={formData.confirmPassword}
+                                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                                    className="w-full bg-[#3B132A]/50 border-2 border-[#F3EFDA]/20 rounded-lg pl-12 pr-12 py-3 text-[#F3EFDA] placeholder-[#F3EFDA]/30 focus:outline-none focus:border-[#F3EFDA]/60 focus:shadow-lg focus:shadow-[#F3EFDA]/10 transition-all"
+                                    placeholder="Confirm new password"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#F3EFDA]/40 hover:text-[#F3EFDA]/80 transition-colors"
+                                >
+                                    {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
+                            </div>
+                            {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                                <p className="mt-2 text-xs text-red-400 flex items-center gap-2">
+                                    <span className="w-1 h-1 rounded-full bg-red-400"></span>
+                                    Passwords do not match
+                                </p>
+                            )}
+                            {formData.confirmPassword && formData.password === formData.confirmPassword && formData.password && (
+                                <p className="mt-2 text-xs text-green-400 flex items-center gap-2">
+                                    <CheckCircle className="w-4 h-4" />
+                                    Passwords match
+                                </p>
+                            )}
                         </div>
 
-                        {/* Submit Button */}
+                        {/* Reset Button */}
                         <motion.button
                             type="button"
                             onClick={handleSubmit}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="w-full bg-[#F3EFDA] text-[#3B132A] font-semibold py-3 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-[#F3EFDA]/20 hover:shadow-xl hover:shadow-[#F3EFDA]/30 transition-all cursor-pointer"
+                            className="w-full bg-[#F3EFDA] text-[#3B132A] font-semibold py-3 rounded-lg flex items-center justify-center gap-2 shadow-lg shadow-[#F3EFDA]/20 hover:shadow-xl hover:shadow-[#F3EFDA]/30 transition-all"
                         >
-                            <LogIn className="w-5 h-5" />
-                            Sign In
+                            <Lock className="w-5 h-5" />
+                            Reset Password
                         </motion.button>
                     </div>
 
                     {/* Footer */}
                     <div className="mt-6 text-center">
                         <p className="text-sm text-[#F3EFDA]/60">
-                            Don't have an account?{' '}
-                            <Link to="/register">
-                                <button className="text-[#F3EFDA] hover:underline font-medium cursor-pointer">
-                                    Sign Up
-                                </button>
+                            Remember your password?{" "}
+                            <Link
+                                to="/login"
+                                className="text-[#F3EFDA] hover:underline font-medium cursor-pointer"
+                            >
+                                Sign In
                             </Link>
-
                         </p>
                     </div>
                 </div>
@@ -274,4 +280,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default ResetPassword;

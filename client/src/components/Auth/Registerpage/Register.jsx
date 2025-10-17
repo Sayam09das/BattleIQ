@@ -484,7 +484,7 @@ const Register = () => {
                         <p className="text-sm text-[#F3EFDA]/60">
                             Already have an account?{' '}
                             <Link to="/login">
-                                <button className="text-[#F3EFDA] hover:underline font-medium">
+                                <button className="text-[#F3EFDA] hover:underline font-medium cursor-pointer">
                                     Sign In
                                 </button>
                             </Link>
