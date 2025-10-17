@@ -9,7 +9,7 @@ import FeaturesPage from "./components/Homepage/FeaturesPage/FeaturesPage";
 import Login from "./components/Auth/Loginpage/Login";
 import Register from "./components/Auth/Registerpage/Register";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword";
-// import OtpVerification from "./components/Auth/OTPVerification/OTPVerification";
+import Otpvalidation from "./components/Auth/Otpvalidation/Otpvalidation";
 import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
 
 // Layout wrapper component
@@ -21,7 +21,7 @@ const Layout = () => {
     "/login",
     "/register",
     "/forgot-password",
-    // "/otp-verification",
+    "/otp-validation",
     "/reset-password",
   ];
 
@@ -42,7 +42,7 @@ const Layout = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        {/* <Route path="/otp-verification" element={<OtpVerification />} /> */}
+        <Route path="/otp-validation" element={<Otpvalidation />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
 
@@ -55,6 +55,7 @@ const App = () => (
   <BrowserRouter>
     <Layout />
   </BrowserRouter>
+  
 );
 
 export default App;
