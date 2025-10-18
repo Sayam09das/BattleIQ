@@ -21,6 +21,9 @@ import ResetPassword from "./components/Auth/ResetPassword/ResetPassword";
 // 404 Page
 import NotFound from "./Pages/NotFound/NotFound";
 
+// Cookies Component
+import Cookies from "./Pages/Cookies/Cookies";
+
 // Route Groups
 import { QuestRoutes } from "./components/Homepage/Questspage/Quests";
 import { LearningRoutes } from "./components/Homepage/LearningHub/Learning";
@@ -65,6 +68,7 @@ function Layout() {
       {!isAuthPage && !is404 && <Navbar />}
       {element}
       {!isAuthPage && !is404 && <Footer />}
+      {!isAuthPage && !is404 && <Cookies />}
     </>
   );
 }
