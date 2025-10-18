@@ -22,6 +22,7 @@ import SkillBuilder from "./components/Homepage/LearningHub/SkillBuilder/SkillBu
 import QuizLibrary from "./components/Homepage/LearningHub/Resources/Quiz Library/Quiz Library";
 import Tutorials from "./components/Homepage/LearningHub/Resources/Tutorials/Tutorials";
 import Certifications from "./components/Homepage/LearningHub/Resources/Certifications/Certifications";
+import Forums from "./components/Homepage/Community/Forums/Forums";
 // Layout wrapper component
 const Layout = () => {
   const location = useLocation();
@@ -57,6 +58,7 @@ const Layout = () => {
         <Route path="/quiz-library" element={<QuizLibrary />} />
         <Route path="/tutorials" element={<Tutorials />} />
         <Route path="/certifications" element={<Certifications />} />
+        <Route path="/forums" element={<Forums />} />
 
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />
