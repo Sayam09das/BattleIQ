@@ -13,7 +13,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
 import Home from "./components/Homepage/Home/Home";
 import CreateQuiz from "./components/Homepage/CreateQuiz/CreateQuiz";
 import FeaturesPage from "./components/Homepage/FeaturesPage/FeaturesPage";
-
+import SuccessStories from "./components/Homepage/SuccessStories/SuccessStories";
 // Auth Pages
 import Login from "./components/Auth/Loginpage/Login";
 import Register from "./components/Auth/Registerpage/Register";
@@ -48,6 +48,7 @@ function Layout() {
     { path: "/createquiz", element: <CreateQuiz /> },
     { path: "/features", element: <FeaturesPage /> },
     { path: "/privacy-policy", element: <PrivacyPolicy /> },
+    { path: "/stories", element: <SuccessStories /> },
     ...QuestRoutes,
     ...LearningRoutes,
     ...CommunityRoutes,
