@@ -6,6 +6,9 @@ import "./App.css";
 import Navbar from "./Pages/Navbar/Navbar";
 import Footer from "./Pages/Footer/Footer";
 
+// Privacy Policy Page
+import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
+
 // Core Pages
 import Home from "./components/Homepage/Home/Home";
 import CreateQuiz from "./components/Homepage/CreateQuiz/CreateQuiz";
@@ -44,6 +47,7 @@ function Layout() {
     { path: "/", element: <Home /> },
     { path: "/createquiz", element: <CreateQuiz /> },
     { path: "/features", element: <FeaturesPage /> },
+    { path: "/privacy-policy", element: <PrivacyPolicy /> },
     ...QuestRoutes,
     ...LearningRoutes,
     ...CommunityRoutes,

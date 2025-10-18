@@ -35,7 +35,7 @@ const Cookies = () => {
         >
             <div>
                 We use cookies to improve your experience. By continuing, you accept our{" "}
-                <a href="/cookies-policy" style={{ color: "#F3EFDA", textDecoration: "underline" }}>
+                <a href="/privacy-policy" style={{ color: "#F3EFDA", textDecoration: "underline" }}>
                     Terms & Conditions
                 </a>
                 .
