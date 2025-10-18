@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter, useRoutes, useLocation } from "react-router-dom";
+import "./App.css";
 
 // Layout Components
 import Navbar from "./Pages/Navbar/Navbar";
@@ -38,36 +38,25 @@ function Layout() {
   ]);
 
   const routes = [
-    // Core
     { path: "/", element: <Home /> },
     { path: "/createquiz", element: <CreateQuiz /> },
     { path: "/features", element: <FeaturesPage /> },
-
-    // Grouped
     ...QuestRoutes,
     ...LearningRoutes,
     ...CommunityRoutes,
-
-    // Auth
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/otp", element: <Otp /> },
     { path: "/reset-password", element: <ResetPassword /> },
-
-    // Wildcard 404
     { path: "*", element: <NotFound /> },
   ];
 
   const element = useRoutes(routes);
 
-  // Determine if current page is 404 by checking if pathname doesn't match any route except "*"
-  const is404 = location.pathname !== "/" && !routes.some(route => {
-    // Ignore wildcard
-    if (route.path === "*") return false;
-    // Exact match check for static paths
-    return route.path === location.pathname;
-  });
+  const is404 =
+    location.pathname !== "/" &&
+    !routes.some((route) => route.path !== "*" && route.path === location.pathname);
 
   const isAuthPage = authRoutes.has(location.pathname);
 
