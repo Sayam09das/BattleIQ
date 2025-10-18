@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
     Zap,
     Target,
@@ -38,6 +38,13 @@ const Navbar = () => {
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [mobileSubMenu, setMobileSubMenu] = useState(null);
     const dropdownRef = useRef(null);
+    const location = useLocation();
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setIsMenuOpen(false);
+        setMobileSubMenu(null);
+    }, [location]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -52,6 +59,12 @@ const Navbar = () => {
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const handleDropdown = (dropdown) =>
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+
+    // Close mobile menu when clicking a link
+    const handleMobileLinkClick = () => {
+        setIsMenuOpen(false);
+        setMobileSubMenu(null);
+    };
 
     // ===================== Dropdown Menus =====================
     const dropdownMenus = {
@@ -138,9 +151,11 @@ const Navbar = () => {
             <div className="max-w-[95%] xl:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 sm:h-18">
                     {/* ===== Logo ===== */}
-                    <h1 className="text-xl sm:text-2xl font-bold tracking-wide hover:text-[#F3EFDA]/90 transition-colors duration-200">
-                        BattleIQ 🔥
-                    </h1>
+                    <Link to="/" onClick={handleMobileLinkClick}>
+                        <h1 className="text-xl sm:text-2xl font-bold tracking-wide hover:text-[#F3EFDA]/90 transition-colors duration-200">
+                            BattleIQ 🔥
+                        </h1>
+                    </Link>
 
                     {/* ===== Desktop Menu ===== */}
                     <div className="hidden lg:flex items-center space-x-2" ref={dropdownRef}>
@@ -196,8 +211,8 @@ const Navbar = () => {
                                                                 const ItemIcon = item.icon;
                                                                 return (
                                                                     <li key={idx}>
-                                                                        <a
-                                                                            href={item.href}
+                                                                        <Link
+                                                                            to={item.href}
                                                                             className="flex items-start gap-2 px-2 py-1.5 rounded-md hover:bg-[#3B132A]/10 transition-colors duration-150 group"
                                                                         >
                                                                             <ItemIcon className="w-4 h-4 mt-0.5 text-[#3B132A]/50 group-hover:text-[#3B132A] transition-colors duration-150" />
@@ -209,7 +224,7 @@ const Navbar = () => {
                                                                                     {item.desc}
                                                                                 </p>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                 );
                                                             })}
@@ -225,13 +240,13 @@ const Navbar = () => {
 
                         {/* Regular Links */}
                         {navLinks.map((link) => (
-                            <a
+                            <Link
                                 key={link.name}
-                                href={link.href}
+                                to={link.href}
                                 className="text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm font-medium hover:bg-[#F3EFDA]/10 transition-all duration-200"
                             >
                                 {link.name}
-                            </a>
+                            </Link>
                         ))}
                     </div>
 
@@ -266,7 +281,7 @@ const Navbar = () => {
                 className={`lg:hidden bg-[#3B132A] border-t border-[#F3EFDA]/20 overflow-hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0'
                     }`}
             >
-                <div className="px-4 py-3 space-y-2">
+                <div className="px-4 py-3 space-y-2 max-h-[calc(85vh-120px)] overflow-y-auto">
                     {Object.entries(dropdownMenus).map(([key, menu]) => (
                         <div key={key}>
                             {/* Dropdown toggle button */}
@@ -299,6 +314,7 @@ const Navbar = () => {
                                                     <Link
                                                         key={idx}
                                                         to={item.href}
+                                                        onClick={handleMobileLinkClick}
                                                         className="block text-[#F3EFDA]/70 hover:text-[#F3EFDA] text-xs py-1 transition-colors duration-150"
                                                     >
                                                         {item.name}
@@ -317,6 +333,7 @@ const Navbar = () => {
                         <Link
                             key={link.name}
                             to={link.href}
+                            onClick={handleMobileLinkClick}
                             className="block text-[#F3EFDA]/80 hover:text-[#F3EFDA] px-3 py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200"
                         >
                             {link.name}
@@ -326,13 +343,13 @@ const Navbar = () => {
 
                 {/* Sign In / Get Started */}
                 <div className="px-4 py-3 border-t border-[#F3EFDA]/20">
-                    <Link to="/login">
+                    <Link to="/login" onClick={handleMobileLinkClick}>
                         <button className="w-full border border-[#F3EFDA] text-[#F3EFDA] py-2 rounded-md text-sm hover:bg-[#F3EFDA]/10 transition-all duration-200 mb-3">
                             Sign In
                         </button>
                     </Link>
 
-                    <Link to="/register">
+                    <Link to="/register" onClick={handleMobileLinkClick}>
                         <button className="w-full bg-[#F3EFDA] text-[#3B132A] py-2 rounded-md text-sm font-semibold hover:bg-[#F3EFDA]/90 transition-all duration-200">
                             Get Started
                         </button>

@@ -460,24 +460,33 @@ const AIQuiz = () => {
                         Export, share, and track progress all in one place.
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <motion.button
+                        {/* Documentation Button */}
+                        <motion.a
+                            href="/docs/AIQuizDocumentation.md" // path to your doc file
+                            target="_blank"
                             className="bg-[#F3EFDA] text-[#3B132A] font-bold px-6 py-3 rounded-xl hover:bg-[#F3EFDA]/90 transition-all inline-flex items-center gap-2"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             <FileText className="w-5 h-5" />
                             View Documentation
-                        </motion.button>
+                        </motion.a>
+
+                        {/* Watch Tutorial Button */}
                         <motion.button
-                            className="bg-[#F3EFDA]/20 border border-[#F3EFDA]/30 text-[#F3EFDA] font-bold px-6 py-3 rounded-xl hover:bg-[#F3EFDA]/30 transition-all inline-flex items-center gap-2"
+                            className="bg-[#F3EFDA]/20 border border-[#F3EFDA]/30 text-[#3B132A] font-bold px-6 py-3 rounded-xl hover:bg-[#F3EFDA]/30 transition-all inline-flex items-center gap-2"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            onClick={() => {
+                                // open AI tutorial video in a new tab
+                                window.open("/videos/AIQuizTutorial.mp4", "_blank");
+                            }}
                         >
                             <Play className="w-5 h-5" />
                             Watch Tutorial
                         </motion.button>
-
                     </div>
+
                 </motion.div>
             </div>
         </div>

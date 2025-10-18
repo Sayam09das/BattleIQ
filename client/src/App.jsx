@@ -17,6 +17,9 @@ import WeeklyTournament from "./components/Homepage/Questspage/WeeklyTournament/
 import SeasonalBattles from "./components/Homepage/Questspage/SeasonalBattles/SeasonalBattles";
 import GlobalTournaments from "./components/Homepage/Questspage/GlobalTournaments/GlobalTournaments";
 import AIQuiz from "./components/Homepage/LearningHub/AIQuiz/AIQuiz";
+import PerformanceInsights from "./components/Homepage/LearningHub/PerformanceInsights/PerformanceInsights";
+import SkillBuilder from "./components/Homepage/LearningHub/SkillBuilder/SkillBuilder";
+import QuizLibrary from "./components/Homepage/LearningHub/Resources/Quiz Library/Quiz Library";
 // Layout wrapper component
 const Layout = () => {
   const location = useLocation();
@@ -47,6 +50,9 @@ const Layout = () => {
         <Route path="/seasonal-battles" element={<SeasonalBattles />} />
         <Route path="/global-tournaments" element={<GlobalTournaments />} />
         <Route path="/ai-generator" element={<AIQuiz />} />
+        <Route path="/performance" element={<PerformanceInsights />} />
+        <Route path="/skill-builder" element={<SkillBuilder />} />
+        <Route path="/quiz-library" element={<QuizLibrary />} />
 
 
         {/* Auth routes */}
