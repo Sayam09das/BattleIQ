@@ -20,6 +20,8 @@ import AIQuiz from "./components/Homepage/LearningHub/AIQuiz/AIQuiz";
 import PerformanceInsights from "./components/Homepage/LearningHub/PerformanceInsights/PerformanceInsights";
 import SkillBuilder from "./components/Homepage/LearningHub/SkillBuilder/SkillBuilder";
 import QuizLibrary from "./components/Homepage/LearningHub/Resources/Quiz Library/Quiz Library";
+import Tutorials from "./components/Homepage/LearningHub/Resources/Tutorials/Tutorials";
+import Certifications from "./components/Homepage/LearningHub/Resources/Certifications/Certifications";
 // Layout wrapper component
 const Layout = () => {
   const location = useLocation();
@@ -53,7 +55,8 @@ const Layout = () => {
         <Route path="/performance" element={<PerformanceInsights />} />
         <Route path="/skill-builder" element={<SkillBuilder />} />
         <Route path="/quiz-library" element={<QuizLibrary />} />
-
+        <Route path="/tutorials" element={<Tutorials />} />
+        <Route path="/certifications" element={<Certifications />} />
 
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />
