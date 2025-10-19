@@ -33,7 +33,7 @@ import { QuestRoutes } from "./components/Homepage/Questspage/Quests";
 import { LearningRoutes } from "./components/Homepage/LearningHub/Learning";
 import { CommunityRoutes } from "./components/Homepage/Community/Community";
 
-
+// Footer Components
 import Blog from "./components/FooterCompoents/Blog/Blog";
 import AboutUs from "./components/FooterCompoents/AboutUs/AboutUs";
 import HelpCenter from "./components/FooterCompoents/HelpCenter/HelpCenter";
