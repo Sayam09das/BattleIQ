@@ -34,6 +34,11 @@ import { LearningRoutes } from "./components/Homepage/LearningHub/Learning";
 import { CommunityRoutes } from "./components/Homepage/Community/Community";
 
 
+import Blog from "./components/FooterCompoents/Blog/Blog";
+import AboutUs from "./components/FooterCompoents/AboutUs/AboutUs";
+import HelpCenter from "./components/FooterCompoents/HelpCenter/HelpCenter";
+import Community from "./components/FooterCompoents/Community/Community";
+import EventsMeetups from "./components/Homepage/Community/EventsMeetups/EventsMeetups";
 import TermsService from "./components/FooterCompoents/TermsService/TermsService";
 import Careers from "./components/FooterCompoents/Careers/Careers";
 import PressKit from "./components/FooterCompoents/PressKit/PressKit";
@@ -65,6 +70,11 @@ function Layout() {
     { path: "/otp", element: <Otp /> },
     { path: "/reset-password", element: <ResetPassword /> },
 
+    { path: "/blog", element: <Blog /> },
+    { path: "/about", element: <AboutUs /> },
+    { path: "/help-center", element: <HelpCenter /> },
+    { path: "/community", element: <Community /> },
+    { path: "/events", element: <EventsMeetups /> },
     { path: "/terms", element: <TermsService /> },
     { path: "/careers", element: <Careers /> },
     { path: "/press-kit", element: <PressKit /> },

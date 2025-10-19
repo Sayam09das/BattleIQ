@@ -4,12 +4,12 @@ import { Facebook, Instagram, Twitter, Linkedin } from 'lucide-react'
 const Footer = () => {
     const footerLinks = {
         column1: [
-            { label: 'School & District', href: '#' },
-            { label: 'Blog', href: '#' },
-            { label: 'For Business', href: '#' },
-            { label: 'About us', href: '#' },
-            { label: 'Webinars', href: '#' },
-            { label: 'Help Center', href: '#' }
+            { label: 'Blog', href: '/blog' },
+            { label: 'About Us', href: '/about' },
+            { label: 'Help Center', href: '/help-center' },
+            { label: 'Community', href: '/community' },
+            { label: 'Events & Webinars', href: '/events' },
+            { label: 'Developers', href: '/developers' }
         ],
         column2: [
             { label: 'Terms of Service', href: '/terms' },
