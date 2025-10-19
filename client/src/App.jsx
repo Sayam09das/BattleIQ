@@ -14,6 +14,7 @@ import Home from "./components/Homepage/Home/Home";
 import CreateQuiz from "./components/Homepage/CreateQuiz/CreateQuiz";
 import FeaturesPage from "./components/Homepage/FeaturesPage/FeaturesPage";
 import SuccessStories from "./components/Homepage/SuccessStories/SuccessStories";
+
 // Auth Pages
 import Login from "./components/Auth/Loginpage/Login";
 import Register from "./components/Auth/Registerpage/Register";
@@ -31,6 +32,12 @@ import Cookies from "./Pages/Cookies/Cookies";
 import { QuestRoutes } from "./components/Homepage/Questspage/Quests";
 import { LearningRoutes } from "./components/Homepage/LearningHub/Learning";
 import { CommunityRoutes } from "./components/Homepage/Community/Community";
+
+
+import TermsService from "./components/FooterCompoents/TermsService/TermsService";
+import Careers from "./components/FooterCompoents/Careers/Careers";
+import PressKit from "./components/FooterCompoents/PressKit/PressKit";
+import Affiliate from "./components/FooterCompoents/AffiliateProgram/AffiliateProgram";
 
 function Layout() {
   const location = useLocation();
@@ -57,6 +64,11 @@ function Layout() {
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/otp", element: <Otp /> },
     { path: "/reset-password", element: <ResetPassword /> },
+
+    { path: "/terms", element: <TermsService /> },
+    { path: "/careers", element: <Careers /> },
+    { path: "/press-kit", element: <PressKit /> },
+    { path: "/affiliate", element: <Affiliate /> },
     { path: "*", element: <NotFound /> },
   ];
 

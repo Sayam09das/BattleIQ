@@ -12,12 +12,13 @@ const Footer = () => {
             { label: 'Help Center', href: '#' }
         ],
         column2: [
-            { label: 'Terms of Service', href: '#' },
-            { label: 'Privacy Policy', href: '#' },
-            { label: 'Privacy Center', href: '#' },
-            { label: 'Careers', href: '#' },
-            { label: 'Press Kit', href: '#' }
+            { label: 'Terms of Service', href: '/terms' },
+            { label: 'Privacy Policy', href: '/privacy-policy' },
+            { label: 'Careers', href: '/careers' },
+            { label: 'Press Kit', href: '/press-kit' },
+            { label: 'Affiliate Program', href: '/affiliate' }
         ]
+
     }
 
     const socialLinks = [
