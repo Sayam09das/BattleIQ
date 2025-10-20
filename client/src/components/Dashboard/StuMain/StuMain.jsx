@@ -80,14 +80,14 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
 
                 {/* Right Section */}
                 <div className="flex items-center gap-4">
-                    {/* 7 Day Streak */}
-                    <div
-                        className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg"
-                        style={{ backgroundColor: "#8B451320" }}
+                    <Link
+                        to="/streaks"
+                        className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer"
+                        style={{ backgroundColor: "#8B451320", textDecoration: "none" }}
                     >
                         <Flame size={18} style={{ color: "#FF4500" }} />
                         <span className="font-bold text-sm">7 Day Streak!</span>
-                    </div>
+                    </Link>
 
                     {/* User Avatar */}
                     <UserAvatar name="Sayam Das" email="SayamDas@gmail.com" imgSrc={null} />
