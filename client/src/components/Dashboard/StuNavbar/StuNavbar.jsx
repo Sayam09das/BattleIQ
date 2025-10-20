@@ -125,7 +125,7 @@ const StuNavbar = () => {
                             className={`text-lg font-bold text-[#3B132A] dark:text-neutral-200 transition-opacity duration-300 ${sidebarOpen ? "opacity-100" : "opacity-0 w-0 overflow-hidden"
                                 }`}
                         >
-                            QuizMaster
+                            BattleIQ 🔥
                         </span>
                     </div>
 
