@@ -45,6 +45,7 @@ import PressKit from "./components/FooterCompoents/PressKit/PressKit";
 import Affiliate from "./components/FooterCompoents/AffiliateProgram/AffiliateProgram";
 
 import StudentDashboard from "./components/Dashboard/StudentDashboard";
+import LeaderboardPage from "./components/Dashboard/LeaderboardPage/LeaderboardPage";
 
 function Layout() {
   const location = useLocation();
@@ -56,6 +57,7 @@ function Layout() {
     "/otp",
     "/reset-password",
     "/dashboard",
+    "/leaderboard",
   ]);
 
   const routes = [
@@ -85,6 +87,7 @@ function Layout() {
 
 
     { path: "/dashboard", element: <StudentDashboard /> },
+    { path: "/leaderboard", element: <LeaderboardPage /> },
     { path: "*", element: <NotFound /> },
   ];
 

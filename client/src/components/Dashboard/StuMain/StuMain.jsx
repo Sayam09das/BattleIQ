@@ -2,6 +2,12 @@ import React from "react";
 import { Menu, Flame } from "lucide-react";
 import { WordRotate } from "@/components/ui/word-rotate";
 import { Link } from "react-router-dom";
+import StuContent from "../StuContent/StuContent";
+import Stucharts from "../Stucharts/Stucharts";
+import StuSkills from "../StuSkills/StuSkills";
+import StuActivity from "../StuActivity/StuActivity";
+import ShortLeaderboard from "../ShortLeaderboard/ShortLeaderboard";
+import AchievementsEvents from "../AchievementsEvents/AchievementsEvents";
 
 // ✅ User Avatar Component
 const UserAvatar = ({ name = "Sayam Das", email = "SayamDas@gmail.com", imgSrc }) => {
@@ -94,10 +100,18 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="p-6">
-                {/* Add your main dashboard content here */}
+
+            <div className="p-6 space-y-6">
+                <StuContent />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <Stucharts />
+                    <StuSkills />
+                </div>
+                <StuActivity />
+                <ShortLeaderboard />
+                <AchievementsEvents />
             </div>
+
         </div>
     );
 };

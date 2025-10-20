@@ -1,0 +1,1002 @@
+[
+    {
+        "rank": 1,
+        "name": "Aurora Stellaris",
+        "score": 3200,
+        "avatar": "AS",
+        "change": "up",
+        "badge": "Legendary",
+        "wins": 185,
+        "accuracy": 99
+    },
+    {
+        "rank": 2,
+        "name": "Caleb Vance",
+        "score": 3150,
+        "avatar": "CV",
+        "change": "same",
+        "badge": "Legendary",
+        "wins": 180,
+        "accuracy": 98
+    },
+    {
+        "rank": 3,
+        "name": "Zoe Hawthorne",
+        "score": 3080,
+        "avatar": "ZH",
+        "change": "up",
+        "badge": "Legendary",
+        "wins": 175,
+        "accuracy": 97
+    },
+    {
+        "rank": 4,
+        "name": "Elias Kai",
+        "score": 3010,
+        "avatar": "EK",
+        "change": "down",
+        "badge": "Legendary",
+        "wins": 170,
+        "accuracy": 96
+    },
+    {
+        "rank": 5,
+        "name": "Nina Volkov",
+        "score": 2950,
+        "avatar": "NV",
+        "change": "up",
+        "badge": "Legendary",
+        "wins": 165,
+        "accuracy": 95
+    },
+    {
+        "rank": 6,
+        "name": "Jax Rivera",
+        "score": 2890,
+        "avatar": "JR",
+        "change": "same",
+        "badge": "Grandmaster",
+        "wins": 160,
+        "accuracy": 94
+    },
+    {
+        "rank": 7,
+        "name": "Skylar Chen",
+        "score": 2830,
+        "avatar": "SC",
+        "change": "up",
+        "badge": "Grandmaster",
+        "wins": 156,
+        "accuracy": 93
+    },
+    {
+        "rank": 8,
+        "name": "Rhys Sterling",
+        "score": 2770,
+        "avatar": "RS",
+        "change": "down",
+        "badge": "Grandmaster",
+        "wins": 152,
+        "accuracy": 92
+    },
+    {
+        "rank": 9,
+        "name": "Lana Kim",
+        "score": 2710,
+        "avatar": "LK",
+        "change": "up",
+        "badge": "Grandmaster",
+        "wins": 148,
+        "accuracy": 91
+    },
+    {
+        "rank": 10,
+        "name": "Omar Mendez",
+        "score": 2650,
+        "avatar": "OM",
+        "change": "same",
+        "badge": "Grandmaster",
+        "wins": 144,
+        "accuracy": 90
+    },
+    {
+        "rank": 11,
+        "name": "Phoebe Bell",
+        "score": 2590,
+        "avatar": "PB",
+        "change": "down",
+        "badge": "Grandmaster",
+        "wins": 140,
+        "accuracy": 89
+    },
+    {
+        "rank": 12,
+        "name": "Quinn Hall",
+        "score": 2530,
+        "avatar": "QH",
+        "change": "up",
+        "badge": "Grandmaster",
+        "wins": 136,
+        "accuracy": 88
+    },
+    {
+        "rank": 13,
+        "name": "Talia Rose",
+        "score": 2470,
+        "avatar": "TR",
+        "change": "down",
+        "badge": "Grandmaster",
+        "wins": 132,
+        "accuracy": 87
+    },
+    {
+        "rank": 14,
+        "name": "Victor Stone",
+        "score": 2410,
+        "avatar": "VS",
+        "change": "same",
+        "badge": "Grandmaster",
+        "wins": 128,
+        "accuracy": 86
+    },
+    {
+        "rank": 15,
+        "name": "Willow Hayes",
+        "score": 2350,
+        "avatar": "WH",
+        "change": "up",
+        "badge": "Grandmaster",
+        "wins": 124,
+        "accuracy": 85
+    },
+    {
+        "rank": 16,
+        "name": "Kellan Frost",
+        "score": 2280,
+        "avatar": "KF",
+        "change": "down",
+        "badge": "Master",
+        "wins": 120,
+        "accuracy": 84
+    },
+    {
+        "rank": 17,
+        "name": "Mila Soto",
+        "score": 2240,
+        "avatar": "MS",
+        "change": "up",
+        "badge": "Master",
+        "wins": 118,
+        "accuracy": 83
+    },
+    {
+        "rank": 18,
+        "name": "Ethan Hunt",
+        "score": 2200,
+        "avatar": "EH",
+        "change": "same",
+        "badge": "Master",
+        "wins": 116,
+        "accuracy": 82
+    },
+    {
+        "rank": 19,
+        "name": "Iris Lane",
+        "score": 2160,
+        "avatar": "IL",
+        "change": "down",
+        "badge": "Master",
+        "wins": 114,
+        "accuracy": 81
+    },
+    {
+        "rank": 20,
+        "name": "Leo Cruz",
+        "score": 2120,
+        "avatar": "LC",
+        "change": "up",
+        "badge": "Master",
+        "wins": 112,
+        "accuracy": 80
+    },
+    {
+        "rank": 21,
+        "name": "Nadia Malik",
+        "score": 2080,
+        "avatar": "NM",
+        "change": "down",
+        "badge": "Master",
+        "wins": 110,
+        "accuracy": 79
+    },
+    {
+        "rank": 22,
+        "name": "Owen Nash",
+        "score": 2040,
+        "avatar": "ON",
+        "change": "same",
+        "badge": "Master",
+        "wins": 108,
+        "accuracy": 78
+    },
+    {
+        "rank": 23,
+        "name": "Ruby Vance",
+        "score": 2000,
+        "avatar": "RV",
+        "change": "up",
+        "badge": "Master",
+        "wins": 106,
+        "accuracy": 77
+    },
+    {
+        "rank": 24,
+        "name": "Samira Ali",
+        "score": 1960,
+        "avatar": "SA",
+        "change": "down",
+        "badge": "Master",
+        "wins": 104,
+        "accuracy": 76
+    },
+    {
+        "rank": 25,
+        "name": "Tyrell Green",
+        "score": 1920,
+        "avatar": "TG",
+        "change": "same",
+        "badge": "Master",
+        "wins": 102,
+        "accuracy": 75
+    },
+    {
+        "rank": 26,
+        "name": "Uma Shah",
+        "score": 1880,
+        "avatar": "US",
+        "change": "up",
+        "badge": "Master",
+        "wins": 100,
+        "accuracy": 74
+    },
+    {
+        "rank": 27,
+        "name": "Vance Boyd",
+        "score": 1840,
+        "avatar": "VB",
+        "change": "down",
+        "badge": "Master",
+        "wins": 98,
+        "accuracy": 73
+    },
+    {
+        "rank": 28,
+        "name": "Wren Tate",
+        "score": 1800,
+        "avatar": "WT",
+        "change": "same",
+        "badge": "Master",
+        "wins": 96,
+        "accuracy": 72
+    },
+    {
+        "rank": 29,
+        "name": "Xavier Roy",
+        "score": 1760,
+        "avatar": "XR",
+        "change": "up",
+        "badge": "Master",
+        "wins": 94,
+        "accuracy": 71
+    },
+    {
+        "rank": 30,
+        "name": "Yara Sims",
+        "score": 1720,
+        "avatar": "YS",
+        "change": "down",
+        "badge": "Master",
+        "wins": 92,
+        "accuracy": 70
+    },
+    {
+        "rank": 31,
+        "name": "Alia Reed",
+        "score": 1690,
+        "avatar": "AR",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 90,
+        "accuracy": 69
+    },
+    {
+        "rank": 32,
+        "name": "Ben Carter",
+        "score": 1660,
+        "avatar": "BC",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 89,
+        "accuracy": 68
+    },
+    {
+        "rank": 33,
+        "name": "Celine Dion",
+        "score": 1630,
+        "avatar": "CD",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 88,
+        "accuracy": 67
+    },
+    {
+        "rank": 34,
+        "name": "Dean Fisher",
+        "score": 1600,
+        "avatar": "DF",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 87,
+        "accuracy": 66
+    },
+    {
+        "rank": 35,
+        "name": "Eliza Gold",
+        "score": 1570,
+        "avatar": "EG",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 86,
+        "accuracy": 65
+    },
+    {
+        "rank": 36,
+        "name": "Finn Hayes",
+        "score": 1540,
+        "avatar": "FH",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 85,
+        "accuracy": 64
+    },
+    {
+        "rank": 37,
+        "name": "Gia Iyer",
+        "score": 1510,
+        "avatar": "GI",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 84,
+        "accuracy": 63
+    },
+    {
+        "rank": 38,
+        "name": "Hugh Jones",
+        "score": 1480,
+        "avatar": "HJ",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 83,
+        "accuracy": 62
+    },
+    {
+        "rank": 39,
+        "name": "Ivy King",
+        "score": 1450,
+        "avatar": "IK",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 82,
+        "accuracy": 61
+    },
+    {
+        "rank": 40,
+        "name": "Jude Lopez",
+        "score": 1420,
+        "avatar": "JL",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 81,
+        "accuracy": 60
+    },
+    {
+        "rank": 41,
+        "name": "Kara Moon",
+        "score": 1390,
+        "avatar": "KM",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 80,
+        "accuracy": 59
+    },
+    {
+        "rank": 42,
+        "name": "Leo Nash",
+        "score": 1360,
+        "avatar": "LN",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 79,
+        "accuracy": 58
+    },
+    {
+        "rank": 43,
+        "name": "Maya Patel",
+        "score": 1330,
+        "avatar": "MP",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 78,
+        "accuracy": 57
+    },
+    {
+        "rank": 44,
+        "name": "Noah Quinn",
+        "score": 1300,
+        "avatar": "NQ",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 77,
+        "accuracy": 56
+    },
+    {
+        "rank": 45,
+        "name": "Opal Ross",
+        "score": 1270,
+        "avatar": "OR",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 76,
+        "accuracy": 55
+    },
+    {
+        "rank": 46,
+        "name": "Paul Scott",
+        "score": 1240,
+        "avatar": "PS",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 75,
+        "accuracy": 54
+    },
+    {
+        "rank": 47,
+        "name": "Quinn Taylor",
+        "score": 1210,
+        "avatar": "QT",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 74,
+        "accuracy": 53
+    },
+    {
+        "rank": 48,
+        "name": "Ria Under",
+        "score": 1180,
+        "avatar": "RU",
+        "change": "same",
+        "badge": "Elite",
+        "wins": 73,
+        "accuracy": 52
+    },
+    {
+        "rank": 49,
+        "name": "Seth Vora",
+        "score": 1150,
+        "avatar": "SV",
+        "change": "up",
+        "badge": "Elite",
+        "wins": 72,
+        "accuracy": 51
+    },
+    {
+        "rank": 50,
+        "name": "Tess Wu",
+        "score": 1120,
+        "avatar": "TW",
+        "change": "down",
+        "badge": "Elite",
+        "wins": 71,
+        "accuracy": 50
+    },
+    {
+        "rank": 51,
+        "name": "Umar Yan",
+        "score": 1090,
+        "avatar": "UY",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 70,
+        "accuracy": 49
+    },
+    {
+        "rank": 52,
+        "name": "Veda Zink",
+        "score": 1060,
+        "avatar": "VZ",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 69,
+        "accuracy": 48
+    },
+    {
+        "rank": 53,
+        "name": "Will Asher",
+        "score": 1030,
+        "avatar": "WA",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 68,
+        "accuracy": 47
+    },
+    {
+        "rank": 54,
+        "name": "Xena Bell",
+        "score": 1000,
+        "avatar": "XB",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 67,
+        "accuracy": 46
+    },
+    {
+        "rank": 55,
+        "name": "Yuri Cole",
+        "score": 970,
+        "avatar": "YC",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 66,
+        "accuracy": 45
+    },
+    {
+        "rank": 56,
+        "name": "Zane Day",
+        "score": 940,
+        "avatar": "ZD",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 65,
+        "accuracy": 44
+    },
+    {
+        "rank": 57,
+        "name": "Adam Evan",
+        "score": 910,
+        "avatar": "AE",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 64,
+        "accuracy": 43
+    },
+    {
+        "rank": 58,
+        "name": "Brie Fox",
+        "score": 880,
+        "avatar": "BF",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 63,
+        "accuracy": 42
+    },
+    {
+        "rank": 59,
+        "name": "Cain Gish",
+        "score": 850,
+        "avatar": "CG",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 62,
+        "accuracy": 41
+    },
+    {
+        "rank": 60,
+        "name": "Dina Holt",
+        "score": 820,
+        "avatar": "DH",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 61,
+        "accuracy": 40
+    },
+    {
+        "rank": 61,
+        "name": "Eve Iyer",
+        "score": 790,
+        "avatar": "EI",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 60,
+        "accuracy": 39
+    },
+    {
+        "rank": 62,
+        "name": "Fritz Jay",
+        "score": 760,
+        "avatar": "FJ",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 59,
+        "accuracy": 38
+    },
+    {
+        "rank": 63,
+        "name": "Gwen Karl",
+        "score": 730,
+        "avatar": "GK",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 58,
+        "accuracy": 37
+    },
+    {
+        "rank": 64,
+        "name": "Hank Lee",
+        "score": 700,
+        "avatar": "HL",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 57,
+        "accuracy": 36
+    },
+    {
+        "rank": 65,
+        "name": "Ida Mann",
+        "score": 670,
+        "avatar": "IM",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 56,
+        "accuracy": 35
+    },
+    {
+        "rank": 66,
+        "name": "Jace Nero",
+        "score": 640,
+        "avatar": "JN",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 55,
+        "accuracy": 34
+    },
+    {
+        "rank": 67,
+        "name": "Kit Oaks",
+        "score": 610,
+        "avatar": "KO",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 54,
+        "accuracy": 33
+    },
+    {
+        "rank": 68,
+        "name": "Lia Page",
+        "score": 580,
+        "avatar": "LP",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 53,
+        "accuracy": 32
+    },
+    {
+        "rank": 69,
+        "name": "Max Quaid",
+        "score": 550,
+        "avatar": "MQ",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 52,
+        "accuracy": 31
+    },
+    {
+        "rank": 70,
+        "name": "Nora Ray",
+        "score": 520,
+        "avatar": "NR",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 51,
+        "accuracy": 30
+    },
+    {
+        "rank": 71,
+        "name": "Olan Soni",
+        "score": 490,
+        "avatar": "OS",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 50,
+        "accuracy": 29
+    },
+    {
+        "rank": 72,
+        "name": "Pia Todd",
+        "score": 460,
+        "avatar": "PT",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 49,
+        "accuracy": 28
+    },
+    {
+        "rank": 73,
+        "name": "Quill User",
+        "score": 430,
+        "avatar": "QU",
+        "change": "up",
+        "badge": "Pro",
+        "wins": 48,
+        "accuracy": 27
+    },
+    {
+        "rank": 74,
+        "name": "Raja Vonn",
+        "score": 400,
+        "avatar": "RV",
+        "change": "down",
+        "badge": "Pro",
+        "wins": 47,
+        "accuracy": 26
+    },
+    {
+        "rank": 75,
+        "name": "Sage Webb",
+        "score": 370,
+        "avatar": "SW",
+        "change": "same",
+        "badge": "Pro",
+        "wins": 46,
+        "accuracy": 25
+    },
+    {
+        "rank": 76,
+        "name": "Troy Xander",
+        "score": 345,
+        "avatar": "TX",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 45,
+        "accuracy": 24
+    },
+    {
+        "rank": 77,
+        "name": "Ula York",
+        "score": 320,
+        "avatar": "UY",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 44,
+        "accuracy": 23
+    },
+    {
+        "rank": 78,
+        "name": "Vito Zane",
+        "score": 295,
+        "avatar": "VZ",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 43,
+        "accuracy": 22
+    },
+    {
+        "rank": 79,
+        "name": "Willa Amy",
+        "score": 270,
+        "avatar": "WA",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 42,
+        "accuracy": 21
+    },
+    {
+        "rank": 80,
+        "name": "Xavier Betts",
+        "score": 245,
+        "avatar": "XB",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 41,
+        "accuracy": 20
+    },
+    {
+        "rank": 81,
+        "name": "Yoko Chan",
+        "score": 220,
+        "avatar": "YC",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 40,
+        "accuracy": 19
+    },
+    {
+        "rank": 82,
+        "name": "Zack Drew",
+        "score": 195,
+        "avatar": "ZD",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 39,
+        "accuracy": 18
+    },
+    {
+        "rank": 83,
+        "name": "Alan Edge",
+        "score": 180,
+        "avatar": "AE",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 38,
+        "accuracy": 17
+    },
+    {
+        "rank": 84,
+        "name": "Beth Ford",
+        "score": 165,
+        "avatar": "BF",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 37,
+        "accuracy": 16
+    },
+    {
+        "rank": 85,
+        "name": "Carl Grey",
+        "score": 150,
+        "avatar": "CG",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 36,
+        "accuracy": 15
+    },
+    {
+        "rank": 86,
+        "name": "Dora Hill",
+        "score": 135,
+        "avatar": "DH",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 35,
+        "accuracy": 14
+    },
+    {
+        "rank": 87,
+        "name": "Evan Iyer",
+        "score": 120,
+        "avatar": "EI",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 34,
+        "accuracy": 13
+    },
+    {
+        "rank": 88,
+        "name": "Fay Jump",
+        "score": 105,
+        "avatar": "FJ",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 33,
+        "accuracy": 12
+    },
+    {
+        "rank": 89,
+        "name": "Gabe King",
+        "score": 90,
+        "avatar": "GK",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 32,
+        "accuracy": 11
+    },
+    {
+        "rank": 90,
+        "name": "Hope Lane",
+        "score": 75,
+        "avatar": "HL",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 31,
+        "accuracy": 10
+    },
+    {
+        "rank": 91,
+        "name": "Ian Max",
+        "score": 65,
+        "avatar": "IM",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 30,
+        "accuracy": 9
+    },
+    {
+        "rank": 92,
+        "name": "Jia Neo",
+        "score": 55,
+        "avatar": "JN",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 29,
+        "accuracy": 8
+    },
+    {
+        "rank": 93,
+        "name": "Kyle Ong",
+        "score": 45,
+        "avatar": "KO",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 28,
+        "accuracy": 7
+    },
+    {
+        "rank": 94,
+        "name": "Lina Poe",
+        "score": 35,
+        "avatar": "LP",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 27,
+        "accuracy": 6
+    },
+    {
+        "rank": 95,
+        "name": "Moe Ray",
+        "score": 25,
+        "avatar": "MR",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 26,
+        "accuracy": 5
+    },
+    {
+        "rank": 96,
+        "name": "Nia Seth",
+        "score": 20,
+        "avatar": "NS",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 25,
+        "accuracy": 4
+    },
+    {
+        "rank": 97,
+        "name": "Ollie True",
+        "score": 15,
+        "avatar": "OT",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 24,
+        "accuracy": 3
+    },
+    {
+        "rank": 98,
+        "name": "Pam Unit",
+        "score": 10,
+        "avatar": "PU",
+        "change": "down",
+        "badge": "Veteran",
+        "wins": 23,
+        "accuracy": 2
+    },
+    {
+        "rank": 99,
+        "name": "Quip Volt",
+        "score": 5,
+        "avatar": "QV",
+        "change": "same",
+        "badge": "Veteran",
+        "wins": 22,
+        "accuracy": 1
+    },
+    {
+        "rank": 100,
+        "name": "Rhea Wall",
+        "score": 0,
+        "avatar": "RW",
+        "change": "up",
+        "badge": "Veteran",
+        "wins": 21,
+        "accuracy": 0
+    }
+]
