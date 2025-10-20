@@ -44,6 +44,8 @@ import Careers from "./components/FooterCompoents/Careers/Careers";
 import PressKit from "./components/FooterCompoents/PressKit/PressKit";
 import Affiliate from "./components/FooterCompoents/AffiliateProgram/AffiliateProgram";
 
+import StudentDashboard from "./components/Dashboard/StudentDashboard";
+
 function Layout() {
   const location = useLocation();
 
@@ -53,6 +55,7 @@ function Layout() {
     "/forgot-password",
     "/otp",
     "/reset-password",
+    "/dashboard",
   ]);
 
   const routes = [
@@ -79,6 +82,9 @@ function Layout() {
     { path: "/careers", element: <Careers /> },
     { path: "/press-kit", element: <PressKit /> },
     { path: "/affiliate", element: <Affiliate /> },
+
+
+    { path: "/dashboard", element: <StudentDashboard /> },
     { path: "*", element: <NotFound /> },
   ];
 
