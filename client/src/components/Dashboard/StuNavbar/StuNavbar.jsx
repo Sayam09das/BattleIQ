@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-    Target,
+    House,
     BookOpen,
     Trophy,
     BarChart3,
@@ -10,6 +10,10 @@ import {
     Settings as SettingsIcon,
     ChevronLeft,
     ChevronRight,
+    Bell,
+    MessageCircle,
+    Calendar,
+    HelpCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,8 +24,8 @@ const SidebarLink = ({ item, isActive, onClick, sidebarOpen }) => {
         <div
             onClick={onClick}
             className={`flex items-center gap-3 py-2 px-3 rounded-lg cursor-pointer transition-all ${isActive
-                    ? "bg-[#3B132A]/10 dark:bg-neutral-700 font-semibold"
-                    : "hover:bg-[#3B132A]/5 dark:hover:bg-neutral-700/50"
+                ? "bg-[#3B132A]/10 dark:bg-neutral-700 font-semibold"
+                : "hover:bg-[#3B132A]/5 dark:hover:bg-neutral-700/50"
                 }`}
         >
             <Icon className="w-5 h-5 text-[#3B132A] dark:text-neutral-200 shrink-0" />
@@ -31,6 +35,11 @@ const SidebarLink = ({ item, isActive, onClick, sidebarOpen }) => {
             >
                 {item.name}
             </span>
+            {item.badge && sidebarOpen && (
+                <span className="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                    {item.badge}
+                </span>
+            )}
         </div>
     );
 };
@@ -50,13 +59,18 @@ const StuNavbar = () => {
     }, []);
 
     const sidebarItems = [
-        { name: "Home / Dashboard", icon: Target, value: "dashboard", route: "/student-dashboard" },
+        { name: "Home / Dashboard", icon: House, value: "dashboard", route: "/student-dashboard" },
         { name: "Quizzes", icon: BookOpen, value: "quizzes", route: "/quizzes" },
         { name: "Leaderboard", icon: Trophy, value: "leaderboard", route: "/leaderboard" },
         { name: "My Results", icon: BarChart3, value: "results", route: "/my-results" },
         { name: "Achievements", icon: Award, value: "achievements", route: "/achievements" },
         { name: "Friend Challenges", icon: Trophy, value: "friend-challenges", route: "/friend-challenges" },
         { name: "Recommended Quizzes", icon: BookOpen, value: "recommended-quizzes", route: "/recommended-quizzes" },
+        { name: "Notifications", icon: Bell, value: "notifications", route: "/notifications", badge: 3 },
+        { name: "Help & Support", icon: HelpCircle, value: "help", route: "/help" },
+        { name: "Messages", icon: MessageCircle, value: "messages", route: "/messages", badge: 5 },
+        { name: "Certificates", icon: Award, value: "certificates", route: "/certificates" },
+        { name: "Events & Webinars", icon: Calendar, value: "events", route: "/events" },
     ];
 
     const bottomItem = { name: "Settings", icon: SettingsIcon, value: "settings", route: "/settings" };
@@ -89,7 +103,7 @@ const StuNavbar = () => {
                             ? mobileSidebarOpen
                                 ? "-right-3"
                                 : "-right-8"
-                            : "-right-3"}  // desktop stays same
+                            : "-right-3"}
                     `}
                 >
                     {isMobile
