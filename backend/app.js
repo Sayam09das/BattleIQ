@@ -1,11 +1,18 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 require('dotenv').config();
 
 // Database connection
 const database = require('./database/db');
+
+const authRoutes = require('./routes/authRoutes');
+const protectedRoutes = require('./routes/protectedRoutes');
+const countryRoutes = require('./routes/countryRoutes');
 
 // ✅ CORS Configuration
 app.use(
@@ -21,20 +28,15 @@ app.use(
 // Middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(helmet());
 
 // Connect to MongoDB
 database();
 
-// ✅ Simple test routes
-app.get('/', (req, res) => {
-    res.send('Welcome to BattleIQ API 🚀');
-});
+app.use('/auth', authRoutes);
+app.use('/', protectedRoutes);
+app.use('/api/countries', countryRoutes);
 
-app.get('/api/test', (req, res) => {
-    res.json({
-        message: 'Backend is running successfully ✅',
-        status: 'OK',
-    });
-});
 
 module.exports = app;
