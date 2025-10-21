@@ -8,6 +8,7 @@ import StuSkills from "../StuSkills/StuSkills";
 import StuActivity from "../StuActivity/StuActivity";
 import ShortLeaderboard from "../ShortLeaderboard/ShortLeaderboard";
 import AchievementsEvents from "../AchievementsEvents/AchievementsEvents";
+import StreakTracker from "../StreakTracker/StreakTracker";
 
 // ✅ User Avatar Component
 const UserAvatar = ({ name = "Sayam Das", email = "SayamDas@gmail.com", imgSrc }) => {
@@ -110,6 +111,7 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
                 <StuActivity />
                 <ShortLeaderboard />
                 <AchievementsEvents />
+                <StreakTracker />
             </div>
 
         </div>
