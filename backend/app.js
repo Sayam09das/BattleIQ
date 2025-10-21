@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Test route
 app.get('/', (req, res) => {
-    res.send("Backend server is running Sayam!");
+    res.send("Backend server is running Sayam Das!");
 });
 
 module.exports = app;
