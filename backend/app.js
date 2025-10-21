@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
     res.send("Backend server is running Sayam Das!");
 });
 
-app.get('sayam', (req, res) => {
+app.get('/sayam', (req, res) => {
     res.send("Hello Sayam Das!");
 });
 
