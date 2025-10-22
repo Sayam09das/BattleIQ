@@ -35,7 +35,7 @@ app.use(helmet());
 database();
 
 app.use('/auth', authRoutes);
-app.use('/', protectedRoutes);
+app.use('/protected', protectedRoutes);
 app.use('/api/countries', countryRoutes);
 
 

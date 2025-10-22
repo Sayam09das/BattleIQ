@@ -7,10 +7,10 @@ const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-// ===== HELPER: Generate Secure 6-digit OTP =====
-const generateOtp = () => crypto.randomInt(100000, 999999).toString();
+// ===== HELPER: Generate Secure Verification Token =====
+const generateVerificationToken = () => crypto.randomBytes(32).toString('hex');
 
-// ===== LOGIN RATE LIMITER (5 attempts every 15 minutes) =====
+// ===== LOGIN RATE LIMITER =====
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
@@ -27,53 +27,122 @@ exports.registerUser = [
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-        const { name, email, password, phoneNumber, country } = req.body;
+        const { name, email, password, country, phoneNumber } = req.body;
+        const normalizedEmail = email.toLowerCase();
 
         try {
-            const existing = await User.findOne({ email });
+            const existing = await User.findOne({ email: normalizedEmail });
             if (existing) return res.status(409).json({ message: 'Email already exists' });
 
             const hashedPassword = await bcrypt.hash(password, 12);
-            const otp = generateOtp();
-            const otpExpires = Date.now() + 10 * 60 * 1000;
+            const verificationToken = generateVerificationToken();
+            const tokenExpires = Date.now() + 24 * 60 * 60 * 1000;
 
             const newUser = new User({
                 name,
-                email,
+                email: normalizedEmail,
                 password: hashedPassword,
+                country,
                 phoneNumber,
-                country,           // { name, flag, dialCode }
-                otp,
-                otpExpires,
-                isVerified: false
+                isVerified: false,
+                verificationToken,
+                tokenExpires
             });
 
             await newUser.save();
 
-            const subject = `Welcome to Schedulo Task Manager!`;
-            const text = `
-Hi ${name},
+            const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
+            await sendEmail(email, 'Verify your email', `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`);
 
-🎉 Welcome aboard!
+            res.status(201).json({
+                message: 'Registration successful. Please check your email to verify your account.'
+            });
 
-Your account has been successfully created on Schedulo Task Manager. We’re excited to help you manage your tasks more efficiently.
-
-If you didn’t register, please contact support immediately.
-
-Thanks,  
-The Schedulo Team  
-https://schedulo-task.app
-            `;
-
-            await sendEmail(email, subject, text);
-
-            res.status(201).json({ message: 'Registration successful.' });
         } catch (err) {
             console.error(err);
             res.status(500).json({ message: 'Server error' });
         }
     }
 ];
+
+// ===== VERIFY EMAIL =====
+exports.verifyEmail = async (req, res) => {
+    const { token, email } = req.query;
+    if (!token || !email) return res.status(400).json({ message: 'Invalid verification link' });
+
+    try {
+        const decodedEmail = decodeURIComponent(email).toLowerCase();
+        const user = await User.findOne({ email: decodedEmail, verificationToken: token });
+
+        if (!user) {
+            const alreadyVerifiedUser = await User.findOne({ email: decodedEmail });
+            if (alreadyVerifiedUser && alreadyVerifiedUser.isVerified) {
+                // User already verified: generate JWT + set cookie
+                const jwtToken = jwt.sign(
+                    { id: alreadyVerifiedUser._id, name: alreadyVerifiedUser.name, email: alreadyVerifiedUser.email },
+                    process.env.JWT_SECRET,
+                    { expiresIn: process.env.JWT_EXPIRATION || '1h' }
+                );
+                res.cookie('authToken', jwtToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'None',
+                    maxAge: 3600000,
+                });
+                return res.status(200).json({
+                    message: 'Email already verified successfully.',
+                    token: jwtToken,
+                    user: {
+                        id: alreadyVerifiedUser._id,
+                        name: alreadyVerifiedUser.name,
+                        email: alreadyVerifiedUser.email,
+                        phoneNumber: alreadyVerifiedUser.phoneNumber,
+                        country: alreadyVerifiedUser.country
+                    }
+                });
+            }
+            return res.status(400).json({ message: 'Invalid token or email' });
+        }
+
+        if (user.isVerified) return res.status(400).json({ message: 'Email already verified' });
+        if (user.tokenExpires < Date.now()) return res.status(400).json({ message: 'Token expired. Please register again.' });
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        user.tokenExpires = undefined;
+        await user.save();
+
+        // Generate JWT + set cookie
+        const jwtToken = jwt.sign(
+            { id: user._id, name: user.name, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRATION || '1h' }
+        );
+
+        res.cookie('authToken', jwtToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'None',
+            maxAge: 3600000,
+        });
+
+        res.status(200).json({
+            message: 'Email verified successfully!',
+            token: jwtToken,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                country: user.country
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 
 // ===== LOGIN USER =====
 exports.loginUser = [
@@ -86,28 +155,27 @@ exports.loginUser = [
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
         const { email, password } = req.body;
+        const normalizedEmail = email.toLowerCase();
 
         try {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email: normalizedEmail });
             if (!user) return res.status(404).json({ message: 'User not found' });
 
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) return res.status(401).json({ message: 'Invalid password' });
 
-            if (!user.isVerified) {
-                return res.status(403).json({ message: 'Please verify your email before logging in.' });
-            }
+            if (!user.isVerified) return res.status(403).json({ message: 'Email not verified.' });
 
             const token = jwt.sign(
-                { id: user._id, email: user.email },
+                { id: user._id, name: user.name, email: user.email },
                 process.env.JWT_SECRET,
                 { expiresIn: process.env.JWT_EXPIRATION || '1h' }
             );
 
-            // Set HTTP-only cookie
+            // ✅ Set JWT cookie for login
             res.cookie('authToken', token, {
                 httpOnly: true,
-                secure: true,
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'None',
                 maxAge: 3600000,
             });
@@ -120,7 +188,7 @@ exports.loginUser = [
                     name: user.name,
                     email: user.email,
                     phoneNumber: user.phoneNumber,
-                    country: user.country,   // includes name, flag, dialCode
+                    country: user.country
                 }
             });
 
@@ -130,6 +198,7 @@ exports.loginUser = [
         }
     }
 ];
+
 
 // ===== LOGOUT USER =====
 exports.logoutUser = async (req, res) => {
@@ -185,7 +254,7 @@ If you didn’t request this, ignore this email.
 — The Schedulo Team
             `;
 
-            await sendEmail(email, subject, text);
+            // await sendEmail(email, subject, text);
             res.status(200).json({ message: 'OTP sent to email' });
 
         } catch (err) {
@@ -267,7 +336,7 @@ Use it to verify your account or reset your password.
 — The Schedulo Team
             `;
 
-            await sendEmail(email, subject, text);
+            // await sendEmail(email, subject, text);
             res.status(200).json({ message: 'New OTP sent successfully to your email' });
 
         } catch (err) {

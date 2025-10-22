@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 exports.authenticateToken = (req, res, next) => {
-    let token = req.cookies?.authToken;
+    let token = req.cookies.authToken;
 
-    // Check Authorization header if token not in cookies
-    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+    if (!token && req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
         token = req.headers.authorization.split(" ")[1];
     }
 
@@ -12,7 +11,8 @@ exports.authenticateToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.id;
+        req.user = decoded;       // ✅ store full user info
+        req.userId = decoded.id;  // ✅ also store userId
         next();
     } catch (err) {
         res.status(403).json({ message: 'Invalid token' });

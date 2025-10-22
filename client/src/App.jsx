@@ -46,6 +46,7 @@ import Affiliate from "./components/FooterCompoents/AffiliateProgram/AffiliatePr
 
 import StudentDashboard from "./components/Dashboard/StudentDashboard";
 import LeaderboardPage from "./components/Dashboard/LeaderboardPage/LeaderboardPage";
+import VerifyEmail from "./Pages/VerifyEmail";
 
 function Layout() {
   const location = useLocation();
@@ -58,6 +59,7 @@ function Layout() {
     "/reset-password",
     "/dashboard",
     "/leaderboard",
+    "/verify-email"
   ]);
 
   const routes = [
@@ -74,6 +76,7 @@ function Layout() {
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/otp", element: <Otp /> },
     { path: "/reset-password", element: <ResetPassword /> },
+    { path: "/verify-email", element: <VerifyEmail />},
 
     { path: "/blog", element: <Blog /> },
     { path: "/about", element: <AboutUs /> },

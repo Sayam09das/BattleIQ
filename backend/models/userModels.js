@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
     otpExpires: { type: Date },
     resetToken: { type: String },
     resetTokenExpires: { type: Date },
+
+    // ===== Email Verification Fields =====
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    tokenExpires: { type: Date },
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
