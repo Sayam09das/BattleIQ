@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, User, UserPlus, Phone, Globe, ChevronDown } from 'lucide-react';
 import { Link } from "react-router-dom";
@@ -16,29 +17,6 @@ const Toast = ({ message, type, onClose }) => (
     </motion.div>
 );
 
-const countries = [
-    { name: 'United States', code: 'US', dialCode: '+1', flag: '🇺🇸' },
-    { name: 'United Kingdom', code: 'GB', dialCode: '+44', flag: '🇬🇧' },
-    { name: 'Canada', code: 'CA', dialCode: '+1', flag: '🇨🇦' },
-    { name: 'Australia', code: 'AU', dialCode: '+61', flag: '🇦🇺' },
-    { name: 'India', code: 'IN', dialCode: '+91', flag: '🇮🇳' },
-    { name: 'Germany', code: 'DE', dialCode: '+49', flag: '🇩🇪' },
-    { name: 'France', code: 'FR', dialCode: '+33', flag: '🇫🇷' },
-    { name: 'Japan', code: 'JP', dialCode: '+81', flag: '🇯🇵' },
-    { name: 'China', code: 'CN', dialCode: '+86', flag: '🇨🇳' },
-    { name: 'Brazil', code: 'BR', dialCode: '+55', flag: '🇧🇷' },
-    { name: 'Mexico', code: 'MX', dialCode: '+52', flag: '🇲🇽' },
-    { name: 'Russia', code: 'RU', dialCode: '+7', flag: '🇷🇺' },
-    { name: 'South Korea', code: 'KR', dialCode: '+82', flag: '🇰🇷' },
-    { name: 'Italy', code: 'IT', dialCode: '+39', flag: '🇮🇹' },
-    { name: 'Spain', code: 'ES', dialCode: '+34', flag: '🇪🇸' },
-    { name: 'Netherlands', code: 'NL', dialCode: '+31', flag: '🇳🇱' },
-    { name: 'Singapore', code: 'SG', dialCode: '+65', flag: '🇸🇬' },
-    { name: 'UAE', code: 'AE', dialCode: '+971', flag: '🇦🇪' },
-    { name: 'Saudi Arabia', code: 'SA', dialCode: '+966', flag: '🇸🇦' },
-    { name: 'Turkey', code: 'TR', dialCode: '+90', flag: '🇹🇷' },
-];
-
 const Register = () => {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -52,11 +30,25 @@ const Register = () => {
     const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
 
-    const [selectedCountry, setSelectedCountry] = useState(countries[4]); // India default
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState({
+        name: "India",
+        code: "IN",
+        dialCode: "+91",
+        flag: "🇮🇳"
+    });
+
+    const [selectedPhoneCountry, setSelectedPhoneCountry] = useState({
+        name: "India",
+        code: "IN",
+        dialCode: "+91",
+        flag: "🇮🇳"
+    });
+
     const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
     const [countrySearch, setCountrySearch] = useState('');
 
-    const [selectedPhoneCountry, setSelectedPhoneCountry] = useState(countries[4]); // India default
+    const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/";
 
     const { scrollY } = useScroll();
     const yCircleLeft = useTransform(scrollY, [0, 300], [0, 50]);
@@ -66,6 +58,25 @@ const Register = () => {
         setToast({ message, type });
         setTimeout(() => setToast(null), 3000);
     };
+
+    // ===== Fetch countries from backend =====
+    useEffect(() => {
+        const fetchCountries = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/api/countries`); if (response.data && Array.isArray(response.data)) {
+                    setCountries(response.data);
+                    const india = response.data.find(c => c.code === 'IN');
+                    setSelectedCountry(india || response.data[0]);
+                } else {
+                    throw new Error('Invalid countries data');
+                }
+            } catch (error) {
+                console.error('Error fetching countries:', error);
+                showToast('Failed to load countries', 'error');
+            }
+        };
+        fetchCountries();
+    }, [VITE_API_URL]);
 
     const validatePassword = (pwd) => {
         const validations = {
@@ -100,46 +111,61 @@ const Register = () => {
         }
     };
 
-    const handleSubmit = () => {
-        if (!formData.fullName) {
-            showToast('Please enter your full name', 'error');
-            return;
-        }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        if (!formData.email) {
-            showToast('Please enter your email', 'error');
-            return;
-        }
-
-        if (!formData.password) {
-            showToast('Please enter your password', 'error');
-            return;
-        }
+        // ==== Frontend validations ====
+        if (!formData.fullName) return showToast('Please enter your full name', 'error');
+        if (!formData.email) return showToast('Please enter your email', 'error');
+        if (!formData.password) return showToast('Please enter your password', 'error');
+        if (!formData.confirmPassword) return showToast('Please confirm your password', 'error');
+        if (!formData.phoneNumber) return showToast('Please enter your phone number', 'error');
 
         const validations = validatePassword(formData.password);
         const isValid = Object.values(validations).every(v => v === true);
-
-        if (!isValid) {
-            showToast('Password does not meet requirements', 'error');
-            return;
-        }
+        if (!isValid) return showToast('Password does not meet requirements', 'error');
 
         if (formData.password !== formData.confirmPassword) {
-            showToast('Passwords do not match', 'error');
-            return;
+            return showToast('Passwords do not match', 'error');
         }
 
-        if (!formData.phoneNumber) {
-            showToast('Please enter your phone number', 'error');
-            return;
-        }
+        // ==== Prepare payload to match backend ====
+        const payload = {
+            name: formData.fullName,
+            email: formData.email,
+            password: formData.password,
+            phoneNumber: formData.phoneNumber,
+            country: selectedCountry, // send the whole country object
+        };
 
-        showToast('Registration successful!', 'success');
+        try {
+            const response = await axios.post(`http://localhost:3000/auth/register`, payload);
+
+            if (response.data.success) {
+                showToast('Registration successful!', 'success');
+                // Reset form
+                setFormData({
+                    fullName: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    phoneNumber: '',
+                });
+            } else {
+                showToast(response.data.message || 'Registration failed', 'error');
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+            const msg = error.response?.data?.message || 'Server error occurred';
+            showToast(msg, 'error');
+        }
     };
+
 
     const filteredCountries = countries.filter(country =>
         country.name.toLowerCase().includes(countrySearch.toLowerCase())
     );
+
 
     return (
         <div className="min-h-screen bg-[#3B132A] relative overflow-hidden flex items-center justify-center p-4 py-12">
@@ -292,7 +318,7 @@ const Register = () => {
                                         <div className="max-h-48 overflow-y-auto">
                                             {filteredCountries.map((country) => (
                                                 <button
-                                                    key={country.code}
+                                                    key={country.code}  // ✅ unique key
                                                     type="button"
                                                     onClick={() => {
                                                         setSelectedCountry(country);
@@ -306,6 +332,7 @@ const Register = () => {
                                                     <span>{country.name}</span>
                                                 </button>
                                             ))}
+
                                         </div>
                                     </motion.div>
                                 )}
