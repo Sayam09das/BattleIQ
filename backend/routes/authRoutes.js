@@ -15,6 +15,7 @@ const {
 // ✅ Import with exact casing
 const { authenticateToken } = require('../middleware/authMiddleware');
 
+
 // Auth routes
 router.post('/register', registerUser);
 router.get('/verify-email', verifyEmail);
