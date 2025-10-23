@@ -51,7 +51,6 @@ exports.registerUser = [
 
             await newUser.save();
 
-            
             const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
             await sendEmail(email, 'Verify your email', `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`);
 
