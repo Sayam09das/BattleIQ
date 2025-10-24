@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Toast = ({ message, type, onClose }) => (
     <motion.div
@@ -12,16 +13,20 @@ const Toast = ({ message, type, onClose }) => (
             }`}
     >
         <span className="text-[#F3EFDA] font-medium">{message}</span>
-        <button onClick={onClose} className="text-[#F3EFDA] hover:text-white">×</button>
+        <button onClick={onClose} className="text-[#F3EFDA] hover:text-white text-xl">×</button>
     </motion.div>
 );
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
+
+    const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
     const { scrollY } = useScroll();
     const yCircleLeft = useTransform(scrollY, [0, 300], [0, 50]);
@@ -32,63 +37,32 @@ const Login = () => {
         setTimeout(() => setToast(null), 3000);
     };
 
-    const validatePassword = (pwd) => {
-        const validations = {
-            length: pwd.length >= 8,
-            uppercase: /[A-Z]/.test(pwd),
-            lowercase: /[a-z]/.test(pwd),
-            number: /[0-9]/.test(pwd),
-            special: /[@#$!%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd),
-            noSpaces: !/\s/.test(pwd)
-        };
-        return validations;
-    };
-
-    const handlePasswordChange = (e) => {
-        const pwd = e.target.value;
-        setPassword(pwd);
-
-        if (pwd) {
-            const validations = validatePassword(pwd);
-            const newErrors = {};
-
-            if (!validations.length) newErrors.length = 'Must be at least 8 characters';
-            if (!validations.uppercase) newErrors.uppercase = 'Must include uppercase letter';
-            if (!validations.lowercase) newErrors.lowercase = 'Must include lowercase letter';
-            if (!validations.number) newErrors.number = 'Must include a number';
-            if (!validations.special) newErrors.special = 'Must include special character';
-            if (!validations.noSpaces) newErrors.spaces = 'No spaces allowed';
-
-            setErrors(newErrors);
-        } else {
-            setErrors({});
-        }
-    };
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email) {
-            showToast('Please enter your email', 'error');
-            return;
+        if (!email) return showToast('Please enter your email', 'error');
+        if (!password) return showToast('Please enter your password', 'error');
+
+        try {
+            const response = await axios.post(
+                `${VITE_API_URL}/auth/login`,
+                { email, password },
+                { withCredentials: true } // ✅ allows cookie-based auth
+            );
+
+            if (response.data.success) {
+                showToast('Login successful!', 'success');
+                localStorage.setItem("token", response.data.token); // if JWT is returned
+                setTimeout(() => navigate('/dashboard'), 2000); // redirect after success
+            } else {
+                showToast(response.data.message || 'Login failed', 'error');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            const msg = error.response?.data?.message || 'Server error occurred';
+            showToast(msg, 'error');
         }
-
-        if (!password) {
-            showToast('Please enter your password', 'error');
-            return;
-        }
-
-        const validations = validatePassword(password);
-        const isValid = Object.values(validations).every(v => v === true);
-
-        if (!isValid) {
-            showToast('Password does not meet requirements', 'error');
-            return;
-        }
-
-        showToast('Login successful!', 'success');
     };
-
     return (
         <div className="min-h-screen bg-[#3B132A] relative overflow-hidden flex items-center justify-center p-4">
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
