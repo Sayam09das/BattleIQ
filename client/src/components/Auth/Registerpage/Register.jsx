@@ -129,20 +129,22 @@ const Register = () => {
             return showToast('Passwords do not match', 'error');
         }
 
-        // ==== Prepare payload to match backend ====
+        // ==== Prepare payload ====
         const payload = {
             name: formData.fullName,
             email: formData.email,
             password: formData.password,
             phoneNumber: formData.phoneNumber,
-            country: selectedCountry, // send the whole country object
+            country: selectedCountry,
         };
 
         try {
             const response = await axios.post(`http://localhost:3000/auth/register`, payload);
 
-            if (response.data.success) {
-                showToast('Registration successful!', 'success');
+            if (response.status === 201) {
+                // ✅ Show green success toast
+                showToast('Registration successful. Please check your email to verify your account.', 'success');
+
                 // Reset form
                 setFormData({
                     fullName: '',
@@ -151,6 +153,12 @@ const Register = () => {
                     confirmPassword: '',
                     phoneNumber: '',
                 });
+
+                // ✅ Reload the page after short delay
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+
             } else {
                 showToast(response.data.message || 'Registration failed', 'error');
             }
@@ -160,6 +168,7 @@ const Register = () => {
             showToast(msg, 'error');
         }
     };
+
 
 
     const filteredCountries = countries.filter(country =>
