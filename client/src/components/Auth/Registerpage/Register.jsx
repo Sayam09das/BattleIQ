@@ -35,7 +35,7 @@ const Register = () => {
     const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
     const [countrySearch, setCountrySearch] = useState('');
 
-    const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+    const VITE_API_URL = import.meta.env.VITE_API_URL;
 
     const { scrollY } = useScroll();
     const yCircleLeft = useTransform(scrollY, [0, 300], [0, 50]);
