@@ -48,9 +48,13 @@ const Register = () => {
 
     // ===== Fetch countries from backend =====
     useEffect(() => {
+        if (!VITE_API_URL) {
+            console.error('VITE_API_URL is not defined');
+            return;
+        }
         const fetchCountries = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/countries');
+                const response = await axios.get(`${VITE_API_URL}/api/countries`);
                 if (response.data && Array.isArray(response.data)) {
                     setCountries(response.data);
                     const india = response.data.find(c => c.code === 'IN');
@@ -124,7 +128,7 @@ const Register = () => {
         };
 
         try {
-            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload);
+            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload, { withCredentials: true });
             if (response.data.success) {
                 showToast('Registration successful!', 'success');
                 // Reset form
