@@ -18,18 +18,12 @@ const countryRoutes = require('./routes/countryRoutes');
 app.use(
     cors({
         origin: [
-            "https://battle-iq.vercel.app",
-            "http://localhost:5173"
+            'https://battle-iq.vercel.app',
+            'http://localhost:5173'
         ],
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
         credentials: true,
     })
 );
-
-// ✅ Handle preflight requests
-app.options("*", cors());
-
 
 // Middleware
 app.use(express.json());
