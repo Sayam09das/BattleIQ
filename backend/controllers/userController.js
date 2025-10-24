@@ -17,6 +17,7 @@ const loginLimiter = rateLimit({
     message: 'Too many login attempts, please try again later.',
 });
 
+// ===== REGISTER USER =====
 exports.registerUser = [
     body('name').isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
     body('email').isEmail().withMessage('Valid email required'),
@@ -35,7 +36,7 @@ exports.registerUser = [
 
             const hashedPassword = await bcrypt.hash(password, 12);
             const verificationToken = generateVerificationToken();
-            const tokenExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+            const tokenExpires = Date.now() + 24 * 60 * 60 * 1000;
 
             const newUser = new User({
                 name,
@@ -50,23 +51,8 @@ exports.registerUser = [
 
             await newUser.save();
 
-            // ===== Determine recipient based on environment =====
-            const recipientEmail = process.env.NODE_ENV === 'production' ? normalizedEmail : process.env.MAIL_USER;
-
             const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
-
-            // ===== HTML email content =====
-            const htmlContent = `
-                <p>Hi ${name},</p>
-                <p>Thank you for registering on BattleIQ!</p>
-                <p>Click the link below to verify your email:</p>
-                <p><a href="${verificationLink}">Verify Email</a></p>
-                <p>This link will expire in 24 hours.</p>
-                <hr>
-                <p>If you did not register, please ignore this email.</p>
-            `;
-
-            await sendEmail(recipientEmail, 'Verify your email', htmlContent);
+            await sendEmail(email, 'Verify your email', `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`);
 
             res.status(201).json({
                 message: 'Registration successful. Please check your email to verify your account.'
@@ -74,9 +60,12 @@ exports.registerUser = [
 
         } catch (err) {
             console.error(err);
+
+            // Handle duplicate email specifically
             if (err.code === 11000 && err.keyPattern?.email) {
                 return res.status(409).json({ message: 'Email already exists' });
             }
+
             res.status(500).json({ message: 'Server error' });
         }
     }
@@ -91,10 +80,10 @@ exports.verifyEmail = async (req, res) => {
         const decodedEmail = decodeURIComponent(email).toLowerCase();
         const user = await User.findOne({ email: decodedEmail, verificationToken: token });
 
-        // ===== If user not found, check if already verified =====
         if (!user) {
             const alreadyVerifiedUser = await User.findOne({ email: decodedEmail });
             if (alreadyVerifiedUser && alreadyVerifiedUser.isVerified) {
+                // User already verified: generate JWT + set cookie
                 const jwtToken = jwt.sign(
                     { id: alreadyVerifiedUser._id, name: alreadyVerifiedUser.name, email: alreadyVerifiedUser.email },
                     process.env.JWT_SECRET,
@@ -121,17 +110,15 @@ exports.verifyEmail = async (req, res) => {
             return res.status(400).json({ message: 'Invalid token or email' });
         }
 
-        // ===== Token checks =====
         if (user.isVerified) return res.status(400).json({ message: 'Email already verified' });
         if (user.tokenExpires < Date.now()) return res.status(400).json({ message: 'Token expired. Please register again.' });
 
-        // ===== Mark user as verified =====
         user.isVerified = true;
         user.verificationToken = undefined;
         user.tokenExpires = undefined;
         await user.save();
 
-        // ===== Generate JWT + set cookie =====
+        // Generate JWT + set cookie
         const jwtToken = jwt.sign(
             { id: user._id, name: user.name, email: user.email },
             process.env.JWT_SECRET,
@@ -145,18 +132,6 @@ exports.verifyEmail = async (req, res) => {
             maxAge: 3600000,
         });
 
-        // ===== Optional: Send welcome email =====
-        const recipientEmail = process.env.NODE_ENV === 'production' ? user.email : process.env.MAIL_USER;
-        const htmlContent = `
-            <p>Hi ${user.name},</p>
-            <p>Welcome to BattleIQ! Your email has been successfully verified.</p>
-            <p>Start exploring our platform and enjoy your experience!</p>
-            <hr>
-            <p>If you did not register, please ignore this email.</p>
-        `;
-        await sendEmail(recipientEmail, 'Welcome to BattleIQ!', htmlContent);
-
-        // ===== Respond to client =====
         res.status(200).json({
             message: 'Email verified successfully!',
             token: jwtToken,
