@@ -73,7 +73,7 @@ const Register = () => {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get(`${VITE_API_URL}api/countries`);
+                const response = await axios.get(`${VITE_API_URL}/api/countries`);
                 if (response.data && Array.isArray(response.data)) {
                     setCountries(response.data);
                     const india = response.data.find((c) => c.code === "IN");
@@ -155,7 +155,7 @@ const Register = () => {
         };
 
         try {
-            const response = await axios.post(`${VITE_API_URL}auth/register`, payload);
+            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload);
 
             if (response.data.success) {
                 showToast("Registration successful!", "success");
