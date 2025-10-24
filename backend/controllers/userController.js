@@ -58,10 +58,9 @@ exports.registerUser = [
                 message: 'Registration successful. Please check your email to verify your account.'
             });
 
-        } catch (error) {
-            console.error('Error during registration:', error);
-            const msg = error.response?.data?.message || 'Server error occurred';
-            showToast(msg, 'error');
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Server error' });
         }
     }
 ];
