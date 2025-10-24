@@ -1,83 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, User, UserPlus, Phone, Globe, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { motion, useScroll, useTransform } from "framer-motion";
+import {
+    Eye,
+    EyeOff,
+    Mail,
+    Lock,
+    User,
+    UserPlus,
+    Phone,
+    Globe,
+    ChevronDown,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
+// ✅ Toast Component
 const Toast = ({ message, type, onClose }) => (
     <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
-        className={`fixed top-8 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'
+        className={`fixed top-8 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 ${type === "success" ? "bg-green-600" : "bg-red-600"
             }`}
     >
         <span className="text-[#F3EFDA] font-medium">{message}</span>
-        <button onClick={onClose} className="text-[#F3EFDA] hover:text-white text-xl">×</button>
+        <button
+            onClick={onClose}
+            className="text-[#F3EFDA] hover:text-white text-xl"
+        >
+            ×
+        </button>
     </motion.div>
 );
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        phoneNumber: '',
+        fullName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phoneNumber: "",
     });
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [toast, setToast] = useState(null);
     const [errors, setErrors] = useState({});
-
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState({
         name: "India",
         code: "IN",
         dialCode: "+91",
-        flag: "🇮🇳"
+        flag: "🇮🇳",
     });
-
-    const [selectedPhoneCountry, setSelectedPhoneCountry] = useState({
-        name: "India",
-        code: "IN",
-        dialCode: "+91",
-        flag: "🇮🇳"
-    });
-
     const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
-    const [countrySearch, setCountrySearch] = useState('');
+    const [countrySearch, setCountrySearch] = useState("");
 
-    const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/";
+    const VITE_API_URL =
+        import.meta.env.VITE_API_URL || "http://localhost:3000/";
 
     const { scrollY } = useScroll();
     const yCircleLeft = useTransform(scrollY, [0, 300], [0, 50]);
     const yCircleRight = useTransform(scrollY, [0, 300], [0, -50]);
 
+    // ✅ Toast helper
     const showToast = (message, type) => {
         setToast({ message, type });
         setTimeout(() => setToast(null), 3000);
     };
 
-    // ===== Fetch countries from backend =====
+    // ✅ Fetch countries from backend
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get(`${VITE_API_URL}/api/countries`); if (response.data && Array.isArray(response.data)) {
+                const response = await axios.get(`${VITE_API_URL}api/countries`);
+                if (response.data && Array.isArray(response.data)) {
                     setCountries(response.data);
-                    const india = response.data.find(c => c.code === 'IN');
+                    const india = response.data.find((c) => c.code === "IN");
                     setSelectedCountry(india || response.data[0]);
                 } else {
-                    throw new Error('Invalid countries data');
+                    throw new Error("Invalid countries data");
                 }
             } catch (error) {
-                console.error('Error fetching countries:', error);
-                showToast('Failed to load countries', 'error');
+                console.error("Error fetching countries:", error);
+                showToast("Failed to load countries", "error");
             }
         };
+
         fetchCountries();
     }, [VITE_API_URL]);
 
+    // ✅ Password validation logic
     const validatePassword = (pwd) => {
         const validations = {
             length: pwd.length >= 8,
@@ -85,7 +98,7 @@ const Register = () => {
             lowercase: /[a-z]/.test(pwd),
             number: /[0-9]/.test(pwd),
             special: /[@#$!%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd),
-            noSpaces: !/\s/.test(pwd)
+            noSpaces: !/\s/.test(pwd),
         };
         return validations;
     };
@@ -97,77 +110,81 @@ const Register = () => {
         if (pwd) {
             const validations = validatePassword(pwd);
             const newErrors = {};
-
-            if (!validations.length) newErrors.length = 'Must be at least 8 characters';
-            if (!validations.uppercase) newErrors.uppercase = 'Must include uppercase letter';
-            if (!validations.lowercase) newErrors.lowercase = 'Must include lowercase letter';
-            if (!validations.number) newErrors.number = 'Must include a number';
-            if (!validations.special) newErrors.special = 'Must include special character';
-            if (!validations.noSpaces) newErrors.spaces = 'No spaces allowed';
-
+            if (!validations.length) newErrors.length = "Must be at least 8 characters";
+            if (!validations.uppercase) newErrors.uppercase = "Must include uppercase letter";
+            if (!validations.lowercase) newErrors.lowercase = "Must include lowercase letter";
+            if (!validations.number) newErrors.number = "Must include a number";
+            if (!validations.special) newErrors.special = "Must include special character";
+            if (!validations.noSpaces) newErrors.spaces = "No spaces allowed";
             setErrors(newErrors);
         } else {
             setErrors({});
         }
     };
 
+    // ✅ Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ==== Frontend validations ====
-        if (!formData.fullName) return showToast('Please enter your full name', 'error');
-        if (!formData.email) return showToast('Please enter your email', 'error');
-        if (!formData.password) return showToast('Please enter your password', 'error');
-        if (!formData.confirmPassword) return showToast('Please confirm your password', 'error');
-        if (!formData.phoneNumber) return showToast('Please enter your phone number', 'error');
+        // --- Frontend validation ---
+        if (!formData.fullName)
+            return showToast("Please enter your full name", "error");
+        if (!formData.email) return showToast("Please enter your email", "error");
+        if (!formData.password)
+            return showToast("Please enter your password", "error");
+        if (!formData.confirmPassword)
+            return showToast("Please confirm your password", "error");
+        if (!formData.phoneNumber)
+            return showToast("Please enter your phone number", "error");
 
         const validations = validatePassword(formData.password);
-        const isValid = Object.values(validations).every(v => v === true);
-        if (!isValid) return showToast('Password does not meet requirements', 'error');
+        const isValid = Object.values(validations).every((v) => v === true);
+        if (!isValid) return showToast("Password does not meet requirements", "error");
 
         if (formData.password !== formData.confirmPassword) {
-            return showToast('Passwords do not match', 'error');
+            return showToast("Passwords do not match", "error");
         }
 
-        // ==== Prepare payload to match backend ====
+        // --- Payload for backend ---
         const payload = {
             name: formData.fullName,
             email: formData.email,
             password: formData.password,
             phoneNumber: formData.phoneNumber,
-            country: selectedCountry, // send the whole country object
+            country: selectedCountry,
         };
 
         try {
-            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload);
+            const response = await axios.post(`${VITE_API_URL}auth/register`, payload);
 
-            if (response.status === 201) {
-                showToast('Registration successful. Please check your email to verify your account.', 'success');
+            if (response.data.success) {
+                showToast("Registration successful!", "success");
+
                 // Reset form
                 setFormData({
-                    fullName: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    phoneNumber: '',
+                    fullName: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                    phoneNumber: "",
                 });
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
+
+                setTimeout(() => window.location.reload(), 1000); // ✅ reload after success
             } else {
-                showToast(response.data.message || 'Registration failed', 'error');
+                showToast(response.data.message || "Registration failed", "error");
             }
         } catch (error) {
-            console.error('Error during registration:', error);
-            const msg = error.response?.data?.message || 'Server error occurred';
-            showToast(msg, 'error');
+            console.error("Error during registration:", error);
+            const msg = error.response?.data?.message || "Server error occurred";
+            showToast(msg, "error");
         }
     };
 
-
-    const filteredCountries = countries.filter(country =>
+    // ✅ Country filter logic
+    const filteredCountries = countries.filter((country) =>
         country.name.toLowerCase().includes(countrySearch.toLowerCase())
     );
+
 
 
     return (
