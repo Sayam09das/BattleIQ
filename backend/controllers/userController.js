@@ -60,6 +60,12 @@ exports.registerUser = [
 
         } catch (err) {
             console.error(err);
+
+            // Handle duplicate email specifically
+            if (err.code === 11000 && err.keyPattern?.email) {
+                return res.status(409).json({ message: 'Email already exists' });
+            }
+
             res.status(500).json({ message: 'Server error' });
         }
     }
