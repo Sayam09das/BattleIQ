@@ -124,7 +124,7 @@ const Register = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/auth/register', payload);
+            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload);
             if (response.data.success) {
                 showToast('Registration successful!', 'success');
                 // Reset form
