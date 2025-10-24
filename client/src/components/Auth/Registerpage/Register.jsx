@@ -63,7 +63,7 @@ const Register = () => {
     useEffect(() => {
         const fetchCountries = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/countries`); if (response.data && Array.isArray(response.data)) {
+                const response = await axios.get(`${VITE_API_URL}/api/countries`); if (response.data && Array.isArray(response.data)) {
                     setCountries(response.data);
                     const india = response.data.find(c => c.code === 'IN');
                     setSelectedCountry(india || response.data[0]);
@@ -129,22 +129,20 @@ const Register = () => {
             return showToast('Passwords do not match', 'error');
         }
 
-        // ==== Prepare payload ====
+        // ==== Prepare payload to match backend ====
         const payload = {
             name: formData.fullName,
             email: formData.email,
             password: formData.password,
             phoneNumber: formData.phoneNumber,
-            country: selectedCountry,
+            country: selectedCountry, // send the whole country object
         };
 
         try {
-            const response = await axios.post(`http://localhost:3000/auth/register`, payload);
+            const response = await axios.post(`${VITE_API_URL}/auth/register`, payload);
 
             if (response.status === 201) {
-                // ✅ Show green success toast
                 showToast('Registration successful. Please check your email to verify your account.', 'success');
-
                 // Reset form
                 setFormData({
                     fullName: '',
@@ -153,12 +151,9 @@ const Register = () => {
                     confirmPassword: '',
                     phoneNumber: '',
                 });
-
-                // ✅ Reload the page after short delay
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
-
             } else {
                 showToast(response.data.message || 'Registration failed', 'error');
             }
@@ -168,7 +163,6 @@ const Register = () => {
             showToast(msg, 'error');
         }
     };
-
 
 
     const filteredCountries = countries.filter(country =>
