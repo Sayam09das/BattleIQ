@@ -37,9 +37,20 @@ const Login = () => {
         setTimeout(() => setToast(null), 3000);
     };
 
+    const handlePasswordChange = (e) => {
+        const pwd = e.target.value;
+        setPassword(pwd);
+
+        // Optional: simple password validation for Login
+        const newErrors = {};
+        if (pwd.length < 6) newErrors.length = 'Password must be at least 6 characters';
+        setErrors(newErrors);
+    };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Frontend validations
         if (!email) return showToast('Please enter your email', 'error');
         if (!password) return showToast('Please enter your password', 'error');
 
@@ -47,22 +58,33 @@ const Login = () => {
             const response = await axios.post(
                 `${VITE_API_URL}/auth/login`,
                 { email, password },
-                { withCredentials: true } // ✅ allows cookie-based auth
+                { withCredentials: true }
             );
 
-            if (response.data.success) {
-                showToast('Login successful!', 'success');
-                localStorage.setItem("token", response.data.token); // if JWT is returned
-                setTimeout(() => navigate('/dashboard'), 2000); // redirect after success
+            // Backend returns message + token
+            if (response.data.token) {
+                showToast(response.data.message || 'Login successful!', 'success');
+
+                // Save token (optional)
+                localStorage.setItem("token", response.data.token);
+
+                // Redirect after 2 seconds
+                setTimeout(() => {
+                    navigate('/dashboard'); // change to your protected route
+                }, 2000);
             } else {
                 showToast(response.data.message || 'Login failed', 'error');
             }
+
         } catch (error) {
             console.error('Error during login:', error);
+
+            // Check backend error message
             const msg = error.response?.data?.message || 'Server error occurred';
             showToast(msg, 'error');
         }
     };
+
     return (
         <div className="min-h-screen bg-[#3B132A] relative overflow-hidden flex items-center justify-center p-4">
             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
@@ -174,7 +196,7 @@ const Login = () => {
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     value={password}
-                                    onChange={handlePasswordChange}
+                                    onChange={handlePasswordChange}  // ✅ now defined
                                     className="w-full bg-[#3B132A]/50 border-2 border-[#F3EFDA]/20 rounded-lg pl-12 pr-12 py-3 text-[#F3EFDA] placeholder-[#F3EFDA]/30 focus:outline-none focus:border-[#F3EFDA]/60 focus:shadow-lg focus:shadow-[#F3EFDA]/10 transition-all"
                                     placeholder="Enter your password"
                                 />
@@ -187,7 +209,7 @@ const Login = () => {
                                 </button>
                             </div>
 
-                            {/* Password Requirements */}
+                            {/* Password Error */}
                             {password && Object.keys(errors).length > 0 && (
                                 <div className="mt-3 space-y-1">
                                     {Object.values(errors).map((error, idx) => (
@@ -200,22 +222,6 @@ const Login = () => {
                             )}
                         </div>
 
-                        <div className="flex items-center justify-between">
-                            <label className="flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="w-4 h-4 rounded border-[#F3EFDA]/40 bg-[#3B132A]/50 text-[#F3EFDA] focus:ring-[#F3EFDA]/50"
-                                />
-                                <span className="ml-2 text-sm text-[#F3EFDA]/70">Remember me</span>
-                            </label>
-
-                            <Link
-                                to="/forgot-password"
-                                className="text-sm text-[#F3EFDA]/70 hover:text-[#F3EFDA] transition-colors cursor-pointer"
-                            >
-                                Forgot Password?
-                            </Link>
-                        </div>
 
                         {/* Submit Button */}
                         <motion.button
