@@ -46,7 +46,7 @@ const Login = () => {
         if (pwd.length < 6) newErrors.length = 'Password must be at least 6 characters';
         setErrors(newErrors);
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -61,29 +61,33 @@ const Login = () => {
                 { withCredentials: true }
             );
 
-            // Backend returns message + token
+            // Backend returns token on successful login
             if (response.data.token) {
                 showToast(response.data.message || 'Login successful!', 'success');
 
-                // Save token (optional)
+                // Save token
                 localStorage.setItem("token", response.data.token);
 
-                // Redirect after 2 seconds
-                setTimeout(() => {
-                    navigate('/dashboard'); // change to your protected route
-                }, 2000);
+                // Redirect after a short delay
+                setTimeout(() => navigate('/dashboard'), 2000);
             } else {
+                // Unexpected success response without token
                 showToast(response.data.message || 'Login failed', 'error');
             }
-
         } catch (error) {
-            console.error('Error during login:', error);
+            // Handle 401 Unauthorized (invalid credentials)
+            if (error.response?.status === 401) {
+                showToast(error.response.data.message || 'Invalid email or password', 'error');
+            } else {
+                // Other server errors
+                showToast(error.response?.data?.message || 'Server error occurred', 'error');
+            }
 
-            // Check backend error message
-            const msg = error.response?.data?.message || 'Server error occurred';
-            showToast(msg, 'error');
+            // Log only friendly info, avoid raw Axios error spam
+            console.log('Login attempt failed:', error.response?.data?.message || error.message);
         }
     };
+
 
     return (
         <div className="min-h-screen bg-[#3B132A] relative overflow-hidden flex items-center justify-center p-4">
