@@ -256,9 +256,15 @@ exports.loginUser = [
                 }
             });
 
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ message: 'Server error' });
+        } catch (error) {
+            const status = error.response?.status;
+            const msg = error.response?.data?.message || 'Server error occurred';
+
+            // Show toast
+            showToast(msg, 'error');
+
+            // Friendly console log
+            console.log(`Login failed (${status}): ${msg}`);
         }
     }
 ];
