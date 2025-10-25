@@ -53,20 +53,70 @@ exports.registerUser = [
 
             const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
 
-            // ✅ Send verification email using SendGrid
             const emailContent = `
-                <h2>Hi ${name},</h2>
-                <p>Welcome to <strong>BattleIq</strong>! Please verify your email by clicking the link below:</p>
-                <a href="${verificationLink}" target="_blank">Verify Email</a>
-                <p>This link will expire in 24 hours.</p>
-                <p>If you did not sign up, please ignore this email.</p>
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Verify Your Email</title>
+                        </head>
+                        <body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color: #f4f4f7; color: #333;">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                            <td align="center">
+                                <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden; margin-top:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+                                
+                                <!-- Header -->
+                                <tr>
+                                    <td style="background-color:#4f46e5; padding:20px; text-align:center; color:#ffffff; font-size:24px; font-weight:bold;">
+                                    BattleIq
+                                    </td>
+                                </tr>
+
+                                <!-- Body -->
+                                <tr>
+                                    <td style="padding:30px; text-align:left; font-size:16px; line-height:1.5;">
+                                    <p>Hi ${name},</p>
+                                    <p>Welcome to <strong>BattleIq</strong>! Please verify your email to complete your registration and start using your account.</p>
+
+                                    <p style="text-align:center; margin:30px 0;">
+                                        <a href="${verificationLink}" target="_blank" style="background-color:#4f46e5; color:#ffffff; text-decoration:none; padding:15px 25px; border-radius:5px; display:inline-block; font-weight:bold;">
+                                        Verify Email
+                                        </a>
+                                    </p>
+
+                                    <p>This link will expire in 24 hours. If you did not create an account, you can safely ignore this email.</p>
+
+                                    <p>Cheers,<br>Team BattleIq</p>
+                                    </td>
+                                </tr>
+
+                                <!-- Footer -->
+                                <tr>
+                                    <td style="background-color:#f4f4f7; padding:20px; text-align:center; font-size:12px; color:#888888;">
+                                    &copy; ${new Date().getFullYear()} BattleIq. All rights reserved.<br>
+                                    5B, Swarnamukur Apartment, Rabindra Nagar, Midnapore, West Bengal 721101, India
+                                    </td>
+                                </tr>
+
+                                </table>
+                            </td>
+                            </tr>
+                        </table>
+                        </body>
+                        </html>
             `;
+
 
             await sendEmail(normalizedEmail, 'Verify your BattleIq account', emailContent);
 
             res.status(201).json({
-                message: 'Registration successful. Please check your email to verify your account.'
+                message: `🎉 Registration Successful!  
+                            Your account has been created. Please check your inbox (and Spam/Promotions folder) for a verification email from BattleIq.  
+                            Click the "Verify Email" button in that email to activate your account.`
             });
+
 
         } catch (err) {
             console.error(err);
