@@ -153,12 +153,19 @@ const Register = () => {
         } catch (error) {
             console.error('Error during registration:', error);
 
-            // Show backend error message in toast
-            const msg = error.response?.data?.message || 'Server error occurred';
-            showToast(msg, 'error');
+            // Extract message from backend (for 409, 400, etc.)
+            let msg = 'Server error occurred';
+            if (error.response) {
+                if (error.response.status === 409) {
+                    msg = 'Email already exists. Please login or use a different email.';
+                } else if (error.response.data?.message) {
+                    msg = error.response.data.message;
+                }
+            }
 
-            // Do NOT reload page — keep user input to correct mistakes
+            showToast(msg, 'error');
         }
+
     };
 
 
