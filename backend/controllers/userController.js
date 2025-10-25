@@ -17,6 +17,7 @@ const loginLimiter = rateLimit({
     message: 'Too many login attempts, please try again later.',
 });
 
+// ===== REGISTER USER =====
 exports.registerUser = [
     body('name').isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
     body('email').isEmail().withMessage('Valid email required'),
@@ -50,15 +51,8 @@ exports.registerUser = [
 
             await newUser.save();
 
-            // Verification link
             const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
-
-            // Send email via EmailJS
-            await sendEmail(
-                normalizedEmail,
-                'Verify your email',
-                `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`
-            );
+            await sendEmail(email, 'Verify your email', `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`);
 
             res.status(201).json({
                 message: 'Registration successful. Please check your email to verify your account.'
