@@ -1,5 +1,5 @@
 const User = require('../models/userModels');
-const sendEmail = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail'); // Updated SendGrid version
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
@@ -52,7 +52,17 @@ exports.registerUser = [
             await newUser.save();
 
             const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}&email=${encodeURIComponent(normalizedEmail)}`;
-            await sendEmail(email, 'Verify your email', `Hi ${name},\n\nClick the link below to verify your email:\n\n${verificationLink}\n\nThis link expires in 24 hours.`);
+
+            // ✅ Send verification email using SendGrid
+            const emailContent = `
+                <h2>Hi ${name},</h2>
+                <p>Welcome to <strong>BattleIq</strong>! Please verify your email by clicking the link below:</p>
+                <a href="${verificationLink}" target="_blank">Verify Email</a>
+                <p>This link will expire in 24 hours.</p>
+                <p>If you did not sign up, please ignore this email.</p>
+            `;
+
+            await sendEmail(normalizedEmail, 'Verify your BattleIq account', emailContent);
 
             res.status(201).json({
                 message: 'Registration successful. Please check your email to verify your account.'
@@ -61,7 +71,6 @@ exports.registerUser = [
         } catch (err) {
             console.error(err);
 
-            // Handle duplicate email specifically
             if (err.code === 11000 && err.keyPattern?.email) {
                 return res.status(409).json({ message: 'Email already exists' });
             }
@@ -83,7 +92,6 @@ exports.verifyEmail = async (req, res) => {
         if (!user) {
             const alreadyVerifiedUser = await User.findOne({ email: decodedEmail });
             if (alreadyVerifiedUser && alreadyVerifiedUser.isVerified) {
-                // User already verified: generate JWT + set cookie
                 const jwtToken = jwt.sign(
                     { id: alreadyVerifiedUser._id, name: alreadyVerifiedUser.name, email: alreadyVerifiedUser.email },
                     process.env.JWT_SECRET,
@@ -118,7 +126,6 @@ exports.verifyEmail = async (req, res) => {
         user.tokenExpires = undefined;
         await user.save();
 
-        // Generate JWT + set cookie
         const jwtToken = jwt.sign(
             { id: user._id, name: user.name, email: user.email },
             process.env.JWT_SECRET,
@@ -149,6 +156,7 @@ exports.verifyEmail = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 // ===== LOGIN USER =====
 exports.loginUser = [
