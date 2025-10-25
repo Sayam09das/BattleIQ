@@ -257,15 +257,16 @@ exports.loginUser = [
             });
 
         } catch (error) {
-            const status = error.response?.status;
-            const msg = error.response?.data?.message || 'Server error occurred';
-
-            // Show toast
-            showToast(msg, 'error');
-
-            // Friendly console log
-            console.log(`Login failed (${status}): ${msg}`);
+            if (error.response?.status === 401) {
+                showToast(error.response.data.message || 'Invalid email or password', 'error');
+            } else if (error.response?.status === 404) {
+                showToast(error.response.data.message || 'User not found', 'error');
+            } else {
+                showToast(error.response?.data?.message || 'Server error occurred', 'error');
+            }
+            // Remove console.log in production to avoid exposing sensitive info
         }
+
     }
 ];
 
