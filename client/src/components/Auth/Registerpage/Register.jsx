@@ -101,7 +101,7 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default form reload
 
         // ==== Frontend validations ====
         if (!formData.fullName) return showToast('Please enter your full name', 'error');
@@ -118,36 +118,49 @@ const Register = () => {
             return showToast('Passwords do not match', 'error');
         }
 
-        // ==== Prepare payload to match backend ====
+        // ==== Prepare payload ====
         const payload = {
             name: formData.fullName,
             email: formData.email,
             password: formData.password,
             phoneNumber: formData.phoneNumber,
-            country: selectedCountry, // send the whole country object
+            country: selectedCountry,
         };
 
         try {
             const response = await axios.post(`${VITE_API_URL}/auth/register`, payload, { withCredentials: true });
-            if (response.data.success) {
-                showToast('Registration successful!', 'success');
-                // Reset form
-                setFormData({
-                    fullName: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    phoneNumber: '',
-                });
+
+            // If registration is successful
+            if (response.data.message) {
+                showToast(response.data.message, 'success');
+
+                // Reset form after toast shows (wait 500ms for UX)
+                setTimeout(() => {
+                    setFormData({
+                        fullName: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                        phoneNumber: '',
+                    });
+                    setErrors({});
+                }, 500);
             } else {
-                showToast(response.data.message || 'Registration failed', 'error');
+                // Handle unexpected success response
+                showToast('Registration completed, check your email', 'success');
             }
+
         } catch (error) {
             console.error('Error during registration:', error);
+
+            // Show backend error message in toast
             const msg = error.response?.data?.message || 'Server error occurred';
             showToast(msg, 'error');
+
+            // Do NOT reload page — keep user input to correct mistakes
         }
     };
+
 
     const filteredCountries = countries.filter(country =>
         country.name.toLowerCase().includes(countrySearch.toLowerCase())
