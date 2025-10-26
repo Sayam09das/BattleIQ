@@ -36,20 +36,23 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${import.meta.env.VITE_API_URL}/auth/logout`,
                 {},
                 { withCredentials: true }
             );
 
-            console.log(response.data.message);
-            alert("Logged out successfully!");
-            window.location.href = "/login"; // redirect to login page
+            // Clear any app-level auth state if you have one
+            setIsAuthenticated(false); // optional if you use context/state
+
+            // Redirect to login and replace history so back button won't return
+            window.location.replace("/login");
         } catch (error) {
             console.error("Logout failed:", error);
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
 
