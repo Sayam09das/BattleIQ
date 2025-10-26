@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import {
     Home,
     BookOpen,
@@ -32,6 +33,24 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
         { name: "Certificates", icon: Award, value: "certificates", route: "/certificates" },
         { name: "Events & Webinars", icon: Calendar, value: "events", route: "/events" },
     ];
+
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/logout`,
+                {},
+                { withCredentials: true }
+            );
+
+            console.log(response.data.message);
+            alert("Logged out successfully!");
+            window.location.href = "/login";
+        } catch (error) {
+            console.error("Logout failed:", error);
+            alert("Failed to log out. Try again.");
+        }
+    };
+
 
     return (
         <>
@@ -113,6 +132,7 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         </Link>
 
                         <button
+                            onClick={handleLogout}
                             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 hover:bg-red-500 hover:bg-opacity-20 cursor-pointer"
                             style={{ color: "#F3EFDA" }}
                         >
