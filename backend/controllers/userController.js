@@ -264,7 +264,6 @@ exports.loginUser = [
             } else {
                 showToast(error.response?.data?.message || 'Server error occurred', 'error');
             }
-            // Remove console.log in production to avoid exposing sensitive info
         }
 
     }
