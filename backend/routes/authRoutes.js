@@ -20,7 +20,7 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 router.post('/register', registerUser);
 router.get('/verify-email', verifyEmail);
 router.post('/login', loginUser);
-router.post('/logout', authenticateToken, logoutUser);
+router.post('/logout', logoutUser);
 // router.post('/forgot-password', forgotPassword);
 // router.post('/verify-otp', verifyOtp);
 // router.post('/reset-password', resetPassword);

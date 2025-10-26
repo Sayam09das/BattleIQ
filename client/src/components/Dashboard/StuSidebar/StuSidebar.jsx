@@ -44,12 +44,13 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
             console.log(response.data.message);
             alert("Logged out successfully!");
-            window.location.href = "/login";
+            window.location.href = "/login"; // redirect to login page
         } catch (error) {
             console.error("Logout failed:", error);
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
     return (
@@ -133,7 +134,7 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 hover:bg-red-500 hover:bg-opacity-20 cursor-pointer"
+                            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 hover:bg-red-500 hover:bg-opacity-20 cursor-pointer mt-4"
                             style={{ color: "#F3EFDA" }}
                         >
                             <LogOut size={20} />
