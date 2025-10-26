@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter, useRoutes, useLocation, Navigate } from "react-router-dom";
-import axios from "axios";
+import { BrowserRouter, useRoutes, useLocation } from "react-router-dom";
 import "./App.css";
 
 // Layout Components
@@ -49,36 +48,6 @@ import StudentDashboard from "./components/Dashboard/StudentDashboard";
 import LeaderboardPage from "./components/Dashboard/LeaderboardPage/LeaderboardPage";
 import VerifyEmail from "./Pages/VerifyEmail";
 
-// ===================== PRIVATE ROUTE =====================
-const PrivateRoute = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(null);
-
-  React.useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/auth`, {
-          withCredentials: true,
-        });
-        if (res.status === 200) setIsAuthenticated(true);
-      } catch (error) {
-        setIsAuthenticated(false);
-      }
-    };
-    checkAuth();
-  }, []);
-
-  if (isAuthenticated === null) {
-    return <div className="flex items-center justify-center h-screen">Checking authentication...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
-  return children;
-};
-
-// ===================== LAYOUT =====================
 function Layout() {
   const location = useLocation();
 
@@ -88,6 +57,8 @@ function Layout() {
     "/forgot-password",
     "/otp",
     "/reset-password",
+    "/dashboard",
+    "/leaderboard",
     "/verify-email"
   ]);
 
@@ -105,7 +76,7 @@ function Layout() {
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/otp", element: <Otp /> },
     { path: "/reset-password", element: <ResetPassword /> },
-    { path: "/verify-email", element: <VerifyEmail /> },
+    { path: "/verify-email", element: <VerifyEmail />},
 
     { path: "/blog", element: <Blog /> },
     { path: "/about", element: <AboutUs /> },
@@ -117,24 +88,9 @@ function Layout() {
     { path: "/press-kit", element: <PressKit /> },
     { path: "/affiliate", element: <Affiliate /> },
 
-    // ===== PROTECTED PAGES =====
-    {
-      path: "/dashboard",
-      element: (
-        <PrivateRoute>
-          <StudentDashboard />
-        </PrivateRoute>
-      ),
-    },
-    {
-      path: "/leaderboard",
-      element: (
-        <PrivateRoute>
-          <LeaderboardPage />
-        </PrivateRoute>
-      ),
-    },
 
+    { path: "/dashboard", element: <StudentDashboard /> },
+    { path: "/leaderboard", element: <LeaderboardPage /> },
     { path: "*", element: <NotFound /> },
   ];
 
@@ -156,7 +112,6 @@ function Layout() {
   );
 }
 
-// ===================== APP =====================
 function App() {
   return (
     <BrowserRouter>
