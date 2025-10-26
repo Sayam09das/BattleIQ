@@ -38,5 +38,10 @@ app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes);
 app.use('/api/countries', countryRoutes);
 
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
 
 module.exports = app;
