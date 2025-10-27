@@ -43,16 +43,23 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 },
             });
 
-            // Remove client-side token (if any)
+            // Clear token from localStorage
             localStorage.removeItem("token");
 
-            // Redirect user
+            // Replace history so back button can't go back to dashboard
+            window.history.pushState(null, "", "/login");
+            window.onpopstate = () => {
+                window.history.go(1); // prevent back navigation
+            };
+
+            // Redirect to login
             window.location.replace("/login");
         } catch (error) {
             console.error("Logout failed:", error);
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
 
