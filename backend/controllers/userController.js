@@ -273,16 +273,25 @@ exports.loginUser = [
 // ===== LOGOUT USER =====
 exports.logoutUser = async (req, res) => {
     try {
+        // Extract Bearer token if provided
+        const token = req.headers.authorization?.split(' ')[1];
+
+        // Clear cookie if exists
         res.clearCookie('authToken', {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: 'None',
         });
 
-        res.status(200).json({ message: 'Logged out successfully' });
+        // (Optional) If you want to blacklist bearer tokens, you can store them here
+        // e.g., blacklistedTokens.add(token);
+
+        console.log('Logout request processed. Token:', token || 'No token found');
+
+        return res.status(200).json({ message: 'Logged out successfully' });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Logout error:', err);
+        return res.status(500).json({ message: 'Server error' });
     }
 };
 

@@ -36,22 +36,26 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
     const handleLogout = async () => {
         try {
-            await axios.post(
-                `${import.meta.env.VITE_API_URL}/auth/logout`,
-                {},
-                { withCredentials: true }
-            );
+            // Attempt server-side logout
+            await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
+                withCredentials: true, // Clears cookie if exists
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}` // Optional
+                }
+            });
 
-            // Clear any app-level auth state if you have one
-            setIsAuthenticated(false); // optional if you use context/state
+            // Remove any client-side auth
+            localStorage.removeItem("token");
+            setIsAuthenticated(false);
 
-            // Redirect to login and replace history so back button won't return
+            // Redirect user
             window.location.replace("/login");
         } catch (error) {
             console.error("Logout failed:", error);
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
 
