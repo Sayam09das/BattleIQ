@@ -43,22 +43,23 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 },
             });
 
-            // Clear token from localStorage
+            // ✅ 1. Remove token completely
             localStorage.removeItem("token");
 
-            // Replace history so back button can't go back to dashboard
+            // ✅ 2. Prevent navigating back after logout
             window.history.pushState(null, "", "/login");
             window.onpopstate = () => {
-                window.history.go(1); // prevent back navigation
+                window.history.go(1);
             };
 
-            // Redirect to login
-            window.location.replace("/login");
+            // ✅ 3. Force a clean reload of the login page
+            window.location.href = "/login";
         } catch (error) {
             console.error("Logout failed:", error);
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
 

@@ -32,6 +32,20 @@ const Login = () => {
     const yCircleLeft = useTransform(scrollY, [0, 300], [0, 50]);
     const yCircleRight = useTransform(scrollY, [0, 300], [0, -50]);
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // If logged in, redirect straight to dashboard
+            navigate("/dashboard", { replace: true });
+        } else {
+            // Prevent navigating back to dashboard when logged out
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = () => {
+                window.history.go(1);
+            };
+        }
+    }, []);
+
     const showToast = (message, type) => {
         setToast({ message, type });
         setTimeout(() => setToast(null), 3000);
@@ -68,8 +82,9 @@ const Login = () => {
                 // Save token
                 localStorage.setItem("token", response.data.token);
 
-                // Redirect after a short delay
-                setTimeout(() => navigate('/dashboard'), 2000);
+                setTimeout(() => {
+                    navigate('/dashboard', { replace: true });
+                }, 2000);
             } else {
                 // Unexpected success response without token
                 showToast(response.data.message || 'Login failed', 'error');
