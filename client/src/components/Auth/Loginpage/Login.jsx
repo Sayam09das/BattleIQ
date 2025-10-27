@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Eye, EyeOff, Mail, Lock, LogIn } from 'lucide-react';
