@@ -38,8 +38,7 @@ const UserAvatar = ({ name, email, imgSrc }) => {
                     {getInitials()}
                 </div>
             )}
-
-            {/* Tooltip with email */}
+            {/* Tooltip */}
             <span className="absolute top-2/50 -translate-y-1/2 -left-24 text-xs bg-[#3B132A] text-[#F3EFDA] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 {email}
             </span>
@@ -49,6 +48,7 @@ const UserAvatar = ({ name, email, imgSrc }) => {
 
 const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
     const [user, setUser] = useState(null);
+    const [streak, setStreak] = useState(0);
     const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
     const getGreeting = () => {
@@ -65,7 +65,7 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
         "Your learning adventure awaits!",
     ];
 
-    // ✅ Fetch user details from backend
+    // ✅ Fetch user details
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -75,7 +75,6 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
                     },
                     withCredentials: true,
                 });
-
                 setUser(response.data.user);
                 toast.success("Profile loaded successfully!");
             } catch (error) {
@@ -83,8 +82,40 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
                 toast.error("Failed to load user data.");
             }
         };
-
         fetchUser();
+    }, []);
+
+    // ✅ Fetch user streak
+    useEffect(() => {
+        const fetchStreak = async () => {
+            try {
+                const res = await axios.get(`${API_URL}/user/streak`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                    withCredentials: true,
+                });
+
+                if (res.data.success) {
+                    setStreak(res.data.streakDays);
+
+                    if (res.data.streakDays > 0) {
+                        toast.success(`🔥 You’re on a ${res.data.streakDays}-day streak!`);
+                    } else {
+                        toast("Start your streak today!", { icon: "⚡" });
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching streak:", error);
+                toast.error("Could not load streak info.");
+            }
+        };
+
+        fetchStreak();
+
+        // Optional: refresh every 1 minute
+        const interval = setInterval(fetchStreak, 60000);
+        return () => clearInterval(interval);
     }, []);
 
     return (
@@ -98,7 +129,6 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
             >
                 {/* Left Section */}
                 <div className="flex items-center gap-4">
-                    {/* Hamburger for Mobile */}
                     <button
                         onClick={() => setSidebarOpen(!sidebarOpen)}
                         className="p-2 rounded-md lg:hidden"
@@ -121,16 +151,25 @@ const StuMain = ({ sidebarOpen, setSidebarOpen }) => {
 
                 {/* Right Section */}
                 <div className="flex items-center gap-4">
+                    {/* ✅ Dynamic Streak */}
                     <Link
                         to="/streaks"
                         className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer"
                         style={{ backgroundColor: "#8B451320", textDecoration: "none" }}
                     >
-                        <Flame size={18} style={{ color: "#FF4500" }} />
-                        <span className="font-bold text-sm">7 Day Streak!</span>
+                        <Flame
+                            size={18}
+                            style={{
+                                color: streak > 0 ? "#FF4500" : "#888",
+                                transition: "color 0.3s ease",
+                            }}
+                        />
+                        <span className="font-bold text-sm">
+                            {streak > 0 ? `${streak} Day Streak!` : "No streak yet"}
+                        </span>
                     </Link>
 
-                    {/* ✅ Dynamic User Avatar */}
+                    {/* ✅ User Avatar */}
                     {user ? (
                         <UserAvatar
                             name={user.name}

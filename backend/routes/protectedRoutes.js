@@ -85,4 +85,22 @@ router.delete('/profile', authenticateToken, async (req, res) => {
     }
 });
 
+router.get("/streak", authenticateToken, async (req, res) => {
+    try {
+        // You can store user streaks in your DB
+        // Example mock response (replace with DB logic)
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+
+        res.json({
+            success: true,
+            streakDays: user.streakDays || 0,
+            lastActivityDate: user.lastActivityDate || null,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Failed to fetch streak." });
+    }
+});
+
 module.exports = router;
