@@ -36,17 +36,15 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
     const handleLogout = async () => {
         try {
-            // Attempt server-side logout
             await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
-                withCredentials: true, // Clears cookie if exists
+                withCredentials: true,
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}` // Optional
-                }
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
             });
 
-            // Remove any client-side auth
+            // Remove client-side token (if any)
             localStorage.removeItem("token");
-            setIsAuthenticated(false);
 
             // Redirect user
             window.location.replace("/login");
@@ -55,6 +53,7 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
             alert("Failed to log out. Try again.");
         }
     };
+
 
 
 
