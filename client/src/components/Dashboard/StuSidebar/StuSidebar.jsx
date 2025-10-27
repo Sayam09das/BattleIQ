@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
 import {
     Home,
     BookOpen,
@@ -43,7 +44,7 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 },
             });
 
-            // ✅ 1. Remove token completely
+            // ✅ 1. Remove token
             localStorage.removeItem("token");
 
             // ✅ 2. Prevent navigating back after logout
@@ -52,19 +53,32 @@ const StuSidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 window.history.go(1);
             };
 
-            // ✅ 3. Force a clean reload of the login page
-            window.location.href = "/login";
+            // ✅ 3. Show success toast
+            toast.success("Logged out successfully!", {
+                position: "top-right",
+                duration: 2000,
+                style: {
+                    background: "#333",
+                    color: "#fff",
+                },
+            });
+
+            // ✅ 4. Redirect after 2s
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 2000);
         } catch (error) {
             console.error("Logout failed:", error);
-            alert("Failed to log out. Try again.");
+            toast.error("Logout failed. Please try again.", {
+                position: "top-right",
+                duration: 2500,
+                style: {
+                    background: "#ff4d4d",
+                    color: "#fff",
+                },
+            });
         }
     };
-
-
-
-
-
-
 
 
     return (
