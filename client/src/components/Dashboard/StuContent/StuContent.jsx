@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Trophy, BarChart3, BookOpen, Award } from "lucide-react"; // Example icons
+import axios from "axios";
+import { Trophy, BarChart3, BookOpen, Award } from "lucide-react";
 
-const stats = [
-    { label: "Quizzes Completed", value: 24, change: "+5%", color: "#3B82F6", icon: BookOpen },
-    { label: "Leaderboard Rank", value: 2, change: "+1", color: "#F59E0B", icon: Trophy },
-    { label: "Total Score", value: 980, change: "+15%", color: "#10B981", icon: BarChart3 },
-    { label: "Achievements", value: 12, change: "+2", color: "#EF4444", icon: Award },
-];
-
-// Counter component
 const AnimatedCounter = ({ value, duration = 1000 }) => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
         let start = 0;
-        const increment = value / (duration / 20); // update every 20ms
+        const increment = value / (duration / 20);
         const timer = setInterval(() => {
             start += increment;
             if (start >= value) {
@@ -31,9 +24,40 @@ const AnimatedCounter = ({ value, duration = 1000 }) => {
 };
 
 const StuContent = () => {
+    const [stats, setStats] = useState(null);
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const response = await axios.get(`${API_URL}/user/stats`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                setStats(response.data.stats);
+            } catch (error) {
+                console.error("Failed to load stats:", error);
+            }
+        };
+
+        fetchStats();
+    }, []);
+
+    if (!stats) {
+        return <div>Loading stats...</div>;
+    }
+
+    const statCards = [
+        { label: "Quizzes Completed", value: stats.quizzesCompleted, color: "#3B82F6", icon: BookOpen },
+        { label: "Leaderboard Rank", value: stats.leaderboardRank, color: "#F59E0B", icon: Trophy },
+        { label: "Total Score", value: stats.totalScore, color: "#10B981", icon: BarChart3 },
+        { label: "Achievements", value: stats.achievements, color: "#EF4444", icon: Award },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {stats.map((stat, idx) => (
+            {statCards.map((stat, idx) => (
                 <div
                     key={idx}
                     className="p-6 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
@@ -46,12 +70,6 @@ const StuContent = () => {
                         >
                             <stat.icon size={24} style={{ color: stat.color }} />
                         </div>
-                        <span
-                            className="text-xs font-bold px-2 py-1 rounded"
-                            style={{ backgroundColor: "#10B98120", color: "#10B981" }}
-                        >
-                            {stat.change}
-                        </span>
                     </div>
                     <p className="text-sm opacity-70 mb-1">{stat.label}</p>
                     <p className="text-3xl font-bold">
@@ -60,7 +78,6 @@ const StuContent = () => {
                 </div>
             ))}
         </div>
-
     );
 };
 
