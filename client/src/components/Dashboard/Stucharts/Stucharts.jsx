@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
     ResponsiveContainer,
     AreaChart,
@@ -10,21 +11,44 @@ import {
     Tooltip,
 } from "recharts";
 
-// Sample data
-const performanceData = [
-    { month: "Jan", score: 80, average: 70 },
-    { month: "Feb", score: 85, average: 72 },
-    { month: "Mar", score: 78, average: 75 },
-    { month: "Apr", score: 90, average: 80 },
-    { month: "May", score: 88, average: 82 },
-];
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const Stucharts = () => {
+    const [performanceData, setPerformanceData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchPerformance = async () => {
+        try {
+            const token = localStorage.getItem("token");
+
+            const response = await axios.get(`${API_URL}/user/performance`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            setPerformanceData(response.data.data);
+        } catch (error) {
+            console.error("Error fetching performance data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPerformance();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="col-span-1 md:col-span-2 p-4 md:p-6 rounded-xl shadow-lg bg-white">
+                <p className="text-center font-medium">Loading Performance Chart...</p>
+            </div>
+        );
+    }
+
     return (
-        <div
-            className="col-span-1 md:col-span-2 p-4 md:p-6 rounded-xl shadow-lg"
-            style={{ backgroundColor: "white" }}
-        >
+        <div className="col-span-1 md:col-span-2 p-4 md:p-6 rounded-xl shadow-lg bg-white">
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2 sm:gap-0">
                 <h3 className="text-lg font-bold">Performance Trend</h3>
@@ -40,7 +64,7 @@ const Stucharts = () => {
                 </div>
             </div>
 
-            {/* Chart Wrapper */}
+            {/* Chart */}
             <div className="w-full" style={{ minHeight: 280 }}>
                 <ResponsiveContainer width="100%" height="100%" minHeight={280}>
                     <AreaChart data={performanceData}>
@@ -50,10 +74,12 @@ const Stucharts = () => {
                                 <stop offset="95%" stopColor="#8B4513" stopOpacity={0} />
                             </linearGradient>
                         </defs>
+
                         <CartesianGrid strokeDasharray="3 3" stroke="#3B132A10" />
                         <XAxis dataKey="month" stroke="#3B132A" />
                         <YAxis stroke="#3B132A" />
                         <Tooltip />
+
                         <Area
                             type="monotone"
                             dataKey="score"
@@ -62,6 +88,7 @@ const Stucharts = () => {
                             fillOpacity={1}
                             fill="url(#colorScore)"
                         />
+
                         <Line
                             type="monotone"
                             dataKey="average"

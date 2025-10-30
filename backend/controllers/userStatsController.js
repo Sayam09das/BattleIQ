@@ -19,3 +19,19 @@ exports.getUserStats = async (req, res) => {
         res.status(500).json({ success: false, message: "Failed to fetch user stats" });
     }
 };
+
+exports.getUserPerformance = async (req, res) => {
+    try {
+        const data = [
+            { month: "Jan", score: 80, average: 70 },
+            { month: "Feb", score: 85, average: 72 },
+            { month: "Mar", score: 78, average: 75 },
+            { month: "Apr", score: 90, average: 80 },
+            { month: "May", score: 88, average: 82 },
+        ];
+
+        res.json({ success: true, data });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
+};
