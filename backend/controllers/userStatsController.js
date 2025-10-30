@@ -60,3 +60,37 @@ exports.getUserSkills = async (req, res) => {
     }
 };
 
+exports.getWeeklyActivity = async (req, res) => {
+    try {
+        const data = [
+            { day: "Mon", quizzes: 4 },
+            { day: "Tue", quizzes: 3 },
+            { day: "Wed", quizzes: 5 },
+            { day: "Thu", quizzes: 2 },
+            { day: "Fri", quizzes: 6 },
+            { day: "Sat", quizzes: 7 },
+            { day: "Sun", quizzes: 3 },
+        ];
+
+        res.status(200).json({ success: true, data });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Failed to fetch weekly activity" });
+    }
+};
+
+exports.getSubjectPerformance = async (req, res) => {
+    try {
+        const data = [
+            { subject: "Math", score: 85 },
+            { subject: "Science", score: 92 },
+            { subject: "History", score: 78 },
+            { subject: "English", score: 88 },
+            { subject: "Geography", score: 81 },
+        ];
+
+        res.status(200).json({ success: true, data });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Failed to fetch subject performance" });
+    }
+};
+
