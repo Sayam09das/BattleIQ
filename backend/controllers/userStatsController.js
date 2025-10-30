@@ -2,10 +2,8 @@
 
 exports.getUserStats = async (req, res) => {
     try {
-        // Assuming you use JWT auth — user info is in req.user
         const userId = req.user ? req.user.id : null;
 
-        // Example: later replace this with actual DB logic
         const stats = {
             quizzesCompleted: 24,
             leaderboardRank: 2,
@@ -36,7 +34,6 @@ exports.getUserPerformance = async (req, res) => {
     }
 };
 
-
 exports.getUserSkills = async (req, res) => {
     try {
         const skills = [
@@ -47,16 +44,10 @@ exports.getUserSkills = async (req, res) => {
             { subject: "Geography", score: 81 },
         ];
 
-        res.status(200).json({
-            success: true,
-            data: skills
-        });
+        res.status(200).json({ success: true, data: skills });
     } catch (error) {
         console.error("Error fetching skill analysis:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch skills analysis"
-        });
+        res.status(500).json({ success: false, message: "Failed to fetch skills analysis" });
     }
 };
 
@@ -94,3 +85,34 @@ exports.getSubjectPerformance = async (req, res) => {
     }
 };
 
+
+
+// ✅ NEW — Achievements & Events API
+exports.getAchievementsEvents = async (req, res) => {
+    try {
+        const achievements = [
+            { title: "Perfect Score", desc: "Got 100% on Math Quiz", icon: "Star", color: "#FFD700" },
+            { title: "Speed Demon", desc: "Completed 5 quizzes in 1 day", icon: "Zap", color: "#FF6B35" },
+            { title: "Streak Master", desc: "7-day learning streak", icon: "Flame", color: "#FF4500" },
+            { title: "Brain Teaser", desc: "Solved 50 difficult questions", icon: "Brain", color: "#9370DB" },
+        ];
+
+        const events = [
+            { title: "Mathematics Championship", date: "Oct 25", time: "3:00 PM" },
+            { title: "Science Quiz Competition", date: "Oct 28", time: "5:00 PM" },
+            { title: "Study Group Session", date: "Oct 30", time: "2:00 PM" },
+        ];
+
+        res.status(200).json({
+            success: true,
+            achievements,
+            events,
+        });
+    } catch (error) {
+        console.error("Error fetching achievements/events:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch achievements & events",
+        });
+    }
+};
