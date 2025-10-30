@@ -35,3 +35,28 @@ exports.getUserPerformance = async (req, res) => {
         res.status(500).json({ success: false });
     }
 };
+
+
+exports.getUserSkills = async (req, res) => {
+    try {
+        const skills = [
+            { subject: "Math", score: 85 },
+            { subject: "Science", score: 92 },
+            { subject: "History", score: 78 },
+            { subject: "English", score: 88 },
+            { subject: "Geography", score: 81 },
+        ];
+
+        res.status(200).json({
+            success: true,
+            data: skills
+        });
+    } catch (error) {
+        console.error("Error fetching skill analysis:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch skills analysis"
+        });
+    }
+};
+
