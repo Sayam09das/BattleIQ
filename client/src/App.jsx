@@ -46,6 +46,7 @@ import Affiliate from "./components/FooterCompoents/AffiliateProgram/AffiliatePr
 
 import StudentDashboard from "./components/Dashboard/StudentDashboard";
 import LeaderboardPage from "./components/Dashboard/LeaderboardPage/LeaderboardPage";
+import QuizList from "./components/Dashboard/QuizPage/QuizList";
 import VerifyEmail from "./Pages/VerifyEmail";
 
 function Layout() {
@@ -91,6 +92,7 @@ function Layout() {
 
     { path: "/dashboard", element: <StudentDashboard /> },
     { path: "/leaderboard", element: <LeaderboardPage /> },
+    { path: "/quizzes", element: <QuizList /> },
     { path: "*", element: <NotFound /> },
   ];
 
