@@ -1,31 +1,38 @@
-import React, { useState } from "react";
-import { Flame, Trophy, Target, Calendar, TrendingUp, Award, Zap } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Flame, Trophy, Target, Calendar, Award, Zap } from "lucide-react";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 const StreakTracker = () => {
     const [hoveredDay, setHoveredDay] = useState(null);
+    const [solvedDays, setSolvedDays] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    // Sample quiz data with activity levels
-    const solvedDays = {
-        "2025-10-01": 3,
-        "2025-10-02": 5,
-        "2025-10-03": 2,
-        "2025-10-05": 4,
-        "2025-10-07": 1,
-        "2025-10-08": 6,
-        "2025-10-09": 3,
-        "2025-10-11": 2,
-        "2025-10-12": 5,
-        "2025-10-13": 4,
-        "2025-10-15": 3,
-        "2025-10-16": 7,
-        "2025-10-17": 5,
-        "2025-10-18": 6,
-        "2025-10-19": 4,
-        "2025-10-20": 5,
-        "2025-10-21": 3,
+    // ✅ Fetch streak data from backend
+    const fetchStreak = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const res = await axios.get(`${API_URL}/user/streak`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setSolvedDays(res.data.streakData.solvedDays || {});
+        } catch (error) {
+            console.error("Error fetching streak", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    // Generate last 12 weeks (84 days) for better visualization
+    useEffect(() => {
+        fetchStreak();
+    }, []);
+
+    // ❗ Show loader
+    if (loading) return <p className="text-center p-4 font-semibold">Loading Streak...</p>;
+
+    // ✅ Prepare calendar logic (from your old code)
     const today = new Date();
     const days = Array.from({ length: 84 }, (_, i) => {
         const d = new Date(today);
@@ -33,7 +40,6 @@ const StreakTracker = () => {
         return d;
     });
 
-    // Get activity level (0-4)
     const getActivityLevel = (date) => {
         const dateString = date.toISOString().split("T")[0];
         const count = solvedDays[dateString] || 0;
@@ -44,7 +50,6 @@ const StreakTracker = () => {
         return 4;
     };
 
-    // Calculate streaks
     let currentStreak = 0;
     let bestStreak = 0;
     let streak = 0;
@@ -64,13 +69,11 @@ const StreakTracker = () => {
         }
     }
 
-    // Calculate current streak (ending today)
     for (let i = days.length - 1; i >= 0; i--) {
         if (getActivityLevel(days[i]) > 0) currentStreak++;
         else break;
     }
 
-    // Get color based on activity level
     const getColor = (level) => {
         const colors = {
             0: "#3B132A20",
@@ -82,19 +85,17 @@ const StreakTracker = () => {
         return colors[level] || colors[0];
     };
 
-    // Group days by week
     const weeks = [];
     for (let i = 0; i < days.length; i += 7) {
         weeks.push(days.slice(i, i + 7));
     }
 
-    // Get month labels
     const getMonthLabel = (weekIndex) => {
         const firstDay = weeks[weekIndex][0];
         if (firstDay.getDate() <= 7) {
-            return firstDay.toLocaleDateString('en-US', { month: 'short' });
+            return firstDay.toLocaleDateString("en-US", { month: "short" });
         }
-        return '';
+        return "";
     };
 
     const stats = [
@@ -243,8 +244,8 @@ const StreakTracker = () => {
                             <div
                                 key={idx}
                                 className={`p-6 rounded-xl transition-all ${achievement.unlocked
-                                        ? "shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                                        : "opacity-40"
+                                    ? "shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                                    : "opacity-40"
                                     }`}
                                 style={{
                                     backgroundColor: achievement.unlocked ? "#8B451320" : "#F3EFDA",

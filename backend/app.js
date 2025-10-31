@@ -14,6 +14,7 @@ const authRoutes = require('./routes/authRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
 const countryRoutes = require('./routes/countryRoutes');
 const userStatsRoutes = require("./routes/userStatsRoutes");
+const streakRoutes = require("./routes/streakRoute");
 
 // ✅ CORS Configuration
 app.use(
@@ -39,6 +40,7 @@ app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes);
 app.use('/api/countries', countryRoutes);
 app.use('/user', userStatsRoutes);
+app.use('/user', streakRoutes);
 
 app.use((req, res, next) => {
     res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
