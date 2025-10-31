@@ -3,7 +3,7 @@ const Quiz = require("./models/Quiz"); // adjust path if needed
 
 // Connect directly to MongoDB Atlas
 mongoose
-    .connect("mongodb+srv://sayamprogrammingworld_db_user:Sayamdas123@cluster0.xzem6wh.mongodb.net/battleiq?retryWrites=true&w=majority&appName=Cluster0",{
+    .connect("mongodb+srv://sayamprogrammingworld_db_user:Sayamdas123@cluster0.xzem6wh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",{
         serverSelectionTimeoutMS: 30000,
     })
     .then(async () => {
