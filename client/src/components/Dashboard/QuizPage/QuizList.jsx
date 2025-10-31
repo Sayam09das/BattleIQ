@@ -1,251 +1,359 @@
-import React, { useEffect, useState } from "react";
-import QuizCard from "./QuizCard";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+import React, { useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { BookOpen, Clock, Award, ChevronRight, TrendingUp, Users, Target, Search } from 'lucide-react'
 
 const QuizList = () => {
-    const [quizzes, setQuizzes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedSubject, setSelectedSubject] = useState("All");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [sortBy, setSortBy] = useState("newest");
+    const [selectedCategory, setSelectedCategory] = useState('all')
+    const [searchQuery, setSearchQuery] = useState('')
+    const { scrollYProgress } = useScroll()
 
-    useEffect(() => {
-        const fetchQuizzes = async () => {
-            try {
-                const res = await fetch(`${API_URL}/quiz`);
-                const data = await res.json();
-                setQuizzes(data.quizzes || []);
-            } catch (error) {
-                console.error("Error fetching quizzes:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.8])
+    const scale = useTransform(scrollYProgress, [0, 0.3], [1, 0.95])
+    const yCircleLeft = useTransform(scrollYProgress, [0, 1], [0, 150])
+    const yCircleRight = useTransform(scrollYProgress, [0, 1], [0, -150])
 
-        fetchQuizzes();
-    }, []);
+    const quizzes = [
+        {
+            id: 1,
+            title: 'Advanced JavaScript Concepts',
+            category: 'Programming',
+            difficulty: 'Hard',
+            questions: 25,
+            duration: '45 min',
+            participants: 1240,
+            rating: 4.8,
+            icon: '💻',
+            color: 'from-purple-500/20 to-pink-500/20'
+        },
+        {
+            id: 2,
+            title: 'World History: Ancient Civilizations',
+            category: 'History',
+            difficulty: 'Medium',
+            questions: 30,
+            duration: '40 min',
+            participants: 2100,
+            rating: 4.6,
+            icon: '🏛️',
+            color: 'from-blue-500/20 to-cyan-500/20'
+        },
+        {
+            id: 3,
+            title: 'Modern Physics & Quantum Mechanics',
+            category: 'Science',
+            difficulty: 'Hard',
+            questions: 20,
+            duration: '50 min',
+            participants: 890,
+            rating: 4.9,
+            icon: '⚛️',
+            color: 'from-green-500/20 to-emerald-500/20'
+        },
+        {
+            id: 4,
+            title: 'Business Strategy & Management',
+            category: 'Business',
+            difficulty: 'Medium',
+            questions: 28,
+            duration: '35 min',
+            participants: 1560,
+            rating: 4.7,
+            icon: '📊',
+            color: 'from-orange-500/20 to-red-500/20'
+        },
+        {
+            id: 5,
+            title: 'Creative Writing Masterclass',
+            category: 'Arts',
+            difficulty: 'Easy',
+            questions: 15,
+            duration: '25 min',
+            participants: 3200,
+            rating: 4.5,
+            icon: '✍️',
+            color: 'from-pink-500/20 to-rose-500/20'
+        },
+        {
+            id: 6,
+            title: 'Data Structures & Algorithms',
+            category: 'Programming',
+            difficulty: 'Hard',
+            questions: 35,
+            duration: '60 min',
+            participants: 980,
+            rating: 4.9,
+            icon: '🧮',
+            color: 'from-indigo-500/20 to-purple-500/20'
+        }
+    ]
 
-    const subjects = ["All", ...new Set(quizzes.map(q => q.subject))];
+    const categories = ['all', 'Programming', 'History', 'Science', 'Business', 'Arts']
 
-    // Advanced filtering and sorting
-    const filteredQuizzes = quizzes
-        .filter(quiz => {
-            const matchesSubject = selectedSubject === "All" || quiz.subject === selectedSubject;
-            const matchesSearch = quiz.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                quiz.subject?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                quiz.description?.toLowerCase().includes(searchQuery.toLowerCase());
-            return matchesSubject && matchesSearch;
-        })
-        .sort((a, b) => {
-            if (sortBy === "newest") return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-            if (sortBy === "oldest") return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
-            if (sortBy === "title") return (a.title || "").localeCompare(b.title || "");
-            return 0;
-        });
+    const filteredQuizzes = quizzes.filter(quiz => {
+        const matchesCategory = selectedCategory === 'all' || quiz.category === selectedCategory
+        const matchesSearch = quiz.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            quiz.category.toLowerCase().includes(searchQuery.toLowerCase())
+        return matchesCategory && matchesSearch
+    })
 
-    const clearFilters = () => {
-        setSelectedSubject("All");
-        setSearchQuery("");
-        setSortBy("newest");
-    };
-
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-gradient-to-b from-[#4A1A35] to-[#3B132A] relative overflow-hidden flex justify-center items-center">
-                <div className="relative">
-                    <div className="w-20 h-20 border-4 border-[#f3efda] border-t-transparent rounded-full animate-spin"></div>
-                    <div className="absolute inset-0 w-20 h-20 border-4 border-[#f3efda] border-b-transparent rounded-full animate-spin opacity-30" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
-                    <div className="mt-6 text-[#f3efda] text-lg font-medium text-center">Loading quizzes...</div>
-                </div>
-            </div>
-        );
+    const getDifficultyColor = (difficulty) => {
+        switch (difficulty) {
+            case 'Easy': return 'text-green-400'
+            case 'Medium': return 'text-yellow-400'
+            case 'Hard': return 'text-red-400'
+            default: return 'text-gray-400'
+        }
     }
 
     return (
-        <section className="min-h-screen py-16 sm:py-20 bg-gradient-to-b from-[#4A1A35] to-[#3B132A] relative overflow-hidden">
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-[#f3efda] opacity-5 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#f3efda] opacity-5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500 opacity-5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-            </div>
+        <div className="min-h-screen bg-[#3B132A] relative overflow-hidden">
+            <motion.div
+                className="relative w-full min-h-screen flex flex-col justify-start items-center px-4 sm:px-6 lg:px-8 py-12"
+                style={{ opacity, scale }}
+            >
+                {/* Animated Geometric Background */}
+                <div className="absolute inset-0 pointer-events-none">
+                    {/* Large Circle - Top Left */}
+                    <motion.div
+                        className="absolute -top-20 -left-20 sm:-top-32 sm:-left-32 lg:-top-40 lg:-left-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
+                        style={{ y: yCircleLeft }}
+                        animate={{
+                            scale: [1, 1.05, 1],
+                            rotate: [0, 5, 0]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                        }}
+                    />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* Header Section */}
-                <div className="text-center mb-12">
-                    <div className="inline-block mb-4 transform hover:scale-110 transition-transform duration-300">
-                        <span className="text-6xl sm:text-7xl filter drop-shadow-lg">🧠</span>
-                    </div>
-                    <h1 className="text-4xl sm:text-6xl font-bold text-[#f3efda] mb-4 tracking-tight">
-                        Explore Quizzes
-                    </h1>
-                    <p className="text-[#f3efda] opacity-80 text-lg sm:text-xl max-w-2xl mx-auto">
-                        Challenge yourself and expand your knowledge with our curated collection
-                    </p>
+                    {/* Large Circle - Bottom Right */}
+                    <motion.div
+                        className="absolute -bottom-20 -right-20 sm:-bottom-32 sm:-right-32 lg:-bottom-40 lg:-right-40 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full border-2 border-[#F3EFDA]/8"
+                        style={{ y: yCircleRight }}
+                        animate={{
+                            scale: [1, 1.05, 1],
+                            rotate: [0, -5, 0]
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 0.5
+                        }}
+                    />
+
+                    {/* Floating particles */}
+                    {[...Array(5)].map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className="absolute w-2 h-2 rounded-full bg-[#F3EFDA]/20"
+                            style={{
+                                left: `${20 + i * 20}%`,
+                                top: `${30 + i * 10}%`
+                            }}
+                            animate={{
+                                y: [-20, 20, -20],
+                                opacity: [0.2, 0.5, 0.2]
+                            }}
+                            transition={{
+                                duration: 3 + i,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                                delay: i * 0.3
+                            }}
+                        />
+                    ))}
                 </div>
 
-                {/* Advanced Search and Filter Section */}
-                <div className="mb-12 space-y-6">
-                    {/* Search Bar */}
-                    <div className="max-w-3xl mx-auto">
-                        <div className="relative group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#f3efda] to-purple-300 rounded-2xl blur opacity-20 group-hover:opacity-30 transition-opacity"></div>
-                            <div className="relative flex items-center bg-[#f3efda] bg-opacity-10 backdrop-blur-md border-2 border-[#f3efda] border-opacity-30 rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-opacity-50">
-                                <div className="pl-6 pr-3">
-                                    <svg className="w-6 h-6 text-[#f3efda]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
+                {/* Content */}
+                <div className="relative z-10 w-full max-w-7xl">
+                    {/* Header */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-12"
+                    >
+                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F3EFDA] mb-4">
+                            Discover Quizzes
+                        </h1>
+                        <p className="text-lg sm:text-xl text-[#F3EFDA]/70 max-w-2xl mx-auto">
+                            Challenge yourself with our curated collection of interactive quizzes across multiple subjects
+                        </p>
+                    </motion.div>
+
+                    {/* Stats Bar */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12"
+                    >
+                        {[
+                            { icon: <BookOpen className="w-6 h-6" />, label: 'Total Quizzes', value: '150+' },
+                            { icon: <Users className="w-6 h-6" />, label: 'Active Users', value: '50K+' },
+                            { icon: <Award className="w-6 h-6" />, label: 'Certificates', value: '25K+' }
+                        ].map((stat, index) => (
+                            <motion.div
+                                key={index}
+                                whileHover={{ scale: 1.05, y: -5 }}
+                                className="bg-[#F3EFDA]/5 backdrop-blur-sm border border-[#F3EFDA]/10 rounded-2xl p-6 flex items-center gap-4"
+                            >
+                                <div className="text-[#F3EFDA]/70">{stat.icon}</div>
+                                <div>
+                                    <p className="text-2xl font-bold text-[#F3EFDA]">{stat.value}</p>
+                                    <p className="text-sm text-[#F3EFDA]/60">{stat.label}</p>
                                 </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* Category Filter */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="mb-8"
+                    >
+                        {/* Search Bar */}
+                        <div className="max-w-2xl mx-auto mb-8">
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F3EFDA]/50" />
                                 <input
                                     type="text"
-                                    placeholder="Search quizzes by title, subject, or description..."
+                                    placeholder="Search quizzes by title or subject..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="flex-1 py-4 px-2 bg-transparent text-[#f3efda] placeholder-[#f3efda] placeholder-opacity-50 focus:outline-none text-lg"
+                                    className="w-full bg-[#F3EFDA]/5 backdrop-blur-sm border border-[#F3EFDA]/20 rounded-2xl py-4 pl-12 pr-6 text-[#F3EFDA] placeholder-[#F3EFDA]/40 focus:outline-none focus:border-[#F3EFDA]/50 focus:bg-[#F3EFDA]/10 transition-all duration-300"
                                 />
-                                {searchQuery && (
-                                    <button
-                                        onClick={() => setSearchQuery("")}
-                                        className="pr-6 pl-3 text-[#f3efda] hover:text-white transition-colors"
-                                    >
-                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Filters Row */}
-                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
-                        {/* Subject Filter */}
-                        <div className="relative inline-block w-full sm:w-auto">
-                            <label className="block text-[#f3efda] text-sm font-medium mb-2 text-center sm:text-left">
-                                Subject
-                            </label>
-                            <select
-                                value={selectedSubject}
-                                onChange={e => setSelectedSubject(e.target.value)}
-                                className="appearance-none w-full sm:w-48 px-6 py-3 pr-12 rounded-xl border-2 border-[#f3efda] border-opacity-30 bg-[#f3efda] bg-opacity-10 backdrop-blur-md text-[#f3efda] font-semibold focus:outline-none focus:ring-4 focus:ring-[#f3efda] focus:ring-opacity-30 transition-all duration-300 hover:border-opacity-50 cursor-pointer"
-                            >
-                                {subjects.map(sub => (
-                                    <option key={sub} value={sub} className="bg-[#4A1A35] text-[#f3efda]">
-                                        {sub}
-                                    </option>
-                                ))}
-                            </select>
-                            <div className="absolute right-4 top-[42px] pointer-events-none">
-                                <svg className="w-5 h-5 text-[#f3efda]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
                             </div>
                         </div>
 
-                        {/* Sort By Filter */}
-                        <div className="relative inline-block w-full sm:w-auto">
-                            <label className="block text-[#f3efda] text-sm font-medium mb-2 text-center sm:text-left">
-                                Sort By
-                            </label>
-                            <select
-                                value={sortBy}
-                                onChange={e => setSortBy(e.target.value)}
-                                className="appearance-none w-full sm:w-48 px-6 py-3 pr-12 rounded-xl border-2 border-[#f3efda] border-opacity-30 bg-[#f3efda] bg-opacity-10 backdrop-blur-md text-[#f3efda] font-semibold focus:outline-none focus:ring-4 focus:ring-[#f3efda] focus:ring-opacity-30 transition-all duration-300 hover:border-opacity-50 cursor-pointer"
-                            >
-                                <option value="newest" className="bg-[#4A1A35] text-[#f3efda]">Newest First</option>
-                                <option value="oldest" className="bg-[#4A1A35] text-[#f3efda]">Oldest First</option>
-                                <option value="title" className="bg-[#4A1A35] text-[#f3efda]">Title (A-Z)</option>
-                            </select>
-                            <div className="absolute right-4 top-[42px] pointer-events-none">
-                                <svg className="w-5 h-5 text-[#f3efda]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        {/* Clear Filters Button */}
-                        {(selectedSubject !== "All" || searchQuery || sortBy !== "newest") && (
-                            <div className="w-full sm:w-auto sm:mt-7">
-                                <button
-                                    onClick={clearFilters}
-                                    className="w-full sm:w-auto px-6 py-3 bg-[#f3efda] text-[#4A1A35] font-semibold rounded-xl hover:bg-opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
+                        {/* Category Buttons */}
+                        <div className="flex flex-wrap gap-3 justify-center">
+                            {categories.map((category) => (
+                                <motion.button
+                                    key={category}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setSelectedCategory(category)}
+                                    className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${selectedCategory === category
+                                            ? 'bg-[#F3EFDA] text-[#3B132A] shadow-lg shadow-[#F3EFDA]/20'
+                                            : 'bg-[#F3EFDA]/10 text-[#F3EFDA] hover:bg-[#F3EFDA]/20 border border-[#F3EFDA]/20'
+                                        }`}
                                 >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                    </svg>
-                                    Clear Filters
-                                </button>
+                                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                                </motion.button>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* Quiz Grid */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.6 }}
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    >
+                        {filteredQuizzes.length > 0 ? (
+                            filteredQuizzes.map((quiz, index) => (
+                                <motion.div
+                                    key={quiz.id}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    whileHover={{ y: -8, scale: 1.02 }}
+                                    className="group relative bg-[#F3EFDA]/5 backdrop-blur-sm border border-[#F3EFDA]/10 rounded-3xl p-6 hover:border-[#F3EFDA]/30 transition-all duration-300 overflow-hidden"
+                                >
+                                    {/* Gradient Overlay */}
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${quiz.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+
+                                    <div className="relative z-10">
+                                        {/* Icon & Category */}
+                                        <div className="flex items-center justify-between mb-4">
+                                            <span className="text-4xl">{quiz.icon}</span>
+                                            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F3EFDA]/10 text-[#F3EFDA]/70 border border-[#F3EFDA]/20">
+                                                {quiz.category}
+                                            </span>
+                                        </div>
+
+                                        {/* Title */}
+                                        <h3 className="text-xl font-bold text-[#F3EFDA] mb-3 line-clamp-2 group-hover:text-[#F3EFDA]">
+                                            {quiz.title}
+                                        </h3>
+
+                                        {/* Difficulty */}
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <Target className="w-4 h-4 text-[#F3EFDA]/60" />
+                                            <span className={`text-sm font-medium ${getDifficultyColor(quiz.difficulty)}`}>
+                                                {quiz.difficulty}
+                                            </span>
+                                        </div>
+
+                                        {/* Stats */}
+                                        <div className="flex items-center gap-4 text-sm text-[#F3EFDA]/60 mb-6">
+                                            <div className="flex items-center gap-1">
+                                                <BookOpen className="w-4 h-4" />
+                                                <span>{quiz.questions} Qs</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-4 h-4" />
+                                                <span>{quiz.duration}</span>
+                                            </div>
+                                            <div className="flex items-center gap-1">
+                                                <TrendingUp className="w-4 h-4" />
+                                                <span>{quiz.rating} ⭐</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Participants */}
+                                        <div className="flex items-center gap-2 mb-6 text-sm text-[#F3EFDA]/50">
+                                            <Users className="w-4 h-4" />
+                                            <span>{quiz.participants.toLocaleString()} participants</span>
+                                        </div>
+
+                                        {/* Start Button */}
+                                        <motion.button
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="w-full bg-[#F3EFDA] text-[#3B132A] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#F3EFDA]/20 transition-all duration-300"
+                                        >
+                                            Start Quiz
+                                            <ChevronRight className="w-5 h-5" />
+                                        </motion.button>
+                                    </div>
+                                </motion.div>
+                            ))
+                        ) : (
+                            <div className="col-span-full text-center py-16">
+                                <Search className="w-16 h-16 text-[#F3EFDA]/30 mx-auto mb-4" />
+                                <h3 className="text-2xl font-bold text-[#F3EFDA]/60 mb-2">No quizzes found</h3>
+                                <p className="text-[#F3EFDA]/40">Try adjusting your search or category filter</p>
                             </div>
                         )}
-                    </div>
+                    </motion.div>
+
+                    {/* Load More Button */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 1 }}
+                        className="flex justify-center mt-12"
+                    >
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-8 py-4 bg-[#F3EFDA] text-[#3B132A] rounded-full font-semibold hover:shadow-xl hover:shadow-[#F3EFDA]/20 transition-all duration-300"
+                        >
+                            Load More Quizzes
+                        </motion.button>
+                    </motion.div>
                 </div>
+            </motion.div>
+        </div>
+    )
+}
 
-                {/* Results Summary */}
-                {filteredQuizzes.length > 0 && (
-                    <div className="text-center mb-10">
-                        <div className="inline-flex items-center gap-3 px-8 py-3 bg-[#f3efda] bg-opacity-10 backdrop-blur-sm text-[#f3efda] rounded-full font-medium border-2 border-[#f3efda] border-opacity-20 shadow-lg">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span className="text-lg">
-                                {filteredQuizzes.length} {filteredQuizzes.length === 1 ? 'Quiz' : 'Quizzes'} Found
-                            </span>
-                        </div>
-                    </div>
-                )}
-
-                {/* Quiz Grid or Empty State */}
-                {filteredQuizzes.length === 0 ? (
-                    <div className="text-center py-20">
-                        <div className="inline-block p-12 bg-[#f3efda] bg-opacity-10 backdrop-blur-md rounded-3xl border-2 border-[#f3efda] border-opacity-20 shadow-2xl">
-                            <div className="text-7xl mb-6 animate-bounce">🔍</div>
-                            <h3 className="text-[#f3efda] text-2xl font-bold mb-3">No quizzes found</h3>
-                            <p className="text-[#f3efda] opacity-70 text-lg mb-6">
-                                {searchQuery ? "Try adjusting your search terms" : "Try selecting a different subject"}
-                            </p>
-                            {(selectedSubject !== "All" || searchQuery || sortBy !== "newest") && (
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-8 py-3 bg-[#f3efda] text-[#4A1A35] font-semibold rounded-xl hover:bg-opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                                >
-                                    Clear All Filters
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                        {filteredQuizzes.map((quiz, index) => (
-                            <div
-                                key={quiz._id}
-                                className="transform transition-all duration-300 hover:scale-105"
-                                style={{
-                                    animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
-                                }}
-                            >
-                                <QuizCard quiz={quiz} />
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            {/* Add CSS animation */}
-            <style>{`
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-            `}</style>
-        </section>
-    );
-};
-
-export default QuizList;
+export default QuizList
