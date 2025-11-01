@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { BookOpen, Clock, Award, ChevronRight, TrendingUp, Users, Target, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 const QuizList = () => {
     const [selectedCategory, setSelectedCategory] = useState('all')
     const [searchQuery, setSearchQuery] = useState('')
+    const [quizzes, setQuizzes] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000"
+
     const { scrollYProgress } = useScroll()
 
     const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.8])
@@ -12,87 +17,29 @@ const QuizList = () => {
     const yCircleLeft = useTransform(scrollYProgress, [0, 1], [0, 150])
     const yCircleRight = useTransform(scrollYProgress, [0, 1], [0, -150])
 
-    const quizzes = [
-        {
-            id: 1,
-            title: 'Advanced JavaScript Concepts',
-            category: 'Programming',
-            difficulty: 'Hard',
-            questions: 25,
-            duration: '45 min',
-            participants: 1240,
-            rating: 4.8,
-            icon: '💻',
-            color: 'from-purple-500/20 to-pink-500/20'
-        },
-        {
-            id: 2,
-            title: 'World History: Ancient Civilizations',
-            category: 'History',
-            difficulty: 'Medium',
-            questions: 30,
-            duration: '40 min',
-            participants: 2100,
-            rating: 4.6,
-            icon: '🏛️',
-            color: 'from-blue-500/20 to-cyan-500/20'
-        },
-        {
-            id: 3,
-            title: 'Modern Physics & Quantum Mechanics',
-            category: 'Science',
-            difficulty: 'Hard',
-            questions: 20,
-            duration: '50 min',
-            participants: 890,
-            rating: 4.9,
-            icon: '⚛️',
-            color: 'from-green-500/20 to-emerald-500/20'
-        },
-        {
-            id: 4,
-            title: 'Business Strategy & Management',
-            category: 'Business',
-            difficulty: 'Medium',
-            questions: 28,
-            duration: '35 min',
-            participants: 1560,
-            rating: 4.7,
-            icon: '📊',
-            color: 'from-orange-500/20 to-red-500/20'
-        },
-        {
-            id: 5,
-            title: 'Creative Writing Masterclass',
-            category: 'Arts',
-            difficulty: 'Easy',
-            questions: 15,
-            duration: '25 min',
-            participants: 3200,
-            rating: 4.5,
-            icon: '✍️',
-            color: 'from-pink-500/20 to-rose-500/20'
-        },
-        {
-            id: 6,
-            title: 'Data Structures & Algorithms',
-            category: 'Programming',
-            difficulty: 'Hard',
-            questions: 35,
-            duration: '60 min',
-            participants: 980,
-            rating: 4.9,
-            icon: '🧮',
-            color: 'from-indigo-500/20 to-purple-500/20'
+    // ✅ Fetch quizzes from API
+    useEffect(() => {
+        const fetchQuizzes = async () => {
+            try {
+                const res = await fetch(`${API_URL}/quiz`)
+                const data = await res.json()
+                setQuizzes(data.quizzes || [])
+            } catch (error) {
+                console.error("Error fetching quizzes:", error)
+            } finally {
+                setLoading(false)
+            }
         }
-    ]
+
+        fetchQuizzes()
+    }, [])
 
     const categories = ['all', 'Programming', 'History', 'Science', 'Business', 'Arts']
 
     const filteredQuizzes = quizzes.filter(quiz => {
-        const matchesCategory = selectedCategory === 'all' || quiz.category === selectedCategory
-        const matchesSearch = quiz.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            quiz.category.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesCategory = selectedCategory === 'all' || quiz.subject === selectedCategory
+        const matchesSearch = quiz.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            quiz.subject?.toLowerCase().includes(searchQuery.toLowerCase())
         return matchesCategory && matchesSearch
     })
 
@@ -103,6 +50,15 @@ const QuizList = () => {
             case 'Hard': return 'text-red-400'
             default: return 'text-gray-400'
         }
+    }
+
+    // ✅ Loading Screen
+    if (loading) {
+        return (
+            <div className="w-full flex justify-center py-10 text-lg font-medium opacity-70">
+                Loading quizzes...
+            </div>
+        )
     }
 
     return (
@@ -240,8 +196,8 @@ const QuizList = () => {
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${selectedCategory === category
-                                            ? 'bg-[#F3EFDA] text-[#3B132A] shadow-lg shadow-[#F3EFDA]/20'
-                                            : 'bg-[#F3EFDA]/10 text-[#F3EFDA] hover:bg-[#F3EFDA]/20 border border-[#F3EFDA]/20'
+                                        ? 'bg-[#F3EFDA] text-[#3B132A] shadow-lg shadow-[#F3EFDA]/20'
+                                        : 'bg-[#F3EFDA]/10 text-[#F3EFDA] hover:bg-[#F3EFDA]/20 border border-[#F3EFDA]/20'
                                         }`}
                                 >
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
